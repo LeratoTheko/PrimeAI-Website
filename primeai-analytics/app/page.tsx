@@ -1,24 +1,80 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import {motion, useScroll, useTransform } from "framer-motion";
 
 export default function Home() {
   const [showAbout, setShowAbout] = useState(false);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  // Track scroll inside container
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+
+  // Section 1 Animations
+  const scale = useTransform(scrollYProgress, [0, 0.6], [1, 0.6]);
+  const yText = useTransform(scrollYProgress, [0, 0.6], ["0%", "-30%"]);
+  const textOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+
+  const section1Opacity = useTransform(scrollYProgress, [0, 0.75, 0.85], [1, 1, 0]);
+
+  // Section 2 Animations (Parallax Behind)
+  const section2Opacity = useTransform(scrollYProgress, [0.7, 0.9], [0, 1]);
+  const section2Y = useTransform(scrollYProgress, [0.7, 1], ["20%", "0%"]);
+
+
+
+  interface CardProps {
+    title: string;
+    gradient: string;
+  }
+
+  const Card: React.FC<CardProps> = ({ title, gradient }) => (
+    <div
+      className="relative flex-none rounded-2xl p-6 backdrop-blur-md shadow-2xl transition-transform duration-300 hover:scale-105
+                w-full sm:w-[22%]"
+      style={{
+        background: gradient,
+        height: "180px",
+        minWidth: "200px",
+      }}
+    >
+      <h3 className="text-xl font-semibold text-gray-900 mb-2">{title}</h3>
+    </div>
+  );
+
+
+
 
   return (
     <main className="text-gray-900 text-center">
       {/* --- Section 1 --- */}
-      <section className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-white to-[#23bec8] p-8">
-        <h1 className="text-5xl font-bold mb-6">
-          Elevating Decisions with Precision Driven Insights
-        </h1>
+      <section ref={containerRef} className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-white to-[#23bec8] p-8">
+        <motion.section
+          style={{ opacity: section1Opacity }}
+          className="sticky top-0 h-screen flex flex-col items-center justify-center bg-gradient-to-b from-white to-[#23bec8]"
+        >
+          <motion.h1
+            style={{ scale, y: yText, opacity: textOpacity }}
+            className="text-5xl font-bold text-center text-black px-4"
+          >
+            Elevating Decisions with Precision-Driven Insights
+          </motion.h1>
 
-        <button className="mt-4 px-6 py-3 bg-gradient-to-r from-white to-[#23bec8] text-black font-medium rounded-[3px] shadow-lg hover:bg-[#23bec8] transition duration-300">
-          Let’s Talk
-        </button>
+          <motion.button
+            style={{ opacity: textOpacity }}
+            className="mt-6 px-6 py-3 bg-gradient-to-r from-white to-[#23bec8] text-black font-medium rounded-[3px] shadow-lg hover:bg-[#23bec8] transition duration-300"
+          >
+            Let’s Talk
+          </motion.button>
+        </motion.section>
       </section>
 
-      <section className="relative min-h-screen bg-gradient-to-b from-white to-[#a4edef] flex flex-col justify-center px-6 py-12 md:px-12 md:py-24">
+      <motion.section 
+        style = {{opacity: section2Opacity, y: section2Y}}
+        className="relative min-h-screen bg-gradient-to-b from-white to-[#a4edef] flex flex-col justify-center px-6 py-12 md:px-12 md:py-24">
 
         {/* Who Are We */}
         <div className="relative w-full md:w-1/2 rounded-lg mb-12 flex flex-col md:flex-row items-stretch">
@@ -75,7 +131,9 @@ export default function Home() {
             </button>
           </div>
         </div>
-      </section>
+      </motion.section>
+
+
 
 <section className="w-full flex flex-col md:flex-row md:h-[85vh] overflow-hidden">
 
@@ -282,6 +340,84 @@ export default function Home() {
 </section>
 
 
+<section
+  className="w-full min-h-screen flex flex-col justify-center px-6"
+  style={{
+    background: "linear-gradient(135deg, #e0f7fa, #23bec8, #ffffff)",
+  }}
+>
+  <div className="max-w-6xl mx-auto text-center mb-12">
+    <h2 className="text-3xl font-extrabold text-gray-900 inline-block relative">
+      Our Core Capabilities
+      <span className="absolute left-1/2 -bottom-2 w-24 h-1 bg-black rounded-full -translate-x-1/2"></span>
+    </h2>
+  </div>
+
+  <div className="max-w-6xl mx-auto flex flex-col items-center gap-0 relative">
+    {/* Bottom row: 4 cards */}
+    <div className="flex flex-wrap justify-between w-full mb-0 relative z-10 gap-4">
+      <Card title="AI Development" gradient="linear-gradient(135deg, #23bec8, #ffffff, #23bec8)" />
+      <Card title="Data Engineering" gradient="linear-gradient(135deg, #23bec8, #ffffff, #23bec8)" />
+      <Card title="Software Engineering" gradient="linear-gradient(135deg, #23bec8, #ffffff, #23bec8)" />
+      <Card title="Strategic Business Alignment" gradient="linear-gradient(135deg, #23bec8, #ffffff, #23bec8)" />
+    </div>
+
+    {/* Middle row: 3 cards, overlapping bottom */}
+    <div className="flex flex-wrap justify-between w-3/4 -mt-16 relative z-20 gap-4">
+      <Card title="AI Ethics & Compliance" gradient="linear-gradient(135deg, #000000, #23bec8, #000000)" />
+      <Card title="Business Intelligence & Analytics" gradient="linear-gradient(135deg, #000000, #23bec8, #000000)" />
+      <Card title="Operations & Infrastructure Management" gradient="linear-gradient(135deg, #000000, #23bec8, #000000)" />
+    </div>
+
+    {/* Top row: 2 cards, overlapping middle */}
+    <div className="flex flex-wrap justify-between w-1/2 -mt-16 relative z-30 gap-4">
+      <Card title="AI Consulting" gradient="linear-gradient(135deg, #ffffff, #23bec8, #ffffff)" />
+      <Card title="Market Research & Customer Intelligence" gradient="linear-gradient(135deg, #ffffff, #23bec8, #ffffff)" />
+    </div>
+  </div>
+</section>
+
+
+
+<section
+  className="w-full relative py-16 px-6 md:px-16 overflow-hidden"
+  style={{
+    background: "linear-gradient(135deg, #e0f7fa, #23bec8, #ffffff)", // softer modern gradient
+  }}
+>
+  {/* Optional abstract shapes / circles */}
+  <div className="absolute top-0 left-1/2 w-72 h-72 bg-[#23bec8]/20 rounded-full -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+  <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#23bec8]/10 rounded-full pointer-events-none"></div>
+
+  <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8 relative z-10">
+    
+    {/* Left Column */}
+    <div className="md:w-1/2 flex items-center justify-center md:justify-start">
+      <h3 className="text-4xl md:text-5xl font-extrabold text-black leading-snug">
+        DIKIW Scorecard
+      </h3>
+    </div>
+
+    {/* Right Column */}
+    <div className="md:w-1/2 flex flex-col gap-5 bg-white/60 backdrop-blur-md p-6 rounded-xl shadow-2xl">
+      <p className="text-black font-medium text-justify md:text-lg">
+        Business Intelligence is a journey, from raw data to actionable Wisdom. Our DIKIW Scorecard assesses where your business stands along the spectrum.
+      </p>
+      <p className="text-black text-justify md:text-base">
+        Whether you're just starting with data or operating at peak insight, the Scorecard uncovers hidden gaps, overlooked inefficiencies, or missed strategic signals, even at the highest levels. Because in today's world, even wisdom can get outdated.
+      </p>
+      
+      <button className="self-start px-6 py-3 rounded-lg text-white font-semibold bg-gradient-to-br from-[#23bec8] to-[#00bcd4] shadow-lg hover:scale-105 hover:shadow-2xl transition-all duration-300">
+        Assess Your BI Maturity
+      </button>
+    </div>
+
+  </div>
+</section>
+
+
+
+{/*
 <section 
   className="w-full bg-cover bg-center py-16 px-6 md:px-16" 
   style={{ backgroundImage: "url('/primeAI_bg_2.png')" }}
@@ -308,136 +444,8 @@ export default function Home() {
   </div>
 </section>
 
+*/}
 
-
-<section 
-  className="w-full bg-cover bg-center py-16 px-6 md:px-16" 
-  style={{ 
-    background: "linear-gradient(135deg, #ffffff, #23bec8, #ffffff)", }}
->
-  <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-6">
-
-    <div className="md:w-1/2 flex items-center justify-start">
-      <h3 className="text-3xl md:text-4xl font-bold text-black text-right">
-        DIKIW Scorecard
-      </h3>
-    </div>
-
-    <div className="md:w-1/2 flex flex-col items-start  gap-4">
-      <p className="text-black font-medium text-justify md:text-xl">
-        Business Intelligence is a journey, from raw data to actionable Wisdom. Our DIKIW Scorecard assesses where your business stands along the spectrum.
-      </p>
-      <p className="text-black text-justify mb-5">
-        Whether you're just starting with data or operating at peak insight, the Scorecard uncovers hidden gaps, overlooked inefficienceies, or missed strategic signals, even at the highest levels. Because in today's world, even wisdom can get outdated.
-      </p>
-      
-      <button className="px-5 py-2 rounded-md text-black bg-gradient-to-br from-white to-[#23bec8] 
-                hover:bg-[#23bec8] transition-colors duration-300 mb-5">
-        Assess Your BI Maturity
-      </button>
-    </div>
-
-  </div>
-</section>
-
-
-
-<section 
-  className="w-full bg-white py-16 px-6 md:px-16"
-  style = {{
-    background: "linear-gradient(135deg, #ffffff, #23bec8, #ffffff)",
-  }}>
-  <div className="max-w-6xl mx-auto text-center mb-12">
-    <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 inline-block relative">
-      Our Core Capabilities
-      <span className="absolute left-1/2 -bottom-2 w-24 h-1 bg-black rounded-full -translate-x-1/2"></span>
-    </h2>
-  </div>
-
-
-  <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-  <div 
-    className="relative bg-gray-100 p-6 shadow-md rounded-lg overflow-hidden"
-    style={{
-      background: "linear-gradient(135deg, #ffffff, #23bec8, #ffffff)",
-    }}
-  >
-    
-    <h3 className="text-xl font-semibold text-gray-900 mb-2">AI Consulting</h3>
-
-    <div className="absolute bottom-4 right-4 w-12 h-12 bg-[#23bec8] rounded-full flex items-center justify-center shadow-md">
-      <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 14.59L16.59 13 18 14.41 13 19.41 6 12.41 7.41 11 13 16.59z"/>
-      </svg>
-    </div>
-  </div>
-
-    
-    <div 
-      className="bg-gray-100 p-6 shadow-md"
-      style = {{
-        background: "linear-gradient(135deg, #ffffff, #23bec8, #ffffff)",
-      }}>
-      <h3 className="text-xl font-semibold mb-2">Market Research & Customer Intelligence</h3>
-    </div>
-
-    <div 
-      className="bg-gray-100 p-6 shadow-md"
-      style = {{
-        background: "linear-gradient(135deg, #000000, #23bec8, #000000)",
-      }}>
-      <h3 className="text-xl font-semibold mb-2">AI Ethics & Compliance</h3>
-    </div>
-
-    <div 
-      className="bg-gray-100 p-6 hadow-md"
-      style = {{
-        background: "linear-gradient(135deg, #000000, #23bec8, #000000)",
-      }}>
-      <h3 className="text-xl font-semibold mb-2">Business Intelligence & Analytics</h3>
-    </div>
-    
-    <div 
-      className="bg-gray-100 p-6 shadow-md"
-      style = {{
-        background: "linear-gradient(135deg, #000000, #23bec8, #000000)",
-      }}>
-      <h3 className="text-xl font-semibold mb-2">Operations & Infrastructure Management</h3>
-    </div>
-
-    <div 
-      className="bg-gray-100 p-6 shadow-md"
-      style = {{
-        background: "linear-gradient(135deg, #23bec8, #ffffff, #23bec8)",
-      }}>
-      <h3 className="text-xl font-semibold mb-2">AI Development</h3>
-    </div>
-
-    <div 
-      className="bg-gray-100 p-6 shadow-md"
-      style = {{
-        background: "linear-gradient(135deg, #23bec8, #ffffff, #23bec8)",
-      }}>
-      <h3 className="text-xl font-semibold mb-2">Data Engineering</h3>
-    </div>
-    
-    <div 
-      className="bg-gray-100 p-6 shadow-md"
-      style = {{
-        background: "linear-gradient(135deg, #23bec8, #ffffff, #23bec8)",
-      }}>
-      <h3 className="text-xl font-semibold mb-2">Software Engineering</h3>
-    </div>
-
-    <div 
-      className="bg-gray-100 p-6 shadow-md"
-      style = {{
-        background: "linear-gradient(135deg, #23bec8, #ffffff, #23bec8)",
-      }}>
-      <h3 className="text-xl font-semibold mb-2">Strategic Business Alignment</h3>
-    </div>
-  </div>
-</section>
 
     </main>
   );
