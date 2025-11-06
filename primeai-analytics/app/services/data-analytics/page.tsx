@@ -110,9 +110,18 @@ export default function DataAnalyticsPage() {
     },
   ];
 
-const [active, setActive] = useState({
+
+type ButtonType = {
+  title: string;
+  desc: string;
+  img?: string; // optional because some buttons may not have it
+  icons?: { Icon: React.FC<any>; label: string }[]; // optional
+};
+
+
+const [active, setActive] = useState<ButtonType>({
   title: "Your Trusted Data Analytics Partner",
-  desc: "PrimeAI Analytics empowers businesses in Lesotho to transform complex data into actionable insights that drive tangible results. Our dedicated team of data engineers, data scientists, and analytics specialists leverages advanced analytics, artificial intelligence, and machine learning to optimize operations, uncover hidden opportunities, and support strategic, data-driven decision-making. From designing custom data pipelines to delivering predictive insights, we provide end-to-end solutions that help organizations grow smarter, faster, and more efficiently.",
+  desc: "PrimeAI Analytics empowers businesses in Lesotho to transform complex data into actionable insights...",
   img: "https://images.unsplash.com/photo-1605902711622-cfb43c4434f4?auto=format&fit=crop&w=900&q=60",
 });
 

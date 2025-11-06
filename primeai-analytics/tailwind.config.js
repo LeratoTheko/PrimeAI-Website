@@ -1,0 +1,11 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['var(--font-poppins)', 'sans-serif'], // replace default sans
+      },
+    },
+  },
+  plugins: [],
+};

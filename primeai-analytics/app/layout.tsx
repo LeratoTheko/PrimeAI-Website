@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import Nav from "./nav";
 import Footer from "./footer";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 
 // Load Poppins from Google Fonts
@@ -74,7 +75,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">        
-      <body className={`${poppins.variable} font-sans antialiased`}>
+      <body className="antialiased">
         <Nav />
 
         <main className="pt-0">{children}</main>

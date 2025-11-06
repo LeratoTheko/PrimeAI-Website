@@ -1,0 +1,29 @@
+/* Universal Card Gradient */
+.card-gradient {
+  background: linear-gradient(135deg, #ffffff, #23BEC8);
+  border-radius: 1rem;
+  padding: 2rem;
+  color: #000000; /* ensures text is readable over gradient */
+  border: 1px solid rgba(35, 190, 200, 0.3);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover Effect */
+.card-gradient:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.12);
+}
+
+/* Ensure text inside cards is readable */
+.card-gradient h3,
+.card-gradient p {
+  color: #000000;
+}
+
+/* Optional: responsive padding for smaller screens */
+@media (max-width: 768px) {
+  .card-gradient {
+    padding: 1.5rem;
+  }
+}
