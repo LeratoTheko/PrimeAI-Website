@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
-export default function BusinessProfileForm() {
+function BusinessProfileFormInner() {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -487,5 +487,22 @@ export default function BusinessProfileForm() {
         </div>
       </div>
     </div>
+  );
+}
+
+
+export default function BusinessProfileForm() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex h-screen items-center justify-center">
+          <p className="animate-pulse text-gray-600">
+            Preparing SME Profile Form...
+          </p>
+        </div>
+      }
+    >
+      <BusinessProfileFormInner />
+    </Suspense>
   );
 }
