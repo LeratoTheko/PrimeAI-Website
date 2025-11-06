@@ -1,0 +1,115 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model DigitalCustomerAssessment {
+  id                   String                        @id @default(uuid())
+  assessedAt           DateTime                      @default(now())
+  overallNotes         String?
+  createdAt            DateTime                      @default(now())
+  updatedAt            DateTime                      @updatedAt
+  acquisitionChannels  AcquisitionChannelProfile[]
+  retentionAssesssment CustomerRetentionAssessment[]
+}
+
+
+model AcquisitionChannelProfile {
+  id                        String                    @id @default(uuid())
+  assessmentId              String
+  channelTypes              String[]
+  channelCount              Int?
+  diversityNotes            String?
+  digitalToTraditionalRatio Float?
+  effectivenessMeasure      String?
+  averageConversionRate     Float?
+  journeyIntegrationLevel   String?
+  trackingTools             String[]
+  hasTrackingSystem         Boolean                   @default(false)
+  trackingNotes             String?
+  knowsTopPerformingChannel Boolean                   @default(false)
+  contentMarketFitQuality   String?
+  paidPercentage            Float?
+  organicPercentage         Float?
+  experimentsRunRecently    Boolean                   @default(false)
+  hasReferralProgram        Boolean                   @default(false)
+  partnershipExamples       String?
+  createdAt                 DateTime                  @default(now())
+  updatedAt                 DateTime                  @updatedAt
+  assessment                DigitalCustomerAssessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+}
+
+model CustomerRetentionAssessment {
+  id                        String                    @id @default(uuid())
+  assessmentId              String
+  overallNotes              String?
+  strategyPlanningScore     Int
+  strategyPlanningNotes     String?
+  retentionTrackingScore    Int
+  retentionTrackingNotes    String?
+  relationshipSystemsScore  Int
+  relationshipSystemsNotes  String?
+  loyaltyRecognitionScore   Int
+  loyaltyRecognitionNotes   String?
+  experienceMonitoringScore Int
+  experienceMonitoringNotes String?
+  trustRecoveryScore        Int
+  trustRecoveryNotes        String?
+  customerDataUsageScore    Int
+  customerDataUsageNotes    String?
+  valueTrackingScore        Int
+  valueTrackingNotes        String?
+  postSaleEngagementScore   Int
+  postSaleEngagementNotes   String?
+  outreachFrequencyScore    Int
+  outreachFrequencyNotes    String?
+  retentionAdaptationScore  Int
+  retentionAdaptationNotes  String?
+  brandCommunityScore       Int
+  brandCommunityNotes       String?
+  createdAt                 DateTime                  @default(now())
+  updatedAt                 DateTime                  @updatedAt
+  assessment                DigitalCustomerAssessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+}
+
+model Sme {
+  id             Int       @id @default(autoincrement())
+  name           String
+  phone          String
+  email          String    @unique
+  agreed_terms   Boolean
+  otp_code       String?
+  otp_expires_at DateTime?
+  is_verified    Boolean   @default(false)
+
+  profiles SmeProfile[] @relation("SmeToProfiles")
+}
+
+model SmeProfile {
+  id                         Int     @id @default(autoincrement())
+  smes_id                    Int
+  business_name              String
+  registration_number        String? @unique
+  owner_name                 String
+  owner_gender               String?
+  owner_age_group            String?
+  contact_number             String
+  email                      String?
+  location                   String?
+  industry                   String?
+  sub_industry               String?
+  nature_of_business         String?
+  customer_types             String?
+  business_size              String?
+  number_of_employees        Int?
+  estimated_monthly_revenue  Int?
+  estimated_monthly_expenses Int?
+  premises_type              String?
+
+  sme Sme @relation("SmeToProfiles", fields: [smes_id], references: [id], onDelete: Cascade)
+}
