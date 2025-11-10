@@ -4,6 +4,7 @@ import "./globals.css";
 import Nav from "./nav";
 import Footer from "./footer";
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/next"
 
 
 // Load Poppins from Google Fonts
