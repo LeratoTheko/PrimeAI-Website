@@ -1,9 +1,10 @@
 "use client";
 import { useState } from "react";
+import React from "react";
 
-// -------------------------------
-// 1️⃣ TYPES
-// -------------------------------
+
+
+
 type AcquisitionChannelForm = {
   channelTypes: string[];
   channelCount: string;
@@ -25,86 +26,18 @@ type AcquisitionChannelForm = {
 };
 
 
-type DigitalCustomerFormData = {
+export type DigitalCustomerFormData = {
   overallNotes: string;
   acquisitionChannel: AcquisitionChannelForm;
 };
 
-// -------------------------------
-// 2️⃣ COMPONENT
-// -------------------------------
-export default function DigitalCustomerForm() {
-  const [formData, setFormData] = useState<DigitalCustomerFormData>({
-    overallNotes: "",
-    acquisitionChannel: {
-      channelTypes: [],
-      channelCount: "",
-      diversityNotes: "",
-      digitalToTraditionalRatio: "",
-      averageConversionRate: "",
-      effectivenessMeasure: "",
-      journeyIntegrationLevel: "",
-      trackingTools: [],
-      hasTrackingSystem: false,
-      trackingNotes: "",
-      knowsTopPerformingChannel: false,
-      contentMarketFitQuality: "",
-      paidPercentage: "",
-      organicPercentage: "",
-      experimentsRunRecently: false,
-      hasReferralProgram: false,
-      partnershipExamples: "",
-    },
-  });
 
-  // -------------------------------
-  // 3️⃣ SUBMIT HANDLER
-  // -------------------------------
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+type Props = {
+    formData: DigitalCustomerFormData;
+    setFormData: React.Dispatch<React.SetStateAction<DigitalCustomerFormData>>;
+}
 
-    // Convert numeric strings to numbers or null
-    const cleanedData = {
-    overallNotes: formData.overallNotes,
-    acquisitionChannel: {
-        ...formData.acquisitionChannel,
-        channelCount: formData.acquisitionChannel.channelCount
-        ? parseInt(formData.acquisitionChannel.channelCount)
-        : null,
-        digitalToTraditionalRatio: formData.acquisitionChannel.digitalToTraditionalRatio
-        ? parseFloat(formData.acquisitionChannel.digitalToTraditionalRatio)
-        : null,
-        averageConversionRate: formData.acquisitionChannel.averageConversionRate
-        ? parseFloat(formData.acquisitionChannel.averageConversionRate)
-        : null,
-        paidPercentage: formData.acquisitionChannel.paidPercentage
-        ? parseFloat(formData.acquisitionChannel.paidPercentage)
-        : null,
-        organicPercentage: formData.acquisitionChannel.organicPercentage
-        ? parseFloat(formData.acquisitionChannel.organicPercentage)
-        : null,
-    },
-    };
-
-
-    const res = await fetch("/api/assessments/data-clinics-assessment/digital-customer/acquisition/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(cleanedData),
-    });
-
-    if (res.ok) {
-      alert("✅ Assessment saved successfully!");
-      location.reload();
-    } else {
-      alert("❌ Error saving assessment.");
-    }
-  };
-
-
-  // -------------------------------
-  // 4️⃣ RENDER FORM
-  // -------------------------------
+export default function AcquisitionChannelsForm({ formData, setFormData }: Props) {
   return (
     <div
     className="max-w-5xl mx-auto rounded-2xl shadow-2xl py-10 px-8 transition-all duration-500 hover:shadow-[#23bec8]/40"
@@ -115,7 +48,6 @@ export default function DigitalCustomerForm() {
         border: "1px solid rgba(35,190,200,0.3)",
     }}
     >
-    <form onSubmit={handleSubmit} className="space-y-8">
         {/* HEADER */}
         <h2 className="text-3xl font-extrabold text-center text-[#23bec8] mb-6 tracking-wide drop-shadow-sm">
         Customer Acquisition Channel Assessment
@@ -475,15 +407,6 @@ export default function DigitalCustomerForm() {
             </div>
         </div>
         </div>
-
-        {/* SUBMIT BUTTON */}
-        <button
-        type="submit"
-        className="w-full py-3 rounded-lg font-semibold text-black bg-gradient-to-br from-white to-[#23bec8] border border-[#23bec8]/40 shadow-md hover:bg-[#23bec8] hover:text-white hover:shadow-lg transition-all duration-300"
-        >
-        Submit Assessment
-        </button>
-    </form>
     </div>
 
   );

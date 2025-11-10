@@ -47,7 +47,6 @@ model AcquisitionChannelProfile {
 model CustomerRetentionAssessment {
   id                        String                    @id @default(uuid())
   assessmentId              String
-  overallNotes              String?
   strategyPlanningScore     Int
   strategyPlanningNotes     String?
   retentionTrackingScore    Int
@@ -76,6 +75,7 @@ model CustomerRetentionAssessment {
   updatedAt                 DateTime                  @updatedAt
   assessment                DigitalCustomerAssessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
 }
+
 
 model Sme {
   id             Int       @id @default(autoincrement())
@@ -112,4 +112,28 @@ model SmeProfile {
   premises_type              String?
 
   sme Sme @relation("SmeToProfiles", fields: [smes_id], references: [id], onDelete: Cascade)
+}
+
+
+
+model ProjectEstimate {
+  id              String   @id @default(cuid())
+  fullName        String
+  email           String
+  companyName     String
+  phoneNumber     String
+  heardFrom       String?   // optional (e.g., Referral, Social Media)
+  projectDescription String
+  consent         Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+
+model Subscriber {
+  id          Int      @id @default(autoincrement())
+  email       String   @unique
+  subscribedAt DateTime @default(now())
+
+  @@map("subscribers") // optional: set table name explicitly
 }

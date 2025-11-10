@@ -25,6 +25,8 @@ export default function Nav() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [bgColor, setBgColor] = useState("bg-white");
   const [isClient, setIsClient] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => setIsClient(true), []);
 
@@ -35,17 +37,27 @@ export default function Nav() {
       const scrollTop = window.scrollY;
       const scrollHeight = document.documentElement.scrollHeight;
       const clientHeight = document.documentElement.clientHeight;
+      const currentScrollY = window.scrollY;
 
-      if (scrollTop === 0 || scrollTop + clientHeight >= scrollHeight) {
+
+      if (currentScrollY > lastScrollY && currentScrollY > 50){
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+
+      if (currentScrollY === 0 || currentScrollY + clientHeight >= scrollHeight) {
         setBgColor("bg-white");
       } else {
         setBgColor("bg-black/60 backdrop-blur-md shadow-lg");
       }
+
+      setLastScrollY(currentScrollY);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isClient]);
+  }, [isClient, lastScrollY]);
 
   const textColor = "#23bec8";
 
@@ -53,8 +65,11 @@ export default function Nav() {
 
   return (
     <nav
-      className={`fixed top-0 w-full z-50 px-4 sm:px-8 py-3 transition-all duration-500 ${bgColor}`}
+      className={`fixed top-0 w-full z-50 px-4 sm:px-8 py-3 transition-all duration-500 transform ${
+        isVisible ? "translate-y-0" : "-translate-y-full"
+      } ${bgColor}`}
     >
+
       <div className="flex items-center justify-between">
         {/* Logo / Title */}
         <div className="flex items-center space-x-2">

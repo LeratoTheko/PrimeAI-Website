@@ -53,13 +53,14 @@ export default function StickyCTA() {
 
         <div className="flex justify-center md:justify-start">
           <Link
-            href="/services/tsoelopele-one/sme/sign-up"
+            href="/services/tsoelopele-one/data-clinics-understanding"
             className="px-5 py-2 rounded-md bg-[#23bec8] text-white font-semibold shadow-md hover:bg-[#1aa3ad] transition-colors"
           >
             Data Clinics Assessment
           </Link>
         </div>
       </div>
+                  {/* href="/services/tsoelopele-one/sme/sign-up" */}
     </div>
   );
 }
