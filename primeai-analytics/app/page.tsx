@@ -74,7 +74,9 @@ export default function Home() {
 
           <motion.button
             style={{ opacity: textOpacity }}
-            className="mt-6 px-6 py-3 bg-gradient-to-r from-white to-[#23bec8] text-black font-medium rounded-[3px] shadow-lg hover:bg-[#23bec8] transition duration-300"
+            className="mt-6 px-6 py-3 flex items-center justify-center bg-gradient-to-br from-[#23BEC8] to-[#47E1DC]
+                            text-white rounded-md shadow hover:bg-black transition-colors
+                            font-semibold w-full sm:w-auto"
           >
             Let’s Talk
           </motion.button>

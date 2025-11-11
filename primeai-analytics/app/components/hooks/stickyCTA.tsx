@@ -66,7 +66,7 @@ export default function StickyCTA() {
             <span className="text-sm font-medium text-gray-700">For MSMEs</span>
             <Link
               href="/services/tsoelopele-one/data-clinics-understanding"
-              className="px-5 py-2 rounded-md bg-[#23bec8] text-white font-semibold shadow-lg hover:bg-[#1aa3ad] transition-all duration-300 w-full text-center"
+              className="px-5 py-2 rounded-md bg-gradient-to-br from-[#23BEC8] to-[#47E1DC] text-white font-semibold shadow-lg hover:bg-[#1aa3ad] transition-all duration-300 w-full text-center"
             >
               Data Clinics Assessment
             </Link>
@@ -77,7 +77,10 @@ export default function StickyCTA() {
             <span className="text-sm font-medium text-gray-700">For Corporates</span>
             <Link
               href="#"
-              className="px-5 py-2 rounded-md bg-[#00bcd4] text-white font-semibold shadow-lg hover:bg-[#019bbf] transition-all duration-300 w-full text-center"
+              className="flex items-center justify-center px-6 py-3 rounded-md font-semibold text-white
+                                          bg-gradient-to-br from-[#23BEC8] to-white/70
+                                          hover:from-white/70 hover:to-[#23BEC8]
+                                          shadow-lg transition-all duration-300 w-full sm:w-auto"
             >
               DIKIW Assessment
             </Link>
