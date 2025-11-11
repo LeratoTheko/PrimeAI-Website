@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "postbuild": "next-sitemap",
-    "migrate": "prisma migrate dev"
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@fontsource/poppins": "^5.2.7",
