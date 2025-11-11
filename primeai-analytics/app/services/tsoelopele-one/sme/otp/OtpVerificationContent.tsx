@@ -37,7 +37,7 @@ export default function OtpVerificationContent() {
       const data = await res.json();
 
       if (res.ok) {
-        setMessage({ type: "success", text: "✅ Verification successful!" });
+        setMessage({ type: "success", text: "Verification successful!" });
         localStorage.setItem("smeEmail", email);
         setTimeout(() => router.push("/services/tsoelopele-one/sme/sme-profile"), 1500);
       } else {
@@ -62,7 +62,7 @@ export default function OtpVerificationContent() {
       const data = await res.json();
 
       if (res.ok) {
-        setMessage({ type: "success", text: "✅ A new OTP has been sent to your email." });
+        setMessage({ type: "success", text: "A new OTP has been sent to your email." });
       } else {
         setMessage({ type: "error", text: data.error || "Failed to resend OTP." });
       }
@@ -75,22 +75,34 @@ export default function OtpVerificationContent() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-tr from-white via-[#23bec8] to-white flex items-center justify-center font-[Poppins] px-4 py-16">
-      <div className="w-full max-w-md bg-gradient-to-tr from-white via-[#23bec8]/40 to-white shadow-2xl border border-[#23bec8]/20 rounded-2xl p-8 text-center">
-        <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 mb-4">
+    <main className="relative min-h-screen bg-gradient-to-tr from-white via-[#23bec8] to-white flex items-center justify-center font-[Poppins] px-4 py-16">
+
+      {/* Subtle glassmorphism overlay */}
+      <div className="absolute inset-0 bg-white/5 backdrop-blur-sm pointer-events-none z-0"></div>
+
+      {/* Background circles */}
+      <div className="absolute top-0 left-1/3 w-72 h-72 rounded-full bg-[#23bec8]/20 -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 rounded-full bg-[#23bec8]/10 pointer-events-none"></div>
+
+      {/* Glassmorphic card */}
+      <div className="w-full max-w-md relative z-10 rounded-2xl p-8
+                      bg-white/20 backdrop-blur-lg border border-white/30 
+                      shadow-[0_8px_32px_0_rgba(35,190,200,0.2)] transition-all text-center">
+
+        <h2 className="text-2xl md:text-3xl font-semibold text-black mb-4">
           Verify Your Email
         </h2>
-        <p className="text-gray-700 mb-6">
+        <p className="text-black/90 mb-6">
           We've sent a 6-digit code to{" "}
-          <span className="font-medium text-[#23bec8]">{email}</span>
+          <span className="font-medium text-[#ffffff]">{email}</span>
         </p>
 
         {message && (
           <div
             className={`mb-4 p-3 rounded-md ${
               message.type === "success"
-                ? "bg-green-100 text-green-800"
-                : "bg-red-100 text-red-800"
+                ? "bg-green-100/70 text-green-900"
+                : "bg-red-100/70 text-red-900"
             }`}
           >
             {message.text}
@@ -104,7 +116,8 @@ export default function OtpVerificationContent() {
             onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
             maxLength={6}
             placeholder="Enter OTP"
-            className="w-full text-center text-lg tracking-widest px-4 py-3 border border-gray-300 rounded-md bg-white text-gray-900 focus:bg-white focus:ring-2 focus:ring-[#23bec8] outline-none"
+            className="w-full text-center text-lg tracking-widest px-4 py-3 border border-white/40 rounded-md 
+                       bg-white/40 text-black focus:bg-white/60 focus:ring-2 focus:ring-[#23bec8] outline-none placeholder-black/50 transition-all"
             required
           />
 
@@ -112,26 +125,26 @@ export default function OtpVerificationContent() {
             <button
               type="submit"
               disabled={loading}
-              className={`px-6 py-2 rounded-md font-semibold shadow-md transition-all ${
-                loading
-                  ? "bg-gray-300 cursor-not-allowed text-gray-500"
-                  : "bg-gradient-to-tr from-[#23bec8] to-white text-gray-900 hover:from-[#23bec8] hover:to-[#23bec8] hover:text-white"
-              }`}
+              className={`px-6 py-2 rounded-md font-semibold shadow-lg transition-all 
+                         ${loading
+                           ? "bg-white/30 text-black/50 cursor-not-allowed"
+                           : "bg-gradient-to-tr from-[#23bec8]/80 to-white/80 text-black hover:from-[#23bec8] hover:to-[#23bec8] hover:text-white"
+                         }`}
             >
               {loading ? "Verifying..." : "Verify Account"}
             </button>
           </div>
         </form>
 
-        <p className="text-sm text-gray-700 mt-6">
+        <p className="text-sm text-black/90 mt-6">
           Didn’t get the code?{" "}
           <button
             onClick={handleResend}
             disabled={resendLoading}
             className={`font-medium ${
               resendLoading
-                ? "text-gray-500 cursor-not-allowed"
-                : "text-[#23bec8] hover:underline"
+                ? "text-black/50 cursor-not-allowed"
+                : "text-[#ffffff] hover:underline"
             }`}
           >
             {resendLoading ? "Resending..." : "Resend OTP"}

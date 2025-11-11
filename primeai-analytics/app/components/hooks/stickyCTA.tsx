@@ -48,23 +48,40 @@ export default function StickyCTA() {
             setClosed(true);
             setVisible(true);
           }}
-          className="absolute top-2 right-2 text-gray-600 hover:text-gray-900 transition-colors"
+          className="absolute top-2 right-2 text-white-600 hover:text-gray-900 transition-colors"
           aria-label="Close"
         >
           <X size={20} />
         </button>
 
-        <p className="font-semibold text-gray-900 mb-4 text-center md:text-left drop-shadow-sm">
+        {/* Header */}
+        <p className="font-semibold text-gray-900 mb-6 text-center md:text-left drop-shadow-sm">
           Ready to accelerate your business growth story?
         </p>
 
-        <div className="flex justify-center md:justify-start">
-          <Link
-            href="/services/tsoelopele-one/data-clinics-understanding"
-            className="px-5 py-2 rounded-md bg-gradient-to-br from-[#23bec8] to-[#47e1dc] text-white font-semibold shadow-lg hover:bg-[#1aa3ad] transition-colors"
-          >
-            Data Clinics Assessment
-          </Link>
+        {/* Buttons Column */}
+        <div className="flex flex-col gap-4">
+          {/* Data Clinics Assessment */}
+          <div className="flex flex-col items-start gap-1">
+            <span className="text-sm font-medium text-gray-700">For MSMEs</span>
+            <Link
+              href="/services/tsoelopele-one/data-clinics-understanding"
+              className="px-5 py-2 rounded-md bg-[#23bec8] text-white font-semibold shadow-lg hover:bg-[#1aa3ad] transition-all duration-300 w-full text-center"
+            >
+              Data Clinics Assessment
+            </Link>
+          </div>
+
+          {/* DIKIW Assessment */}
+          <div className="flex flex-col items-start gap-1">
+            <span className="text-sm font-medium text-gray-700">For Corporates</span>
+            <Link
+              href="#"
+              className="px-5 py-2 rounded-md bg-[#00bcd4] text-white font-semibold shadow-lg hover:bg-[#019bbf] transition-all duration-300 w-full text-center"
+            >
+              DIKIW Assessment
+            </Link>
+          </div>
         </div>
       </div>
     </div>

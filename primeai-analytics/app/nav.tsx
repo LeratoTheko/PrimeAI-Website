@@ -329,12 +329,12 @@ export default function Nav() {
           {/* Partner Button */}
           <Link
             href="/partner"
-            className="px-5 py-2 font-semibold text-black rounded-lg shadow-md transition-all duration-300 hover:shadow-[#23bec8]/60 hover:shadow-lg hover:-translate-y-[1px]"
+            className="px-5 py-2 font-semibold text-white rounded-md shadow-md transition-all duration-300 hover:shadow-[#23bec8]/60 hover:shadow-lg hover:-translate-y-[1px]"
             style={{
-              background: "linear-gradient(135deg, #ffffff, #23bec8)",
+              background: "linear-gradient(135deg, #23bec8, #47e1dc)",
             }}
           >
-            Partner Up
+            Let's Work Together
           </Link>
         </div>
 
@@ -348,15 +348,16 @@ export default function Nav() {
       {isMobileMenuOpen && (
         <div className="md:hidden fixed top-[70px] left-0 w-full h-[calc(100vh-70px)] bg-white/95 backdrop-blur-lg shadow-2xl z-40 overflow-y-auto transition-all duration-500 animate-fadeIn">
           <div className="p-6 flex flex-col gap-5">
-            {/* Logo Section */}
+            {/* Logo Section
             <div className="flex items-center justify-between">
-              <span className="text-lg font-bold text-[#23bec8] tracking-wide">PrimeAI Analytics</span>
+              <span className="text-lg font-bold text-[#23bec8] tracking-wide">Can't Find What You're Looking?</span>
               <button onClick={() => setIsMobileMenuOpen(false)} className="text-gray-600 hover:text-[#23bec8] transition">
                 <X size={26} />
               </button>
             </div>
+            */}
 
-            <div className="h-[1px] bg-gray-200" />
+            <div className="h-[1px] bg-[#23bec8]" />
 
             {/* Menu Links */}
             <div className="flex flex-col gap-3 text-black">
@@ -441,7 +442,7 @@ export default function Nav() {
                 className="w-full py-3 font-semibold text-center rounded-lg text-white bg-[#23bec8] hover:bg-[#1aa7b2] transition-all shadow-md"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Partner Up
+                Let's Work Together
               </Link>
               <Link
                 href="/newsletter"
@@ -451,6 +452,7 @@ export default function Nav() {
                 Subscribe to Newsletter
               </Link>
             </div>
+            <div className="h-[1px] bg-[#23bec8]" />
           </div>
         </div>
       )}

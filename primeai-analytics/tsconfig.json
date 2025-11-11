@@ -30,6 +30,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-, "prisma.config.ts.bak", "app/components/assessments/data-clinics/digital-customer/CustomerRetentionForm.tsx.fdfd"  ],
+, "prisma.config.ts.bak", "app/components/assessments/data-clinics/digital-customer/CustomerRetentionForm.tsx.fdfd", "app/components/hooks/stickyCTA.tsxkjk"  ],
   "exclude": ["node_modules"]
 }

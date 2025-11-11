@@ -2,6 +2,9 @@
 
 import React, { useState, useRef } from "react";
 import {motion, useScroll, useTransform } from "framer-motion";
+import { FiUsers, FiBox, FiLayers, FiRepeat } from "react-icons/fi";
+
+import StickyCTA from "./components/hooks/stickyCTA";
 
 export default function Home() {
   const [showAbout, setShowAbout] = useState(false);
@@ -25,23 +28,29 @@ export default function Home() {
   const section2Y = useTransform(scrollYProgress, [0.7, 1], ["20%", "0%"]);
 
 
-
   interface CardProps {
     title: string;
     gradient: string;
   }
 
   const Card: React.FC<CardProps> = ({ title, gradient }) => (
-    <div
-      className="relative flex-none rounded-2xl p-6 backdrop-blur-md shadow-2xl transition-transform duration-300 hover:scale-105
-                w-full sm:w-[22%]"
-      style={{
-        background: gradient,
-        height: "180px",
-        minWidth: "200px",
-      }}
-    >
-      <h3 className="text-xl font-semibold text-gray-900 mb-2">{title}</h3>
+    <div className="relative flex-none w-full sm:w-[220px] h-[180px]">
+      {/* Glow behind card */}
+      <div className="absolute inset-0 rounded-2xl blur-xl opacity-40 bg-gradient-to-tr from-[#23BEC8]/30 to-white/30 transition-all duration-500 group-hover:opacity-60"></div>
+
+      {/* Glass Card */}
+      <div
+        className="relative z-10 flex flex-col justify-center items-center text-center rounded-2xl p-6 backdrop-blur-xl border border-white/30
+                  shadow-[0_8px_32px_0_rgba(35,190,200,0.25)]
+                  hover:shadow-[0_12px_48px_0_rgba(35,190,200,0.4)]
+                  transform hover:-translate-y-2 hover:scale-105
+                  transition-all duration-500 group"
+        style={{ background: gradient }}
+      >
+        <h3 className="text-lg md:text-xl font-bold text-gray-900 leading-snug">
+          {title}
+        </h3>
+      </div>
     </div>
   );
 
@@ -182,6 +191,8 @@ export default function Home() {
 
 </section>
 
+<StickyCTA />
+
 
 {/* Four Cards Section */}
 <section
@@ -190,199 +201,138 @@ export default function Home() {
     background: "linear-gradient(135deg, #ffffff, #23bec8, #ffffff)",
   }}>
 
-  <div className="max-w-6xl mx-auto text-center mb-12">
-    <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 inline-block relative">
-      Our Co-Creation Models
-      <span className="absolute mt-5 bottom-0 left-1/2 w-24 h-1 bg-black rounded-full -translate-x-1/2"></span>
-    </h2>
-  </div>
+<div className="max-w-6xl mx-auto text-center mb-12">
+  <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 relative inline-block 
+                 bg-clip-text text-transparent 
+                 bg-gradient-to-r from-[#000000] via-[#1aa3ad] to-[#000000]">
+    Our Co-Creation Models
+    <span className="absolute bottom-0 left-1/2 w-32 h-1 
+                     bg-gradient-to-r from-[#ffffff] via-[#23BEC8] to-[#ffffff] 
+                     rounded-full -translate-x-1/2 translate-y-2 shadow-lg"></span>
+  </h2>
+</div>
 
 
+{/* Cards Container */}
+<div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto">
 
-
-  {/* Cards Container */}
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto">
-
-    {/* Card 1 */}
-    <div 
-      className="bg-white/80 backdrop-blur-sm p-8 shadow-md hover:shadow-xl transition-transform duration-500 hover:-translate-y-2 text-left"
-      style={{
-        background: "linear-gradient(135deg, #ffffff, #23bec8, #ffffff)",
-      }}>
-      
-      <div className="flex items-center space-x-4 mb-5">
-        <div className="w-12 h-12 bg-[#23bec8] rounded-full flex items-center justify-center shadow-md">
-          <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2a10 10 0 100 20 10 10 0 000-20zM10 17l5-5-5-5v10z"/>
-          </svg>
+  {[
+    {
+      title: "Collaborative Model",
+      icon: <FiUsers className="w-8 h-8 text-white" />,
+      desc: "We partner closely with clients to co-design solutions, combining your expertise with data and AI insights for maximum impact.",
+      button: "Let’s Work Together",
+    },
+    {
+      title: "Solution Providing Model",
+      icon: <FiBox className="w-8 h-8 text-white" />,
+      desc: "We deliver ready-to-deploy data and AI solutions tailored to your specific needs, driving measurable results from day one.",
+      button: "Let’s Work Together",
+    },
+    {
+      title: "Managed & Delivered Services",
+      icon: <FiLayers className="w-8 h-8 text-white" />,
+      desc: "We manage and deliver ongoing data services and AI operations, so you can focus on your core business while we handle the complexity.",
+      button: "Let’s Work Together",
+    },
+    {
+      title: "We Are Flexible",
+      icon: <FiRepeat className="w-8 h-8 text-white" />,
+      desc: "Our approach adapts to your needs, whether you require full co-creation, stand-alone solutions, or ongoing managed services.",
+      button: "Let’s Work Together",
+    },
+  ].map((card) => (
+    <div
+      key={card.title}
+      className="relative rounded-2xl p-8 flex flex-col items-start
+                 bg-gradient-to-tr from-[#23BEC8]/30 to-white/30
+                 backdrop-blur-xl border border-white/30
+                 shadow-[0_8px_32px_0_rgba(35,190,200,0.25)]
+                 hover:shadow-[0_12px_48px_0_rgba(35,190,200,0.4)]
+                 transform hover:-translate-y-4 transition-all duration-500"
+    >
+      <div className="mb-4 flex items-center space-x-4">
+        <div className="w-12 h-12 rounded-full 
+                        bg-gradient-to-r from-white/40 via-white/20 to-[#23BEC8]/40
+                        flex items-center justify-center shadow-lg flex-shrink-0">
+          {card.icon}
         </div>
-
-        <h3 className="text-2xl font-semibold text-gray-900 mb-3">
-          Collaborative Model
-        </h3>
-      </div>
-      <p className="text-black-700 leading-relaxed">
-        We partner closely with clients to co-design solutions, combining your expertise with 
-        data and AI insights for maximum impact.
-      </p>
-
-      <div className="mt-4 flex justify-end">
-        <button className="px-5 py-2 rounded-md font-semibold text-black 
-                          bg-gradient-to-br from-white to-[#23bec8] 
-                          hover:bg-[#23bec8] transition-colors duration-300">
-          Let’s Work Together
-        </button>
+        <h3 className="text-2xl font-bold text-gray-900 leading-snug">{card.title}</h3>
       </div>
 
-    </div>
+      <p className="text-gray-900 text-base leading-relaxed mb-4">{card.desc}</p>
 
-    {/* Card 2 */}
-    <div 
-      className="bg-white/80 backdrop-blur-sm p-8 shadow-md hover:shadow-xl transition-transform duration-500 hover:-translate-y-2 text-left"
-      style={{
-        background: "linear-gradient(135deg, #ffffff, #23bec8, #ffffff)",
-      }}>
-
-      <div className="flex items-center space-x-4 mb-5">
-        <div className="w-12 h-12 bg-[#23bec8] rounded-full flex items-center justify-center shadow-md">
-          <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2a7 7 0 00-7 7c0 3.31 2.69 6 6 6v3h2v-3c3.31 0 6-2.69 6-6a7 7 0 00-7-7zm-1 18h2v2h-2v-2z"/>
-          </svg>
-        </div>
-
-        <h3 className="text-2xl font-semibold text-gray-900 mb-3">
-          Solution Providing Model
-        </h3>
-      </div>
-
-
-      <p className="text-black-700 leading-relaxed">
-        We deliver ready-to-deploy data and AI solutions tailored to your specific needs, 
-        driving measurable results from day one.
-      </p>
-
-      <div className="mt-4 flex justify-end">
-        <button className="px-5 py-2 rounded-md font-semibold text-black 
-                          bg-gradient-to-br from-white to-[#23bec8] 
-                          hover:bg-[#23bec8] transition-colors duration-300">
-          Let’s Work Together
+      <div className="flex justify-end w-full">
+        <button className="px-5 py-2 rounded-md font-semibold text-white
+                           bg-gradient-to-br from-[#23BEC8] to-white/70
+                           hover:from-white/70 hover:to-[#23BEC8]
+                           shadow-lg transition-all duration-300">
+          {card.button}
         </button>
       </div>
     </div>
+  ))}
 
-    {/* Card 3 */}
-    <div 
-      className="bg-white/80 backdrop-blur-sm p-8 shadow-md hover:shadow-xl transition-transform duration-500 hover:-translate-y-2 text-left"
-      style={{
-        background: "linear-gradient(135deg, #ffffff, #23bec8, #ffffff)",
-      }}>
+</div>
 
-      <div className="flex items-center space-x-4 mb-5">
-        <div className="w-12 h-12 bg-[#23bec8] rounded-full flex items-center justify-center shadow-md">
-          <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M9 11l3 3L22 4l-1.5-1.5-8.5 8.5-2-2L4 12.5V14h5v-2zM3 17v2h18v-2H3z"/>
-          </svg>
-        </div>
-
-        <h3 className="text-2xl font-semibold text-gray-900 mb-3">
-          Managed & Deliver Services
-        </h3>
-      </div>
-
-      <p className="text-black-700 leading-relaxed">
-        We manage and deliver ongoing data services and AI operations, so you can focus on 
-        your core business while we handle the complexity.
-      </p>
-
-      <div className="mt-4 flex justify-end">
-        <button className="px-5 py-2 rounded-md font-semibold text-black 
-                          bg-gradient-to-br from-white to-[#23bec8] 
-                          hover:bg-[#23bec8] transition-colors duration-300">
-          Let’s Work Together
-        </button>
-      </div>
-    </div>
-
-    {/* Card 4 */}
-    <div 
-      className="bg-white/80 backdrop-blur-sm p-8 shadow-md hover:shadow-xl transition-transform duration-500 hover:-translate-y-2 text-left"
-      style={{
-        background: "linear-gradient(135deg, #ffffff, #23bec8, #ffffff)",
-      }}>
-              
-      <div className="flex items-center space-x-4 mb-5">
-        <div className="w-12 h-12 bg-[#23bec8] rounded-full flex items-center justify-center shadow-md">
-          <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M4 12h4v1H4v-1zm12 0h4v1h-4v-1zm-6 6v4h1v-4h-1zm0-12V2h1v4h-1zm4.95 2.95l2.12-2.12.7.7-2.12 2.12-.7-.7zm-9.9 0l-.7.7 2.12 2.12.7-.7-2.12-2.12zm9.9 9.9l.7.7-2.12 2.12-.7-.7 2.12-2.12zm-9.9 0l-2.12 2.12-.7-.7 2.12-2.12.7.7z"/>
-          </svg>
-        </div>
-
-        <h3 className="text-2xl font-semibold text-gray-900 mb-3">
-          We Are Flexible
-        </h3>
-      </div>
-
-      <p className="text-black-700 leading-relaxed">
-        Our approach adapts to your needs, whether you require full co-creation, stand-alone 
-        solutions, or ongoing managed services.
-      </p>
-
-      <div className="mt-4 flex justify-end">
-        <button className="px-5 py-2 rounded-md font-semibold text-black 
-                          bg-gradient-to-br from-white to-[#23bec8] 
-                          hover:bg-[#23bec8] transition-colors duration-300">
-          Let’s Work Together
-        </button>
-      </div>
-    </div>
-
-  </div>
 </section>
 
 
+
+
 <section
-  className="w-full min-h-screen flex flex-col justify-center px-6"
+  className="w-full min-h-screen flex flex-col justify-center px-6 py-16 relative overflow-hidden"
   style={{
     background: "linear-gradient(135deg, #e0f7fa, #23bec8, #ffffff)",
   }}
 >
-  <div className="max-w-6xl mx-auto text-center mb-12">
-    <h2 className="text-3xl font-extrabold text-gray-900 inline-block relative">
+  {/* Optional floating abstract shapes */}
+  <div className="absolute top-0 left-1/2 w-72 h-72 bg-[#23bec8]/20 rounded-full -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+  <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#23bec8]/10 rounded-full pointer-events-none"></div>
+
+  {/* Section Heading */}
+  <div className="max-w-6xl mx-auto text-center mb-16">
+    <h2 className="text-3xl md:text-4xl font-extrabold mb-4 relative inline-block
+                   bg-clip-text text-transparent
+                   bg-gradient-to-r from-[#000000] via-[#23BEC8] to-[#000000]">
       Our Core Capabilities
-      <span className="absolute left-1/2 -bottom-2 w-24 h-1 bg-black rounded-full -translate-x-1/2"></span>
+      <span className="absolute bottom-0 left-1/2 w-32 h-1
+                       bg-gradient-to-r from-[#ffffff] via-[#23BEC8] to-[#ffffff]
+                       rounded-full -translate-x-1/2 translate-y-2 shadow-lg"></span>
     </h2>
   </div>
 
-  <div className="max-w-6xl mx-auto flex flex-col items-center gap-0 relative">
+  {/* Cards Container */}
+  <div className="max-w-6xl mx-auto flex flex-col items-center gap-12 relative">
+
     {/* Bottom row: 4 cards */}
-    <div className="flex flex-wrap justify-between w-full mb-0 relative z-10 gap-4">
-      <Card title="AI Development" gradient="linear-gradient(135deg, #23bec8, #ffffff, #23bec8)" />
-      <Card title="Data Engineering" gradient="linear-gradient(135deg, #23bec8, #ffffff, #23bec8)" />
-      <Card title="Software Engineering" gradient="linear-gradient(135deg, #23bec8, #ffffff, #23bec8)" />
-      <Card title="Strategic Business Alignment" gradient="linear-gradient(135deg, #23bec8, #ffffff, #23bec8)" />
+    <div className="flex flex-wrap justify-center w-full gap-6 z-10">
+      <Card title="AI Development" gradient="linear-gradient(135deg, #23BEC8/30, #ffffff/30, #23BEC8/30)" />
+      <Card title="Data Engineering" gradient="linear-gradient(135deg, #23BEC8/30, #ffffff/30, #23BEC8/30)" />
+      <Card title="Software Engineering" gradient="linear-gradient(135deg, #23BEC8/30, #ffffff/30, #23BEC8/30)" />
+      <Card title="Strategic Business Alignment" gradient="linear-gradient(135deg, #23BEC8/30, #ffffff/30, #23BEC8/30)" />
     </div>
 
     {/* Middle row: 3 cards, overlapping bottom */}
-    <div className="flex flex-wrap justify-between w-3/4 -mt-16 relative z-20 gap-4">
-      <Card title="AI Ethics & Compliance" gradient="linear-gradient(135deg, #000000, #23bec8, #000000)" />
-      <Card title="Business Intelligence & Analytics" gradient="linear-gradient(135deg, #000000, #23bec8, #000000)" />
-      <Card title="Operations & Infrastructure Management" gradient="linear-gradient(135deg, #000000, #23bec8, #000000)" />
+    <div className="flex flex-wrap justify-center w-3/4 -mt-20 gap-6 z-20">
+      <Card title="AI Ethics & Compliance" gradient="linear-gradient(135deg, #000000/20, #23BEC8/30, #000000/20)" />
+      <Card title="Business Intelligence & Analytics" gradient="linear-gradient(135deg, #000000/20, #23BEC8/30, #000000/20)" />
+      <Card title="Operations & Infrastructure Management" gradient="linear-gradient(135deg, #000000/20, #23BEC8/30, #000000/20)" />
     </div>
 
     {/* Top row: 2 cards, overlapping middle */}
-    <div className="flex flex-wrap justify-between w-1/2 -mt-16 relative z-30 gap-4">
-      <Card title="AI Consulting" gradient="linear-gradient(135deg, #ffffff, #23bec8, #ffffff)" />
-      <Card title="Market Research & Customer Intelligence" gradient="linear-gradient(135deg, #ffffff, #23bec8, #ffffff)" />
+    <div className="flex flex-wrap justify-center w-1/2 -mt-20 gap-6 z-30">
+      <Card title="AI Consulting" gradient="linear-gradient(135deg, #ffffff/30, #23BEC8/30, #ffffff/30)" />
+      <Card title="Market Research & Customer Intelligence" gradient="linear-gradient(135deg, #ffffff/30, #23BEC8/30, #ffffff/30)" />
     </div>
   </div>
 </section>
-
 
 
 <section
   className="w-full relative py-16 px-6 md:px-16 overflow-hidden"
   style={{
-    background: "linear-gradient(135deg, #e0f7fa, #23bec8, #ffffff)", // softer modern gradient
+    background: "linear-gradient(135deg, #e0f7fa, #23bec8, #ffffff)", // soft modern gradient
   }}
 >
   {/* Optional abstract shapes / circles */}
@@ -392,22 +342,31 @@ export default function Home() {
   <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8 relative z-10">
     
     {/* Left Column */}
-    <div className="md:w-1/2 flex items-center justify-center md:justify-start">
-      <h3 className="text-4xl md:text-5xl font-extrabold text-black leading-snug">
+    <div className="md:w-1/2 flex items-center justify-center md:justify-start mb-8 md:mb-0">
+      <h3 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-snug">
         DIKIW Scorecard
       </h3>
     </div>
 
-    {/* Right Column */}
-    <div className="md:w-1/2 flex flex-col gap-5 bg-white/60 backdrop-blur-md p-6 rounded-xl shadow-2xl">
-      <p className="text-black font-medium text-justify md:text-lg">
+    {/* Right Column - Glassmorphic Card */}
+    <div className="md:w-1/2 flex flex-col gap-5 
+                    bg-gradient-to-tr from-[#23BEC8]/30 to-white/30
+                    backdrop-blur-xl border border-white/30
+                    rounded-2xl p-8 shadow-[0_8px_32px_0_rgba(35,190,200,0.25)]
+                    hover:shadow-[0_12px_48px_0_rgba(35,190,200,0.4)]
+                    transition-all duration-500">
+      
+      <p className="text-gray-900 font-medium text-justify md:text-lg leading-relaxed">
         Business Intelligence is a journey, from raw data to actionable Wisdom. Our DIKIW Scorecard assesses where your business stands along the spectrum.
       </p>
-      <p className="text-black text-justify md:text-base">
+      <p className="text-gray-900 text-justify md:text-base leading-relaxed">
         Whether you're just starting with data or operating at peak insight, the Scorecard uncovers hidden gaps, overlooked inefficiencies, or missed strategic signals, even at the highest levels. Because in today's world, even wisdom can get outdated.
       </p>
       
-      <button className="self-start px-6 py-3 rounded-lg text-white font-semibold bg-gradient-to-br from-[#23bec8] to-[#00bcd4] shadow-lg hover:scale-105 hover:shadow-2xl transition-all duration-300">
+      <button className="self-start px-6 py-3 rounded-md font-semibold text-white
+                         bg-gradient-to-br from-[#23BEC8] to-white/70
+                         shadow-lg hover:shadow-[0_12px_48px_0_rgba(35,190,200,0.4)]
+                         hover:scale-105 transition-all duration-300">
         Assess Your BI Maturity
       </button>
     </div>
