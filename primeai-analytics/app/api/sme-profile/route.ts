@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
+export const runtime = "nodejs";
+
 // GET — Fetch only verified email
 export async function GET(req: NextRequest) {
   try {

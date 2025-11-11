@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import nodemailer from "nodemailer";
 
+
+export const runtime = "nodejs";
+
 // Helper: generate a 6-digit OTP
 function generateOTP(length = 6) {
   return Math.floor(100000 + Math.random() * 900000)
