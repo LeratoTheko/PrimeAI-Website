@@ -74,7 +74,7 @@ export default function Home() {
 
           <motion.button
             style={{ opacity: textOpacity }}
-            className="mt-6 px-6 py-3 flex items-center justify-center bg-gradient-to-br from-[#23BEC8] to-[#47E1DC]
+            className="mt-6 px-6 py-3 items-center justify-center bg-gradient-to-br from-[#23BEC8] to-[#47E1DC]
                             text-white rounded-md shadow hover:bg-black transition-colors
                             font-semibold w-full sm:w-auto"
           >

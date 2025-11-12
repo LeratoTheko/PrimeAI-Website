@@ -100,6 +100,8 @@ export default function RootLayout({
             }),
           }}
         />
+        <Analytics />
+        <SpeedInsights />
         <Footer/>
       </body>
     </html>
