@@ -99,7 +99,7 @@ model SmeProfile {
   owner_gender               String?
   owner_age_group            String?
   contact_number             String
-  email                      String?
+  email                      String  @unique   // <--- required now
   location                   String?
   industry                   String?
   sub_industry               String?

@@ -38,14 +38,120 @@ function BusinessProfileFormInner() {
 
   const buttonGradient = "linear-gradient(125deg, #ffffff, #23bec8, #ffffff)";
 
-  // ✅ Auto-fill verified email from OTP verification
+  // ==== Define constants for selects here ====
+  const industryOptions = [
+    "------",
+    "Agriculture",
+    "Manufacturing",
+    "Retail",
+    "Wholesale",
+    "Construction",
+    "Information Technology",
+    "Financial Services",
+    "Education",
+    "Healthcare",
+    "Hospitality",
+    "Transport and Logistics",
+    "Real Estate",
+    "Creative and Media",
+    "Other",
+  ];
+
+  const subIndustryMap: Record<string, string[]> = {
+    Agriculture: ["Crop Farming", "Livestock Farming", "Agro-processing", "Forestry", "Fisheries", "Other"],
+    Manufacturing: ["Food & Beverages", "Textiles & Apparel", "Furniture", "Chemicals", "Machinery", "Other"],
+    Retail: ["Clothing", "Electronics", "Groceries", "Furniture", "Online Store", "Other"],
+    Wholesale: ["Food & Beverages", "Electronics", "Clothing", "Raw Materials", "Other"],
+    Construction: ["Residential", "Commercial", "Industrial", "Civil Engineering", "Other"],
+    "Information Technology": ["Software Development", "IT Services", "Web & App Development", "Other"],
+    "Financial Services": ["Banking", "Insurance", "Accounting", "Other"],
+    Education: ["School", "Training Center", "Online Courses", "Other"],
+    Healthcare: ["Clinic", "Pharmacy", "Laboratory", "Other"],
+    Hospitality: ["Hotel", "Restaurant", "Cafe", "Other"],
+    "Transport and Logistics": ["Trucking", "Courier", "Shipping", "Other"],
+    "Real Estate": ["Sales", "Rental", "Property Management", "Other"],
+    "Creative and Media": ["Advertising", "Design", "Media Production", "Other"],
+    Other: ["Other"],
+  };
+
+  const subIndustryOptions = subIndustryMap[formData.industry] || ["Select Industry First"];
+
+  const natureOfBusinessOptions = [
+    "------",
+    "Production",
+    "Service Provider",
+    "Retailer",
+    "Wholesaler",
+    "Distributor",
+    "Consultant",
+    "Freelancer",
+    "Other",
+  ];
+
+  const customerTypeOptions = ["Individual", "Business", "Government", "NGO/Non-Profit", "Other"];
+
+  const businessSizeOptions = [
+    "------",
+    "Micro (1–5 employees)",
+    "Small (6–20 employees)",
+    "Medium (21–50 employees)",
+    "Large (50+ employees)",
+  ];
+
+  const premisesOptions = [
+    "------",
+    "Home-based",
+    "Rented Office/Shop",
+    "Owned Premises",
+    "Shared Space",
+    "Mobile/Online Only",
+  ];
+
+  // ==== Existing useEffects and handlers ====
   useEffect(() => {
     const verifiedEmail = localStorage.getItem("smeEmail") || emailQuery || "";
     setFormData((prev) => ({ ...prev, email: verifiedEmail }));
-    setLoading(false);
+
+    if (verifiedEmail) {
+      (async () => {
+        try {
+          const res = await fetch(`/api/sme-profile?email=${verifiedEmail}&type=profile`);
+          if (res.ok) {
+            const result = await res.json();
+            if (result.success && result.profile) {
+              const profile = result.profile;
+              setFormData({
+                business_name: profile.business_name || "",
+                registration_number: profile.registration_number || "",
+                owner_name: profile.owner_name || "",
+                owner_gender: profile.owner_gender || "",
+                owner_age_group: profile.owner_age_group || "",
+                contact_number: profile.contact_number || "",
+                email: profile.email || verifiedEmail,
+                location: profile.location || "",
+                industry: profile.industry || "",
+                sub_industry: profile.sub_industry || "",
+                nature_of_business: profile.nature_of_business || "",
+                customer_types: profile.customer_types ? profile.customer_types.split(", ").map((s: string) => s.trim()) : [],
+                business_size: profile.business_size || "",
+                number_of_employees: profile.number_of_employees?.toString() || "",
+                estimated_monthly_revenue: profile.estimated_monthly_revenue?.toString() || "",
+                estimated_monthly_expenses: profile.estimated_monthly_expenses?.toString() || "",
+                premises_type: profile.premises_type || "",
+              });
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching existing profile:", error);
+        } finally {
+          setLoading(false);
+        }
+      })();
+    } else {
+      setLoading(false);
+    }
   }, [emailQuery]);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
@@ -56,7 +162,6 @@ function BusinessProfileFormInner() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // ✅ Fixed TypeScript-safe input handler
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
@@ -89,18 +194,11 @@ function BusinessProfileFormInner() {
     const newErrors: Record<string, string> = {};
     if (!formData.industry || formData.industry === "------")
       newErrors.industry = "Industry is required.";
-    if (
-      !formData.sub_industry ||
-      formData.sub_industry === "Select Industry First"
-    )
+    if (!formData.sub_industry || formData.sub_industry === "Select Industry First")
       newErrors.sub_industry = "Sub-industry is required.";
-    if (
-      !formData.nature_of_business ||
-      formData.nature_of_business === "------"
-    )
+    if (!formData.nature_of_business || formData.nature_of_business === "------")
       newErrors.nature_of_business = "Nature of business is required.";
-    if (!formData.customer_types.length)
-      newErrors.customer_types = "Customer type is required.";
+    if (!formData.customer_types.length) newErrors.customer_types = "Customer type is required.";
     if (!formData.business_size || formData.business_size === "------")
       newErrors.business_size = "Business size is required.";
     setErrors(newErrors);
@@ -120,15 +218,9 @@ function BusinessProfileFormInner() {
     try {
       const payload = {
         ...formData,
-        number_of_employees: formData.number_of_employees
-          ? Number(formData.number_of_employees)
-          : null,
-        estimated_monthly_revenue: formData.estimated_monthly_revenue
-          ? Number(formData.estimated_monthly_revenue)
-          : null,
-        estimated_monthly_expenses: formData.estimated_monthly_expenses
-          ? Number(formData.estimated_monthly_expenses)
-          : null,
+        number_of_employees: formData.number_of_employees ? Number(formData.number_of_employees) : null,
+        estimated_monthly_revenue: formData.estimated_monthly_revenue ? Number(formData.estimated_monthly_revenue) : null,
+        estimated_monthly_expenses: formData.estimated_monthly_expenses ? Number(formData.estimated_monthly_expenses) : null,
       };
 
       const res = await fetch("/api/sme-profile", {
@@ -141,12 +233,9 @@ function BusinessProfileFormInner() {
       if (res.ok && result.data) {
         setSuccess(true);
         setErrors({});
-
-        router.push('/assessment/data-clinics-assessment');
+        router.push("/assessment/data-clinics-assessment");
       } else {
-        setErrors({
-          submit: result.error || "Something went wrong. Please try again.",
-        });
+        setErrors({ submit: result.error || "Something went wrong. Please try again." });
       }
     } catch (error) {
       console.error(error);
@@ -162,7 +251,7 @@ function BusinessProfileFormInner() {
       owner_gender: "",
       owner_age_group: "",
       contact_number: "",
-      email: formData.email, // ✅ Keep verified email after reset
+      email: formData.email,
       location: "",
       industry: "",
       sub_industry: "",
@@ -178,71 +267,6 @@ function BusinessProfileFormInner() {
     setSuccess(false);
     setErrors({});
   };
-
-  const industryOptions = [
-    "------",
-    "Agriculture",
-    "Manufacturing",
-    "Retail",
-    "Wholesale",
-    "Construction",
-    "Information Technology",
-    "Financial Services",
-    "Education",
-    "Healthcare",
-    "Hospitality",
-    "Transport and Logistics",
-    "Real Estate",
-    "Creative and Media",
-    "Other",
-  ];
-
-  const subIndustryMap: Record<string, string[]> = {
-    Agriculture: ["Crop Farming", "Livestock Farming", "Agro-processing", "Forestry", "Fisheries", "Other"],
-    Manufacturing: ["Food & Beverages", "Textiles & Apparel", "Furniture", "Chemicals", "Machinery", "Other"],
-    Retail: ["Clothing", "Electronics", "Groceries", "Furniture", "Online Store", "Other"],
-    Wholesale: ["Consumer Goods", "Industrial Goods", "Agricultural Inputs", "Machinery", "Other"],
-    Construction: ["Building Contractors", "Electrical", "Plumbing", "Architecture", "Civil Engineering", "Other"],
-    "Information Technology": ["Software Development", "IT Support", "Networking", "Web Development", "Cybersecurity", "Other"],
-    "Financial Services": ["Banking", "Insurance", "Microfinance", "FinTech", "Accounting", "Other"],
-    Education: ["Primary/Secondary", "Tertiary", "Vocational Training", "Tutoring", "E-Learning", "Other"],
-    Healthcare: ["Clinic", "Pharmacy", "Medical Supplies", "Health Consultancy", "Wellness & Fitness", "Other"],
-    Hospitality: ["Restaurant", "Lodging/Hotel", "Tourism", "Catering", "Event Planning", "Other"],
-    "Transport and Logistics": ["Freight Transport", "Taxi/Commuter Services", "Courier & Delivery", "Warehousing", "Other"],
-    "Real Estate": ["Property Development", "Property Management", "Rental Services", "Land Surveying", "Other"],
-    "Creative and Media": ["Graphic Design", "Film & Photography", "Music & Audio", "Advertising", "Publishing", "Other"],
-    Other: ["Other"],
-  };
-
-  const subIndustryOptions =
-    subIndustryMap[formData.industry] || ["Select Industry First"];
-  const natureOfBusinessOptions = [
-    "------",
-    "Production",
-    "Service Provider",
-    "Retailer",
-    "Wholesaler",
-    "Distributor",
-    "Consultant",
-    "Freelancer",
-    "Other",
-  ];
-  const customerTypeOptions = ["Individual", "Business", "Government", "NGO/Non-Profit", "Other"];
-  const businessSizeOptions = [
-    "------",
-    "Micro (1–5 employees)",
-    "Small (6–20 employees)",
-    "Medium (21–50 employees)",
-    "Large (50+ employees)",
-  ];
-  const premisesOptions = [
-    "------",
-    "Home-based",
-    "Rented Office/Shop",
-    "Owned Premises",
-    "Shared Space",
-    "Mobile/Online Only",
-  ];
 
   if (loading)
     return (
