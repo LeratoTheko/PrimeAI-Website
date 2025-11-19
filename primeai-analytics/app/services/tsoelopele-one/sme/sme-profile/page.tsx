@@ -23,7 +23,7 @@ function BusinessProfileFormInner() {
     owner_gender: "",
     owner_age_group: "",
     contact_number: "",
-    email: "",
+    email: emailQuery, // ✅ pre-fill email
     location: "",
     industry: "",
     sub_industry: "",
@@ -233,7 +233,7 @@ function BusinessProfileFormInner() {
       if (res.ok && result.data) {
         setSuccess(true);
         setErrors({});
-        router.push("/assessment/data-clinics-assessment");
+        router.push(`/assessment/data-clinics-assessment?email=${encodeURIComponent(formData.email)}`);
       } else {
         setErrors({ submit: result.error || "Something went wrong. Please try again." });
       }

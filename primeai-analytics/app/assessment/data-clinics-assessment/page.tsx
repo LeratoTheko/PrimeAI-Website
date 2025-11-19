@@ -1,13 +1,18 @@
 // AssessmentPage.tsx
 "use client";
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import AcquisitionChannelsForm, { DigitalCustomerFormData } from "../../components/assessments/data-clinics/digital-customer/AcquisitionChannelsForm";
 import CustomerRetentionForm, { CustomerRetentionData } from "../../components/assessments/data-clinics/digital-customer/CustomerRetentionForm";
 
 export default function AssessmentPage() {
+  const searchParams = useSearchParams();
+  const email = searchParams.get("email")?.trim().toLowerCase() || "";
+
+  const [ownerName, setOwnerName] = useState<string>("");
   const [step, setStep] = useState(0);
 
-  // ✅ Centralized Full Assessment State
   const [formData, setFormData] = useState<DigitalCustomerFormData>({
     overallNotes: "",
     acquisitionChannel: {
@@ -28,7 +33,7 @@ export default function AssessmentPage() {
       experimentsRunRecently: false,
       hasReferralProgram: false,
       partnershipExamples: "",
-    }
+    },
   });
 
   const [retentionData, setRetentionData] = useState<CustomerRetentionData>({
@@ -63,12 +68,29 @@ export default function AssessmentPage() {
     brandCommunityNotes: "",
   });
 
-  // 👇 Add forms in order (Acquisition → Retention)
   const forms = [
     <AcquisitionChannelsForm key="acquisition" formData={formData} setFormData={setFormData} />,
     <CustomerRetentionForm key="retention" formData={retentionData} setFormData={setRetentionData} />,
   ];
 
+  // ✅ Fetch SME profile to display owner name
+  useEffect(() => {
+    if (!email) return;
+
+    const fetchProfile = async () => {
+      try {
+        const res = await fetch(`/api/sme-profile?email=${email}`);
+        if (res.ok) {
+          const data = await res.json();
+          setOwnerName(data.owner_name || "");
+        }
+      } catch (err) {
+        console.error("Error fetching SME profile:", err);
+      }
+    };
+
+    fetchProfile();
+  }, [email]);
 
   const handleNext = () => {
     if (step < forms.length - 1) setStep(step + 1);
@@ -78,9 +100,10 @@ export default function AssessmentPage() {
     if (step > 0) setStep(step - 1);
   };
 
-  // 🔥 Final Submit (B — Submit Everything Together)
   const handleSubmit = async () => {
     const cleanedData = {
+      email,
+      owner_name: ownerName,
       ...formData,
       acquisitionChannel: {
         ...formData.acquisitionChannel,
@@ -100,23 +123,27 @@ export default function AssessmentPage() {
           ? parseFloat(formData.acquisitionChannel.organicPercentage)
           : null,
       },
-      customerRetention: retentionData, // ← use the retention state
+      customerRetention: retentionData,
     };
 
-    const res = await fetch("/api/assessments/data-clinics-assessment/digital-customer/full-submit", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(cleanedData),
-    });
+    try {
+      const res = await fetch("/api/assessments/data-clinics-assessment/digital-customer/full-submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(cleanedData),
+      });
 
-    if (res.ok) {
-      alert("✅ Full Assessment Submitted Successfully!");
-      location.reload();
-    } else {
+      if (res.ok) {
+        alert("✅ Full Assessment Submitted Successfully!");
+        location.reload();
+      } else {
+        alert("❌ Error submitting assessment.");
+      }
+    } catch (err) {
+      console.error(err);
       alert("❌ Error submitting assessment.");
     }
   };
-
 
   return (
     <div
@@ -124,9 +151,10 @@ export default function AssessmentPage() {
       style={{ background: "linear-gradient(135deg, #ffffff, #23bec8, #ffffff)" }}
     >
       <div className="bg-white/90 shadow-2xl rounded-xl p-8 w-full max-w-2xl border border-[#23bec8]/30">
-        <h1 className="text-3xl font-bold text-center mb-6 text-[#23bec8]">
-          Digital Customer Assessment
+        <h1 className="text-3xl font-bold text-center mb-2 text-[#23bec8]">
+          {ownerName ? `Welcome, ${ownerName}` : "Welcome to Digital Customer Assessment"}
         </h1>
+        <p className="text-center mb-6 text-[#23bec8]">{email ? ` ${email}` : ""}</p>
 
         {forms[step]}
 
