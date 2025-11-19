@@ -686,5 +686,4 @@ function BusinessProfileFormInner() {
     </div>
   );
 }
-
 export default BusinessProfileFormInner;
