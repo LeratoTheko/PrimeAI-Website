@@ -645,7 +645,7 @@ function BusinessProfileFormInner() {
                     <button
                       type="button"
                       onClick={prevStep}
-                      className="bg-gradient-to-br from-white to-[#23bec8] text-black hover:bg-black hover:text-white"
+                      className="bg-gray-200 text-gray-500 cursor-not-allowed bg-gradient-to-br from-white to-[#23bec8] text-black hover:bg-black hover:text-white"
                     >
                       Previous
                     </button>
