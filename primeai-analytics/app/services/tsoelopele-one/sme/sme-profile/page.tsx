@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { evaluateEligibility } from "@/lib/eligibility"; // make sure this import exists at the top
 
 function BusinessProfileFormInner() {
   const router = useRouter();
@@ -113,6 +114,7 @@ function BusinessProfileFormInner() {
   };
   const prevStep = () => setStep(1);
 
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateStep2()) return;
@@ -138,11 +140,26 @@ function BusinessProfileFormInner() {
       });
 
       const result = await res.json();
+
       if (res.ok && result.data) {
         setSuccess(true);
         setErrors({});
 
-        router.push('/assessment/data-clinics-assessment');
+        // -------------------------------
+        // Option 2: Multi-pillar flow
+        // -------------------------------
+
+        const eligibility = evaluateEligibility(result.data);
+
+        // store all eligible pillars in sessionStorage for later navigation
+        sessionStorage.setItem(
+          "eligibleCategories",
+          JSON.stringify(eligibility.eligibleCategories)
+        );
+
+        // redirect to the first eligible pillar
+        router.push(eligibility.redirectPath);
+
       } else {
         setErrors({
           submit: result.error || "Something went wrong. Please try again.",
@@ -153,6 +170,7 @@ function BusinessProfileFormInner() {
       setErrors({ submit: "An unexpected error occurred. Please try again." });
     }
   };
+
 
   const resetForm = () => {
     setFormData({

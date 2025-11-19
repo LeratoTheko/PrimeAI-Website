@@ -48,7 +48,7 @@ export default function Footer() {
           {/* Logo and Contact */}
           <div className="w-full md:w-1/3 lg:w-[20%] text-center md:text-left">
             <img
-              src="/Logo.png"
+              src="/No_Background.png"
               alt="Logo"
               className="h-[50px] mb-4 mx-auto md:mx-0 object-contain transition-transform duration-300 hover:scale-105"
             />

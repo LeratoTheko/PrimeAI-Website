@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useRef } from "react";
-import {motion, useScroll, useTransform } from "framer-motion";
+import React, { useState, useRef, useEffect } from "react";
+import {motion, useScroll, useTransform, useAnimation, useInView } from "framer-motion";
 import { FiUsers, FiBox, FiLayers, FiRepeat } from "react-icons/fi";
 
 import StickyCTA from "./components/hooks/stickyCTA";
@@ -33,6 +33,34 @@ export default function Home() {
     gradient: string;
   }
 
+
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const controls = useAnimation();
+
+  useEffect(() => {
+    if (isInView) controls.start("visible");
+  }, [isInView, controls]);
+
+  const containerVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, staggerChildren: 0.3 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: -50 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.6 } },
+  };
+
+  const lineVariants = {
+    hidden: { height: 0 },
+    visible: { height: "100%", transition: { duration: 0.8 } },
+  };
+
   const Card: React.FC<CardProps> = ({ title, gradient }) => (
     <div className="relative flex-none w-full sm:w-[220px] h-[180px]">
       {/* Glow behind card */}
@@ -60,89 +88,131 @@ export default function Home() {
   return (
     <main className="text-gray-900 text-center">
       {/* --- Section 1 --- */}
-      <section ref={containerRef} className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-white to-[#23bec8] p-8">
+      <section
+        ref={containerRef}
+        className="flex flex-col items-center justify-center min-h-screen 
+                  bg-gradient-to-b from-white to-[#23bec8] p-6 sm:p-8"
+      >
         <motion.section
           style={{ opacity: section1Opacity }}
-          className="sticky top-0 h-screen flex flex-col items-center justify-center bg-gradient-to-b from-white to-[#23bec8]"
+          className="sticky top-0 h-screen flex flex-col items-center justify-center
+                    bg-gradient-to-b from-white to-[#23bec8]"
         >
           <motion.h1
             style={{ scale, y: yText, opacity: textOpacity }}
-            className="text-5xl font-bold text-center text-black px-4"
+            className="
+              text-3xl sm:text-4xl md:text-5xl 
+              font-bold text-center text-black px-4
+            "
           >
             Elevating Decisions with Precision-Driven Insights
           </motion.h1>
 
           <motion.button
             style={{ opacity: textOpacity }}
-            className="mt-6 px-6 py-3 items-center justify-center bg-gradient-to-br from-[#23BEC8] to-[#47E1DC]
-                            text-white rounded-md shadow hover:bg-black transition-colors
-                            font-semibold w-full sm:w-auto"
+            className="
+              mt-6 px-5 py-2 sm:px-6 sm:py-3 
+              bg-gradient-to-br from-[#23BEC8] to-[#47E1DC]
+              text-white rounded-md shadow hover:bg-black transition-colors
+              font-semibold
+            "
           >
-            Let’s Talk
+            Let’s Work Together
           </motion.button>
         </motion.section>
       </section>
 
-      <motion.section 
-        style = {{opacity: section2Opacity, y: section2Y}}
-        className="relative min-h-screen bg-gradient-to-b from-white to-[#a4edef] flex flex-col justify-center px-6 py-12 md:px-12 md:py-24">
 
+
+
+      {/*--------------------------
+          SECTION: WHO & WHAT WE DO
+         -------------------------- */}
+      <motion.section
+        ref={ref}
+        initial="hidden"
+        animate={controls}
+        variants={containerVariants}
+        className="relative min-h-screen bg-gradient-to-b from-white to-[#a4edef] flex flex-col justify-center px-4 sm:px-6 md:px-12 py-12 md:py-24"
+      >
         {/* Who Are We */}
-        <div className="relative w-full md:w-1/2 rounded-lg mb-12 flex flex-col md:flex-row items-stretch">
-          {/* Line beside text */}
-          <div className="flex flex-col items-center mr-0 md:mr-6 mb-4 md:mb-0">
-            <div className="relative bg-black w-[5px] h-full">
-              <div className="absolute top-0 -left-[5px] bg-[#23bec8] w-[15px] h-[25%]" />
+        <motion.div variants={itemVariants} className="relative w-full md:w-1/2 mb-12">
+          <motion.div
+            variants={lineVariants}
+            className="absolute left-2 sm:left-3 md:left-4 top-0 bottom-0 w-[4px] md:w-[5px] bg-black"
+          >
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="absolute top-0 -left-[5px] w-[12px] md:w-[15px] h-[25%] 
+              bg-gradient-to-br from-[#23BEC8]/70 via-[#47E1DC]/70 to-[#23BEC8]/70
+              backdrop-blur-sm rounded-md shadow-md"
+            ></motion.div>
+          </motion.div>
+
+          <motion.div className="flex flex-col md:flex-row items-stretch ml-6 sm:ml-8 md:ml-14">
+            <div className="flex-1 text-left">
+              <h2 className="text-3xl font-extrabold mb-2 text-black">Who Are We?</h2>
+              <h3 className="text-lg font-bold mb-4 text-black">
+                PrimeAI Analytics is an AI and Data Analytics Consulting Firm
+              </h3>
+              <p className="text-black font-medium text-justify">
+                We are focused on delivering cutting-edge Artificial Intelligence and
+                Data-Driven solutions. We show Businesses, Organizations, and Governments how
+                they can improve using advanced AI and data technologies.
+              </p>
+              <motion.button
+                variants={itemVariants}
+                className="mt-6 px-6 py-3 bg-gradient-to-r from-[#23bec8] to-[#47e1dc] text-black font-semibold rounded-md shadow-md hover:opacity-90 transition"
+              >
+                Learn More
+              </motion.button>
             </div>
-          </div>
-
-          {/* Content */}
-          <div className="flex flex-col text-left">
-            <h2 className="text-3xl font-extrabold mb-2 text-black">Who Are We?</h2>
-            <h3 className="text-lg font-semibold mb-4 text-black">
-              PrimeAI Analytics is an AI and Data Analytics Consulting Firm
-            </h3>
-            <p className="text-black font-medium text-justify">
-              We are focused on delivering cutting-edge Artificial Intelligence and
-              Data-Driven solutions. We are here to show Businesses, Organizations, and
-              Governments how they can improve using advanced Artificial Intelligence
-              and data technologies.
-            </p>
-
-            <button className="mt-6 px-6 py-3 bg-gradient-to-r from-[#23bec8] to-[#47e1dc] text-black font-semibold rounded-md shadow-md hover:opacity-90 transition duration-300">
-              Learn More
-            </button>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* What Do We Do */}
-        <div className="relative w-full md:w-1/2 rounded-lg flex flex-col md:flex-row items-stretch md:ml-auto">
-          {/* Line beside text */}
-          <div className="flex flex-col items-center mr-0 md:mr-6 mb-4 md:mb-0">
-            <div className="relative bg-black w-[5px] h-full">
-              <div className="absolute top-0 -left-[5px] bg-[#23bec8] w-[15px] h-[25%]" />
+        <motion.div
+          variants={itemVariants}
+          className="relative w-full md:w-1/2 mb-12 md:ml-auto"
+        >
+          <motion.div
+            variants={lineVariants}
+            className="absolute left-2 sm:left-3 md:left-4 top-0 bottom-0 w-[4px] md:w-[5px] bg-black"
+          >
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="absolute top-0 -left-[5px] w-[12px] md:w-[15px] h-[25%] 
+              bg-gradient-to-br from-[#23BEC8]/70 via-[#47E1DC]/70 to-[#23BEC8]/70
+              backdrop-blur-sm rounded-md shadow-md"
+            ></motion.div>
+          </motion.div>
+
+          <motion.div className="flex flex-col md:flex-row items-stretch ml-6 sm:ml-8 md:ml-14">
+            <div className="flex-1 text-left">
+              <h2 className="text-3xl font-extrabold mb-2 text-black">What Do We Do?</h2>
+              <h3 className="text-lg font-bold mb-4 text-black">
+                We implement AI-driven solutions to accelerate growth
+              </h3>
+              <p className="text-black font-medium text-justify">
+                We don’t provide generic solutions. Each project is tailored to your
+                specific requirements. At the end, you get tools that simplify your
+                operations and enhance business decisions.
+              </p>
+              <motion.button
+                variants={itemVariants}
+                className="mt-6 px-6 py-3 bg-gradient-to-r from-[#23bec8] to-[#47e1dc] text-black font-semibold rounded-md shadow-md hover:opacity-90 transition"
+              >
+                Let’s Talk
+              </motion.button>
             </div>
-          </div>
-
-          {/* Content */}
-          <div className="flex flex-col text-left">
-            <h2 className="text-3xl font-extrabold mb-2 text-black">What Do We Do?</h2>
-            <h3 className="text-lg font-semibold mb-4 text-black">
-              We implement AI-driven solutions to accelerate business growth
-            </h3>
-            <p className="text-black font-medium text-justify">
-              We don’t provide generic solutions. Each project we handle is done with
-              your specific requirements in mind. At the end of the day, you are
-              provided with a tool that will simply make your life easier and enhance
-              your business decisions.
-            </p>
-
-            <button className="mt-6 px-6 py-3 bg-gradient-to-r from-[#23bec8] to-[#47e1dc] text-black font-semibold rounded-md shadow-md hover:opacity-90 transition duration-300">
-              Lets Talk
-            </button>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </motion.section>
+
 
 
 
@@ -171,6 +241,7 @@ export default function Home() {
       </p>
     </div>
   </div>
+
 
   {/* Right Container (Creative Visual Section) */}
   <div className="w-full md:w-1/2 relative flex items-center justify-center bg-gradient-to-tr from-gray-100 to-[#d9f8f9]">
@@ -377,35 +448,6 @@ export default function Home() {
 </section>
 
 
-
-{/*
-<section 
-  className="w-full bg-cover bg-center py-16 px-6 md:px-16" 
-  style={{ backgroundImage: "url('/primeAI_bg_2.png')" }}
->
-  <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-6">
-
-    <div className="md:w-1/2 flex items-center justify-start">
-      <h3 className="text-3xl md:text-4xl font-bold text-black text-right">
-        Contact Us
-      </h3>
-    </div>
-
-    <div className="md:w-1/2 flex flex-col items-start  gap-4">
-      <p className="text-black text-justify">
-        Book an introductory call to explore how we collaborate and see if we're the right fit for your goals.
-      </p>
-      
-      <button className="px-5 py-2 rounded-md font-semibold text-black bg-gradient-to-br from-white to-[#23bec8] 
-                hover:bg-[#23bec8] transition-colors duration-300">
-        Let’s Talk
-      </button>
-    </div>
-
-  </div>
-</section>
-
-*/}
 
 
     </main>

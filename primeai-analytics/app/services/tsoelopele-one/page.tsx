@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import StickyCTA from "./components/stickyCTA";
+import React, { useState, useRef, useEffect } from "react";
+import {motion, useScroll, useTransform, useAnimation, useInView } from "framer-motion";
 import {
   FiDatabase, 
   FiSettings, 
@@ -17,11 +18,57 @@ import {
   FiUsers,
   FiSend,
   FiTrendingUp,
-  FiBriefcase
+  FiBriefcase,
+  FiArrowRightCircle
  } from "react-icons/fi";
 
 export default function HeroSection() {
   const [showMoreText, setShowMoreText] = useState(false);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [scrollVal, setScrollVal] = useState(0);
+
+  // Fix hydration issue
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const { scrollYProgress } = useScroll({
+      target: containerRef,
+      offset: ["start start", "end end"],
+    });
+
+    return scrollYProgress.on("change", (v) => setScrollVal(v));
+  }, []);
+
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const controls = useAnimation();
+
+  useEffect(() => {
+    if (isInView) controls.start("visible");
+  }, [isInView, controls]);
+
+
+  const containerVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, staggerChildren: 0.3 },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: -50 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.6 } },
+  };
+
+  const lineVariants = {
+    hidden: { height: 0 },
+    visible: { height: "100%", transition: { duration: 0.8 } },
+  };
+  
+
+
 
   return (
     <div className="w-full min-h-screen bg-gradient-to-b from-white to-[#23BEC8] text-black overflow-x-hidden font-poppins">
@@ -144,7 +191,95 @@ export default function HeroSection() {
               To empower every SME in Lesotho with tools and services that help them collect, manage, and monetize their data through smart decision making.
             </p>
           </div>
-        </section>  
+        </section>
+
+        
+      {/*--------------------------
+          SECTION: WHO & WHAT WE DO
+         -------------------------- */}
+      <section ref={containerRef} className="min-h-screen">
+        <motion.section
+          ref={ref}
+          initial="hidden"
+          animate={controls}
+          variants={containerVariants}
+          className="relative min-h-screen bg-gradient-to-b from-white to-[#a4edef] flex flex-col justify-center px-4 sm:px-6 md:px-12 py-12 md:py-24"
+        >
+          {/* Who Are We */}
+          <motion.div variants={itemVariants} className="relative w-full md:w-1/2 mb-12">
+            <motion.div
+              variants={lineVariants}
+              className="absolute left-2 sm:left-3 md:left-4 top-0 bottom-0 w-[4px] md:w-[5px] bg-black"
+            >
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                className="absolute top-0 -left-[5px] w-[12px] md:w-[15px] h-[25%] 
+                bg-gradient-to-br from-[#23BEC8]/70 via-[#47E1DC]/70 to-[#23BEC8]/70
+                backdrop-blur-sm rounded-md shadow-md"
+              ></motion.div>
+            </motion.div>
+
+            <motion.div className="flex flex-col md:flex-row items-stretch ml-6 sm:ml-8 md:ml-14">
+              <div className="flex-1 text-left">
+                <h2 className="text-3xl font-extrabold mb-2 text-black">Tsoelopele One Vision</h2>
+                <h3 className="text-lg font-bold mb-4 text-black">
+                  Delivering Data-Powered Intelligence for SMEs.
+                </h3>
+                <p className="text-black font-medium text-justify">
+                  To be Lesotho's most t4rusted AI enablement platform for informal, small, and medium enterprises
+                  (SMEs), tranforming fragmented business activity into structured data and actionable intelligence.
+                </p>
+              </div>
+            </motion.div>
+          </motion.div>
+
+        {/* What Do We Do */}
+        <motion.div
+          variants={itemVariants}
+          className="relative w-full md:w-1/2 mb-12 md:ml-auto"
+        >
+          <motion.div
+            variants={lineVariants}
+            className="absolute left-2 sm:left-3 md:left-4 top-0 bottom-0 w-[4px] md:w-[5px] bg-black"
+          >
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="absolute top-0 -left-[5px] w-[12px] md:w-[15px] h-[25%] 
+              bg-gradient-to-br from-[#23BEC8]/70 via-[#47E1DC]/70 to-[#23BEC8]/70
+              backdrop-blur-sm rounded-md shadow-md"
+            ></motion.div>
+          </motion.div>
+
+
+
+          <motion.div
+            className="
+              flex flex-col md:flex-row
+              items-stretch gap-8
+              ml-6 sm:ml-8 md:ml-14
+            "
+          >
+            <div className="flex-1 text-left">
+              <h2 className="text-3xl font-extrabold mb-2 text-black">Tsoelopele One Mission</h2>
+              <h3 className="text-lg font-bold mb-6 text-black">
+                Empowering SMEs Through Digital Transformation.
+              </h3>
+              
+              <p className="text-black font-medium text-justify">
+                  To emppower every SME in Lesotho with tools and services that help them collect, 
+                  manage, and monetize their data through smart decision making.
+              </p>
+            </div>
+          </motion.div>
+
+        </motion.div>
+      </motion.section>
+      </section>
+  
 
 
 {/* What Is / Who Is Section */}

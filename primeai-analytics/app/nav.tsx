@@ -348,15 +348,6 @@ export default function Nav() {
       {isMobileMenuOpen && (
         <div className="md:hidden fixed top-[70px] left-0 w-full h-[calc(100vh-70px)] bg-white/95 backdrop-blur-lg shadow-2xl z-40 overflow-y-auto transition-all duration-500 animate-fadeIn">
           <div className="p-6 flex flex-col gap-5">
-            {/* Logo Section
-            <div className="flex items-center justify-between">
-              <span className="text-lg font-bold text-[#23bec8] tracking-wide">Can't Find What You're Looking?</span>
-              <button onClick={() => setIsMobileMenuOpen(false)} className="text-gray-600 hover:text-[#23bec8] transition">
-                <X size={26} />
-              </button>
-            </div>
-            */}
-
             <div className="h-[1px] bg-[#23bec8]" />
 
             {/* Menu Links */}

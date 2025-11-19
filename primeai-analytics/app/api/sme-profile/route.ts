@@ -1,30 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { evaluateEligibility } from "@/lib/eligibility";
 
 export const runtime = "nodejs";
-
-// GET — Fetch only verified email
-export async function GET(req: NextRequest) {
-  try {
-    const email = req.nextUrl.searchParams.get("email");
-    if (!email)
-      return NextResponse.json({ error: "Email is required" }, { status: 400 });
-
-    const user = await prisma.sme.findUnique({
-      where: { email },
-      select: { email: true },
-    });
-
-    if (!user)
-      return NextResponse.json({ error: "No SME found with this email" }, { status: 404 });
-
-    return NextResponse.json({ success: true, sme: { email: user.email } });
-  } catch (err) {
-    console.error(err);
-    return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
-  }
-}
-
 
 export async function POST(req: NextRequest) {
   try {
@@ -34,7 +12,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Required fields missing" }, { status: 400 });
     }
 
-    // Either connect to an existing SME or create a new one
+    // Create SME Profile
     const result = await prisma.smeProfile.create({
       data: {
         business_name: data.business_name,
@@ -54,11 +32,9 @@ export async function POST(req: NextRequest) {
         estimated_monthly_revenue: data.estimated_monthly_revenue || null,
         estimated_monthly_expenses: data.estimated_monthly_expenses || null,
         premises_type: data.premises_type || null,
-
-        // Relation to SME
         sme: {
           connectOrCreate: {
-            where: { email: data.email || "" }, // unique field to check
+            where: { email: data.email || "" },
             create: {
               name: data.business_name,
               phone: data.contact_number,
@@ -70,9 +46,25 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    // Evaluate Eligibility (Unified)
+    const eligibility = evaluateEligibility(result);
+
+    // Persist eligibility (optional)
+    await prisma.smeProfile.update({
+      where: { id: result.id },
+      data: {
+        digital_customer_eligible: eligibility.digitalCustomer,
+        digital_operations_eligible: eligibility.digitalOperations,
+        digital_workspace_eligible: eligibility.digitalWorkspace,
+      },
+    });
+
+    // Return success + redirect path
     return NextResponse.json({
       message: "SME profile created successfully!",
       data: result,
+      eligibility,
+      redirect: eligibility.redirectPath,
     });
   } catch (error) {
     console.error(error);

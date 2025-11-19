@@ -1,28 +1,47 @@
 "use client";
 import Link from "next/link";
-import { FiCheckCircle } from "react-icons/fi";
+import { FiDatabase, FiBarChart2, FiTrendingUp, FiTarget, FiCheckCircle } from "react-icons/fi";
 
 export default function DataClinicsPage() {
   return (
-    <section className="min-h-screen bg-gradient-to-b from-white to-[#e8f9fb] text-gray-800">
-      {/* Hero Section */}
-      <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#23bec8] to-[#65d4db] opacity-10"></div>
-        <div className="max-w-6xl mx-auto px-6 py-24 text-center relative z-10">
-          <h1 className="text-4xl md:text-6xl font-extrabold text-[#23bec8] mb-6 leading-tight">
-            Tsoelopele One <br />
-            <span className="text-gray-800">Data Clinics Assessment</span>
-          </h1>
-          <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
-            A structured <span className="font-semibold text-[#23bec8]">business intelligence check-up</span> that helps you
-            understand how your business uses data — from recordkeeping to
-            decision-making.
-          </p>
-        </div>
-      </div>
+    <section className="min-h-screen bg-gradient-to-b from-white via-[#23bec8]/10 to-[#ffffff]/10 text-gray-800">
+{/* Hero Section */}
+<section className="relative overflow-hidden bg-gradient-to-b from-white to-[#23bec8] h-screen flex items-center justify-center">
+  {/* Gradient Overlay */}
+  <div className="absolute inset-0 bg-gradient-to-b from-[#23bec8]/20 via-transparent to-[#65d4db]/20 animate-gradient-slow"></div>
+
+  {/* Decorative Circles */}
+  <div className="absolute -top-20 -left-20 w-64 h-64 md:w-96 md:h-96 bg-[#23bec8]/10 rounded-full blur-3xl"></div>
+  <div className="absolute -bottom-20 -right-20 w-64 h-64 md:w-96 md:h-96 bg-[#65d4db]/10 rounded-full blur-3xl"></div>
+
+  {/* Content */}
+  <div className="relative z-10 max-w-6xl px-6 text-center">
+    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 md:mb-6 leading-snug md:leading-tight">
+      <span className="bg-gradient-to-r from-[#23bec8] to-[#65d4db] bg-clip-text text-transparent">
+        Tsoelopele One
+      </span>
+      <br />
+      <span className="text-gray-900">Data Clinics Assessment</span>
+    </h1>
+
+    <p className="text-base sm:text-lg md:text-xl text-gray-700 max-w-2xl mx-auto leading-relaxed mb-8 md:mb-10">
+      A structured <span className="font-semibold text-[#23bec8]">business intelligence check-up</span> 
+      designed to help you understand how your business uses data — 
+      from recordkeeping to decision-making.
+    </p>
+
+    <div className="flex justify-center gap-4">
+      <button className="px-6 sm:px-8 py-2 sm:py-3 rounded-full bg-[#23bec8] text-white font-semibold shadow-md hover:shadow-lg hover:bg-[#1da9b2] transition-all duration-300">
+        Start Assessment
+      </button>
+    </div>
+  </div>
+</section>
+
+
 
       {/* What It Is */}
-      <div className="max-w-5xl mx-auto px-6 py-20 text-center md:text-left">
+      <section className="max-w-5xl mx-auto px-6 py-20 text-center md:text-left relative z-10">
         <h2 className="text-3xl font-bold text-[#23bec8] mb-4">What It Is</h2>
         <p className="text-gray-700 leading-relaxed text-lg">
           The <strong>Data Clinics Assessment</strong> is your business’s
@@ -30,124 +49,103 @@ export default function DataClinicsPage() {
           It helps you see how well you collect, organize, and use data to make
           confident decisions and prepare for growth, funding, and digital transformation.
         </p>
-      </div>
+      </section>
 
       {/* Why It Exists */}
-      <div className="bg-[#23bec810] py-20 px-6">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-[#23bec8] mb-6">Why It Exists</h2>
+      <section className="relative bg-gradient-to-b from-white to-[#23bec8]/10 py-20 px-6 overflow-hidden">
+        <div className="max-w-6xl mx-auto text-center mb-12 relative z-10">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 relative inline-block bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#23BEC8] to-[#000000]">
+            Why It Exists
+            <span className="absolute bottom-0 left-1/2 w-32 h-1 bg-gradient-to-r from-[#ffffff] via-[#23BEC8] to-[#ffffff] rounded-full -translate-x-1/2 translate-y-2 shadow-lg"></span>
+          </h2>
           <p className="text-gray-700 mb-8 max-w-3xl mx-auto leading-relaxed">
             Most SMEs rely on memory, receipts, or scattered notes. 
-            <span className="font-semibold text-[#23bec8]"> Data Clinics</span> help
+            <span className="font-semibold text-[#23BEC8]"> Data Clinics</span> help
             you bring structure and intelligence to your business information so you can:
           </p>
-          <ul className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 text-left max-w-5xl mx-auto">
-            {[
-              "Capture and organize your data",
-              "Clean and prepare it for insights",
-              "Use it daily for decisions",
-              "Get ready for growth and funding opportunities",
-            ].map((point) => (
-                <li
-                    key={point}
-                    className="flex items-center gap-3 p-4 bg-white border border-[#23bec8]/40 rounded-lg shadow-sm hover:shadow-md transition"
-                >
-                <div className="flex-shrink-0">
-                    <FiCheckCircle className="text-[#23bec8] text-xl" />
-                </div>
-                <span className="text-gray-700 text-sm md:text-base leading-snug">
-                    {point}
-                </span>
-                </li>
-            ))}
-          </ul>
         </div>
-      </div>
 
-      {/* Five Pillars Section */}
-      <div className="max-w-6xl mx-auto px-6 py-20">
-        <h2 className="text-3xl font-bold text-[#23bec8] mb-10 text-center">
-          The Five Pillars of the Assessment
-        </h2>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6 text-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto relative z-10">
           {[
-            { title: "Data", desc: "How do you capture and store business information?" },
-            { title: "Information", desc: "How do you organize and make sense of your data?" },
-            { title: "Knowledge", desc: "Do you understand what your data says about performance?" },
-            { title: "Insight", desc: "Do you act on trends and key numbers to improve?" },
-            { title: "Wisdom", desc: "Do you use insights to guide long-term growth?" },
-          ].map((item, index) => (
-            <div
-              key={index}
-              className="p-6 bg-white border border-[#23bec8]/40 rounded-xl shadow-sm hover:shadow-lg hover:scale-[1.02] transition"
-            >
-              <h3 className="text-[#23bec8] font-semibold text-xl mb-2">
-                {item.title}
-              </h3>
-              <p className="text-gray-700 text-sm">{item.desc}</p>
+            { title: "Capture and Organize Your Data", desc: "Digitize your business records for easy access and better tracking." },
+            { title: "Clean and Prepare for Insights", desc: "Transform messy or incomplete data into reliable intelligence." },
+            { title: "Use It Daily for Decisions", desc: "Leverage your information to guide smarter, faster business choices." },
+            { title: "Get Ready for Growth & Funding", desc: "Build credibility and readiness for investment or partnership opportunities." },
+          ].map((card) => (
+            <div key={card.title} className="relative rounded-2xl p-8 flex flex-col items-start bg-gradient-to-tr from-[#23BEC8]/20 to-white/40 backdrop-blur-xl border border-white/40 shadow-[0_8px_32px_0_rgba(35,190,200,0.2)] hover:shadow-[0_12px_48px_0_rgba(35,190,200,0.4)] transform hover:-translate-y-3 transition-all duration-500">
+              <h3 className="text-lg font-bold text-gray-900 mb-2">{card.title}</h3>
+              <p className="text-gray-800 text-sm md:text-base leading-relaxed">{card.desc}</p>
             </div>
           ))}
         </div>
-      </div>
 
-      {/* Benefits */}
-      <div className="bg-[#23bec810] py-20">
-        <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-3xl font-bold text-[#23bec8] mb-10 text-center">
-            Benefits of the Data Clinics Assessment
+        <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#23bec8]/10 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#65d4db]/10 rounded-full blur-3xl"></div>
+      </section>
+
+      {/* Three Pillars Section */}
+      <section className="relative bg-gradient-to-b from-white to-[#23bec8]/10 py-20 px-6 overflow-hidden">
+        <div className="max-w-6xl mx-auto text-center mb-12 relative z-10">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 relative inline-block bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#23BEC8] to-[#000000]">
+            The Three Pillars of the Assessment
+            <span className="absolute bottom-0 left-1/2 w-32 h-1 bg-gradient-to-r from-[#ffffff] via-[#23BEC8] to-[#ffffff] rounded-full -translate-x-1/2 translate-y-2 shadow-lg"></span>
           </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              { title: "Business Clarity", desc: "Understand your finances, customers, and product performance." },
-              { title: "Decision Confidence", desc: "Make choices based on facts, not guesswork." },
-              { title: "Credit Readiness", desc: "Get credit-ready with structured, reliable data." },
-              { title: "Operational Efficiency", desc: "Save time and reduce confusion through proper organization." },
-              { title: "Growth Potential", desc: "Spot profitable products and expansion opportunities." },
-              { title: "Digital Readiness", desc: "Prepare for AI, dashboards, and automation." },
-            ].map((benefit, index) => (
-              <div
-                key={index}
-                className="p-6 bg-white border border-[#23bec8]/40 rounded-xl shadow-sm hover:shadow-lg transition"
-              >
-                <h3 className="text-[#23bec8] font-semibold text-lg mb-2">
-                  {benefit.title}
-                </h3>
-                <p className="text-gray-700 text-sm">{benefit.desc}</p>
-              </div>
-            ))}
-          </div>
+          <p className="text-gray-700 mb-8 max-w-3xl mx-auto leading-relaxed">
+            These pillars guide the assessment process, helping your business measure and improve its digital maturity across customers, operations, and workforce.
+          </p>
         </div>
-      </div>
 
-      {/* What Else They Learn */}
-      <div className="max-w-6xl mx-auto px-6 py-20">
-        <h2 className="text-3xl font-bold text-[#23bec8] mb-10 text-center">
-          What Else You’ll Learn
-        </h2>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto relative z-10">
           {[
-            "Understanding Business Data",
-            "Recordkeeping Discipline",
-            "From Records to Insights",
-            "Digital Tools for Data Capture",
-            "Data Cleaning & Accuracy",
-            "Dashboard Literacy",
-            "Data & Credit Readiness",
-            "Data & Growth Strategy",
-            "AI Readiness",
-          ].map((topic, index) => (
-            <div
-              key={index}
-              className="p-5 bg-white border border-[#23bec8]/30 rounded-lg shadow-sm hover:shadow-md hover:bg-[#f9ffff] transition"
-            >
-              <h3 className="text-[#23bec8] font-medium">{topic}</h3>
+            { title: "Digital Customer", desc: "Evaluate how your business engages and serves customers through digital channels and experiences." },
+            { title: "Digital Operations", desc: "Assess the efficiency, automation, and intelligence of your internal business processes." },
+            { title: "Digital Workforce", desc: "Understand how your team leverages digital tools, collaboration, and skills to drive business performance." },
+          ].map((pillar) => (
+            <div key={pillar.title} className="relative rounded-2xl p-8 flex flex-col items-start bg-gradient-to-tr from-[#23BEC8]/20 to-white/40 backdrop-blur-xl border border-white/40 shadow-[0_8px_32px_0_rgba(35,190,200,0.2)] hover:shadow-[0_12px_48px_0_rgba(35,190,200,0.4)] transform hover:-translate-y-3 transition-all duration-500">
+              <h3 className="text-lg font-bold text-gray-900 mb-2">{pillar.title}</h3>
+              <p className="text-gray-800 text-sm md:text-base leading-relaxed">{pillar.desc}</p>
             </div>
           ))}
         </div>
-      </div>
+
+        <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#23bec8]/10 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#65d4db]/10 rounded-full blur-3xl"></div>
+      </section>
+
+      {/* Benefits Section */}
+      <section className="relative bg-gradient-to-b from-white to-[#23bec8]/10 py-20 px-6 overflow-hidden">
+        <div className="max-w-6xl mx-auto text-center mb-12 relative z-10">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 relative inline-block bg-clip-text text-transparent bg-gradient-to-r from-[#000000] via-[#23BEC8] to-[#000000]">
+            Benefits of the Data Clinics Assessment
+            <span className="absolute bottom-0 left-1/2 w-32 h-1 bg-gradient-to-r from-[#ffffff] via-[#23BEC8] to-[#ffffff] rounded-full -translate-x-1/2 translate-y-2 shadow-lg"></span>
+          </h2>
+          <p className="text-gray-700 mb-8 max-w-3xl mx-auto leading-relaxed">
+            Unlock tangible advantages for your business by understanding, organizing, and leveraging your data.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto relative z-10">
+          {[
+            { title: "Business Clarity", desc: "Understand your finances, customers, and product performance." },
+            { title: "Decision Confidence", desc: "Make choices based on facts, not guesswork." },
+            { title: "Credit Readiness", desc: "Get credit-ready with structured, reliable data." },
+            { title: "Operational Efficiency", desc: "Save time and reduce confusion through proper organization." },
+            { title: "Growth Potential", desc: "Spot profitable products and expansion opportunities." },
+            { title: "Digital Readiness", desc: "Prepare for AI, dashboards, and automation." },
+          ].map((benefit) => (
+            <div key={benefit.title} className="relative rounded-2xl p-8 flex flex-col items-start bg-gradient-to-tr from-[#23BEC8]/20 to-white/40 backdrop-blur-xl border border-white/40 shadow-[0_8px_32px_0_rgba(35,190,200,0.2)] hover:shadow-[0_12px_48px_0_rgba(35,190,200,0.4)] transform hover:-translate-y-3 transition-all duration-500">
+              <h3 className="text-lg font-bold text-gray-900 mb-2">{benefit.title}</h3>
+              <p className="text-gray-800 text-sm md:text-base leading-relaxed">{benefit.desc}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#23bec8]/10 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#65d4db]/10 rounded-full blur-3xl"></div>
+      </section>
 
       {/* Call to Action */}
-      <div className="bg-[#23bec8] text-white py-24 text-center">
+      <div className="bg-[#23bec8] text-white py-24 text-center relative z-10">
         <h2 className="text-3xl md:text-4xl font-extrabold mb-4">
           Take Control of Your Business Story
         </h2>
@@ -155,13 +153,11 @@ export default function DataClinicsPage() {
           Discover how your daily numbers — sales, expenses, and customer patterns — 
           can guide smarter, faster growth.
         </p>
-        <Link
-          href="/services/tsoelopele-one/sme/sign-up"
-          className="inline-block px-8 py-3 rounded-md bg-white text-[#23bec8] font-semibold shadow-md hover:bg-gray-100 transition"
-        >
+        <Link href="/services/tsoelopele-one/sme/sign-up" className="inline-block px-8 py-3 rounded-md bg-white text-[#23bec8] font-semibold shadow-md hover:bg-gray-100 transition">
           Get Assessed Now
         </Link>
       </div>
+
     </section>
   );
 }

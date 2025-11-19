@@ -164,224 +164,168 @@ const buttons = [
     
 
     <main className="w-full min-h-screen bg-[#23bec8] relative">
-      {/* Hero Section */}
-      <div
-        className="w-full h-[60vh] flex flex-col justify-center items-center mx-auto px-2 py-5"
-        style={{
-          background: "linear-gradient(-320deg, #23bec8, #ffffff)",
-        }}
-      >
-        <h1 className="text-3xl font-bold text-black mb-3 ">
-          Data Analytics Services
-        </h1>
+{/* Hero Section */}
+<div
+  className="w-full min-h-[70vh] flex flex-col justify-center items-center text-center px-6 md:px-12 py-12 relative overflow-hidden bg-gradient-to-b from-white to-[#23bec8]"
+>
+  {/* Floating background glow blobs for depth */}
+  <div className="absolute -top-20 -left-20 w-72 h-72 bg-[#ffffff40] rounded-full filter blur-3xl animate-pulse-slow"></div>
+  <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#ffffff40] rounded-full filter blur-3xl animate-pulse-slow"></div>
 
-        <p className="text-lg text-gray-700 leading-relaxed px-5 text-justify ">
-          Transform your business data into actionable insights and smarter decisions.
-        </p>
-      </div>
+  <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-6 leading-tight drop-shadow-lg">
+    Data Analytics Services
+  </h1>
 
+  <p className="text-lg md:text-xl lg:text-2xl text-gray-800 max-w-3xl leading-relaxed drop-shadow-sm">
+    Transform your business data into actionable insights and smarter decisions.
+  </p>
+</div>
 
-      {/* Floating CTA (half on hero, half on services) */}
-    <div className="relative z-10 -mt-25 justify-center">
-    <div className="max-w-4xl mx-auto px-5 bg-white shadow-xl py-3 justify-center" style={{
-          background: "linear-gradient(-220deg, #ffffff, #23bec8, #ffffff)",
-        }}>
-        <h3 className="text-2xl font-bold text-black-900 mb-2 justify-center leading-relaxed">
-        Start Your Analytics Journey Today
-        </h3>
-        <p className="text-gray-700 text-lg mb-6 leading-relaxed">
-        Request a demo or explore our services to see how data can transform your business.
-        </p>
+{/* Floating CTA Section */}
+<div className="relative z-20 -mt-24 px-4 md:px-10">
+  <div
+    className="max-w-4xl mx-auto p-10 rounded-2xl text-center backdrop-blur-xl border border-white/30 shadow-[0_8px_32px_0_rgba(35,190,200,0.25)] bg-gradient-to-tr from-[#23BEC8]/30 to-white/40 hover:shadow-[0_12px_48px_0_rgba(35,190,200,0.4)] transition-all duration-500"
+  >
+    <h3 className="text-3xl font-bold text-gray-900 mb-4 leading-relaxed">
+      Start Your Analytics Journey Today
+    </h3>
+    <p className="text-gray-700 text-lg mb-8 leading-relaxed max-w-2xl mx-auto">
+      Request a demo or explore our services to see how data can transform your business.
+    </p>
 
-       <div className="flex justify-center items-center mt-8">
-        <button className="relative inline-block text-black hover:text-white font-bold py-3 px-6 overflow-hidden align-middle border border-[#23bec8] transition-all duration-300">
-          <span className="absolute inset-0 bg-gradient-to-r from-[#23bec8] to-white transition-transform duration-300 ease-in-out transform hover:scale-105"></span>
-          <span className="relative z-10 leading-relaxed">Request Demo</span>
-        </button>
-      </div>
+    <div className="flex justify-center">
+      <button className="relative inline-flex items-center justify-center text-white font-bold py-4 px-10 overflow-hidden rounded-md bg-gradient-to-r from-[#23bec8] to-[#47e1dc] shadow-xl hover:shadow-2xl transition-all duration-300 group">
+        <span className="relative z-10 flex items-center space-x-2">
+          <span>Request Demo</span>
+          <svg
+            className="w-5 h-5 transition-transform group-hover:translate-x-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M14 5l7 7m0 0l-7 7m7-7H3"
+            />
+          </svg>
+        </span>
+        <span className="absolute inset-0 bg-white/10 rounded-full opacity-0 group-hover:opacity-20 transition duration-300"></span>
+      </button>
     </div>
-    </div>
+  </div>
+</div>
 
 
-      
-    {/* Consulting Services Section */}
-    <section
-    className="w-full bg-gradient-to-b from-white via-[#f8f9fa] to-[#e6f8fa] relative z-0 -mt-23"
-    style={{
-        background: "linear-gradient(-220deg, #ffffff, #23bec8, #ffffff)",
-    }}
+
+
+{/* Consulting Services Section */}
+<section
+  className="w-full py-20 px-6 md:px-16 relative z-0 overflow-hidden"
+  style={{
+    background: "linear-gradient(135deg, #ffffff, #23bec8, #ffffff)",
+  }}
+>
+  {/* Soft glow blobs for depth */}
+  <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#ffffff50] rounded-full blur-3xl animate-pulse-slow"></div>
+  <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#ffffff60] rounded-full blur-3xl animate-pulse-slow"></div>
+
+  {/* Section Heading */}
+  <div className="max-w-6xl mx-auto text-center mb-16 relative z-10">
+    <h2
+      className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6 relative inline-block
+                 bg-clip-text text-transparent 
+                 bg-gradient-to-r from-[#000000] via-[#1aa3ad] to-[#000000]"
     >
-    <div className="max-w-8xl mx-auto px-6 pt-20 pb-20 px-8 text-justify">
-        <h2 className="text-2xl font-bold  text-black mb-6 mt-15 leading-relaxed">
-        Our Suite of Data Analytics Consulting Services
-        </h2>
+      Our Suite of Data Analytics Consulting Services
+      <span
+        className="absolute bottom-0 left-1/2 w-40 h-1 
+                   bg-gradient-to-r from-[#ffffff] via-[#23BEC8] to-[#ffffff] 
+                   rounded-full -translate-x-1/2 translate-y-3 shadow-lg"
+      ></span>
+    </h2>
 
-        <p className="text-lg text-black-700 leading-relaxed mb-12 leading-relaxed">
-        Deriving the greatest value from data is the key to success, and this is precisely what PrimeAI Analytics, a world-class data analytics consulting company, delivers through a rich pool of data analytics services.
-        </p>
+    <p className="text-lg md:text-xl text-gray-800 max-w-3xl mx-auto leading-relaxed drop-shadow-sm text-justify">
+      Deriving the greatest value from data is the key to success, and this is precisely what PrimeAI Analytics delivers through a rich pool of data analytics services designed to accelerate insight-driven growth.
+    </p>
+  </div>
 
-          <div className="horizontal-line first"></div>
-          <div className="horizontal-line second"></div>
-
-        {/* Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
-        {/* Card 1 */}
-        <div className="bg-white shadow-lg p-6 flex flex-col justify-between border-b border-gray-200" style={{
-        background: "linear-gradient(-220deg, #ffffff, #23bec8, #ffffff)"}}>
-            <div className="flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 flex items-center justify-center rounded-full bg-[#23bec8]">
-                <BarChart2 size={24} className="text-white" />
-            </div>
-            <h3 className="text-xl font-bold text-black leading-relaxed">Analytics Consulting</h3>
-            </div>
-            <div className="flex">
-            <div className="w-3 bg-black ml-4 "></div>
-            <p className="text-black text-sm ml-2 leading-relaxed">
-                Expert guidance to develop and execute effective data analytics strategies for your business.
-            </p>
-            </div>
+  {/* Cards Grid */}
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 max-w-6xl mx-auto relative z-10">
+    {[
+      {
+        icon: <BarChart2 className="w-8 h-8 text-white" />,
+        title: "Analytics Consulting",
+        desc: "Expert guidance to develop and execute effective data analytics strategies for your business.",
+      },
+      {
+        icon: <Activity className="w-8 h-8 text-white" />,
+        title: "Analytics as a Service",
+        desc: "On-demand analytics solutions without the need for heavy infrastructure investment.",
+      },
+      {
+        icon: <Cpu className="w-8 h-8 text-white" />,
+        title: "Data Analytics Modernization",
+        desc: "Upgrade outdated analytics systems to modern, agile, and scalable platforms.",
+      },
+      {
+        icon: <TrendingUp className="w-8 h-8 text-white" />,
+        title: "Predictive Analytics",
+        desc: "Leverage historical data to forecast future outcomes and trends with precision.",
+      },
+      {
+        icon: <DollarSign className="w-8 h-8 text-white" />,
+        title: "Pricing Analytics",
+        desc: "Optimize pricing strategies based on demand, competition, and customer behavior insights.",
+      },
+      {
+        icon: <Settings className="w-8 h-8 text-white" />,
+        title: "Analytics Managed Services",
+        desc: "Outsource your analytics operations to ensure continuous optimization and insights delivery.",
+      },
+      {
+        icon: <Zap className="w-8 h-8 text-white" />,
+        title: "Advanced Analytics",
+        desc: "Unlock deep insights with machine learning, AI, and statistical modeling techniques.",
+      },
+      {
+        icon: <Database className="w-8 h-8 text-white" />,
+        title: "Data Warehousing",
+        desc: "Centralize and organize data for fast, reliable analytics and reporting.",
+      },
+      {
+        icon: <Server className="w-8 h-8 text-white" />,
+        title: "Big Data Services",
+        desc: "Process and analyze massive datasets to reveal patterns and opportunities.",
+      },
+    ].map((card) => (
+      <div
+        key={card.title}
+        className="relative rounded-2xl p-4 flex flex-col items-start
+                   bg-gradient-to-tr from-[#23BEC8]/30 to-white/30
+                   backdrop-blur-xl border border-white/30
+                   shadow-[0_8px_32px_0_rgba(35,190,200,0.25)]
+                   hover:shadow-[0_12px_48px_0_rgba(35,190,200,0.4)]
+                   transform hover:-translate-y-4 transition-all duration-500"
+      >
+        <div className="mb-4 flex items-center space-x-4">
+          <div
+            className="w-12 h-12 rounded-full 
+                       bg-gradient-to-r from-white/40 via-white/20 to-[#23BEC8]/40
+                       flex items-center justify-center shadow-lg flex-shrink-0"
+          >
+            {card.icon}
+          </div>
+          <h3 className="text-2xl font-bold text-gray-900 leading-snug">{card.title}</h3>
         </div>
 
-        {/* Card 2 */}
-        <div className="bg-white shadow-lg p-6 flex flex-col justify-between border-b border-gray-200"  style={{
-        background: "linear-gradient(-220deg, #ffffff, #23bec8, #ffffff)"}}>
-            <div className="flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 flex items-center justify-center rounded-full bg-[#23bec8]">
-                <Activity size={24} className="text-white" />
-            </div>
-            <h3 className="text-xl font-bold text-black leading-relaxed">Analytics as a Service</h3>
-            </div>
-            <div className="flex">
-            <div className="w-3 bg-black ml-4 h-15"></div>
-            <p className="text-black-700 text-sm ml-2 leading-relaxed">
-                On-demand analytics solutions without the need for heavy infrastructure investment.
-            </p>
-            </div>
-        </div>
+        <p className="text-gray-900 text-base leading-relaxed mb-4 text-justify">{card.desc}</p>
+      </div>
+    ))}
+  </div>
+</section>
 
-        {/* Card 3 */}
-        <div className="bg-white shadow-lg p-6 flex flex-col justify-between border-b border-gray-200"  style={{
-        background: "linear-gradient(-220deg, #ffffff, #23bec8, #ffffff)"}}>
-            <div className="flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 flex items-center justify-center rounded-full bg-[#23bec8]">
-                <Cpu size={24} className="text-white" />
-            </div>
-            <h3 className="text-xl font-bold text-black leading-relaxed">Data Analytics Modernization</h3>
-            </div>
-            <div className="flex">
-            <div className="w-3 bg-black ml-4 h-15"></div>
-            <p className="text-black-700 text-sm ml-2 leading-relaxed">
-                Upgrade outdated analytics systems to modern, agile, and scalable platforms.
-            </p>
-            </div>
-        </div>
-
-        {/* Card 4 */}
-        <div className="bg-white shadow-lg p-6 flex flex-col justify-between border-b border-gray-200"  style={{
-        background: "linear-gradient(-220deg, #ffffff, #23bec8, #ffffff)"}}>
-            <div className="flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 flex items-center justify-center rounded-full bg-[#23bec8]">
-                <TrendingUp size={24} className="text-white" />
-            </div>
-            <h3 className="text-xl font-bold text-black leading-relaxed">Predictive Analytics</h3>
-            </div>
-            <div className="flex">
-            <div className="w-3 bg-black ml-4 h-15"></div>
-            <p className="text-black-700 text-sm ml-2 leading-relaxed">
-                Leverage historical data to forecast future outcomes and trends with precision.
-            </p>
-            </div>
-        </div>
-
-        {/* Card 5 */}
-        <div className="bg-white shadow-lg p-6 flex flex-col justify-between border-b border-gray-200"  style={{
-        background: "linear-gradient(-220deg, #ffffff, #23bec8, #ffffff)"}}>
-            <div className="flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 flex items-center justify-center rounded-full bg-[#23bec8]">
-                <DollarSign size={24} className="text-white" />
-            </div>
-            <h3 className="text-xl font-bold text-black leading-relaxed">Pricing Analytics</h3>
-            </div>
-            <div className="flex">
-            <div className="w-3 bg-black ml-4 h-15"></div>
-            <p className="text-black-700 text-sm ml-2 leading-relaxed">
-                Optimize pricing strategies based on demand, competition, and customer behavior insights.
-            </p>
-            </div>
-        </div>
-
-        {/* Card 6 */}
-        <div className="bg-white shadow-lg p-6 flex flex-col justify-between border-b border-gray-200"  style={{
-        background: "linear-gradient(-220deg, #ffffff, #23bec8, #ffffff)"}}>
-            <div className="flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 flex items-center justify-center rounded-full bg-[#23bec8]">
-                <Settings size={24} className="text-white" />
-            </div>
-            <h3 className="text-xl font-bold text-black leading-relaxed">Analytics Managed Services</h3>
-            </div>
-            <div className="flex">
-            <div className="w-3 bg-black ml-4 h-15"></div>
-            <p className="text-black-700 text-sm ml-2 leading-relaxed">
-                Outsource your analytics operations to ensure continuous optimization and insights delivery.
-            </p>
-            </div>
-        </div>
-
-        {/* Card 7 */}
-        <div className="bg-white shadow-lg p-6 flex flex-col justify-between border-b border-gray-200"  style={{
-        background: "linear-gradient(-220deg, #ffffff, #23bec8, #ffffff)"}}>
-            <div className="flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 flex items-center justify-center rounded-full bg-[#23bec8]">
-                <Zap size={24} className="text-white" />
-            </div>
-            <h3 className="text-xl font-bold text-black leading-relaxed">Advanced Analytics</h3>
-            </div>
-            <div className="flex">
-            <div className="w-3 bg-black ml-4 h-15"></div>
-            <p className="text-black-700 text-sm ml-2 leading-relaxed">
-                Unlock deep insights with machine learning, AI, and statistical modeling techniques.
-            </p>
-            </div>
-        </div>
-
-        {/* Card 8 */}
-        <div className="bg-white shadow-lg p-6 flex flex-col justify-between border-b border-gray-200"  style={{
-        background: "linear-gradient(-220deg, #ffffff, #23bec8, #ffffff)"}}>
-            <div className="flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 flex items-center justify-center rounded-full bg-[#23bec8]">
-                <Database size={24} className="text-white" />
-            </div>
-            <h3 className="text-xl font-bold text-black">Data Warehousing</h3>
-            </div>
-            <div className="flex">
-            <div className="w-3 bg-black ml-4 h-15"></div>
-            <p className="text-black-700 text-sm ml-2 leading-relaxed">
-                Centralize and organize data for fast, reliable analytics and reporting.
-            </p>
-            </div>
-        </div>
-
-        {/* Card 9 */}
-        <div className="bg-white shadow-lg p-6 flex flex-col justify-between border-b border-gray-200"  style={{
-        background: "linear-gradient(-220deg, #ffffff, #23bec8, #ffffff)"}}>
-            <div className="flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 flex items-center justify-center rounded-full bg-[#23bec8]">
-                <Server size={24} className="text-white" />
-            </div>
-            <h3 className="text-xl font-bold text-black leading-relaxed">Big Data Services</h3>
-            </div>
-            <div className="flex">
-            <div className="w-3 bg-black ml-4 h-15"></div>
-            <p className="text-black-700 text-sm ml-2 leading-relaxed">
-                Process and analyze massive datasets to reveal patterns and opportunities.
-            </p>
-            </div>
-        </div>
-
-        </div>
-    </div>
-    </section>
 
     {/* Industries Section */}
     <section id="two-column-section" className="flex flex-col md:flex-row w-full">
@@ -419,70 +363,75 @@ const buttons = [
         </div>
     </section>
 
-    {/* Custom Data & Analytics Services Section */}
- <section className="w-full py-10 bg-gradient-to-b from-white via-[#f8f9fa] to-[#e6f8fa]" style={{
-              background: "linear-gradient(-240deg, #ffffff, #23bec8, #ffffff)",
-            }}>
-      {/* Upper Container */}
-      <div className="max-w-8xl mx-auto mb-8 px-8">
-        <h2 className="text-2xl md:text-3xl font-bold text-black mb-4">
-          PrimeAI Analytics Custom Range of Data and Analytics Services
-        </h2>
-        <p className="text-black-700 text-justify md:text-lg leading-relaxed">
-          Data is the key to unlocking growth and staying ahead of the curve in today's fast-paced business world. 
-          PrimeAI Analytics, the first data analytics consulting firm, understands the unique challenges that businesses face, 
-          which is why we offer a range of custom data analytics consulting services and solutions designed to drive business success.
-        </p>
-      </div>
 
-    {/* Grid Container */}
-    <div className="max-w-8xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-8">
+
+{/* Custom Data & Analytics Services Section */}
+<section
+  className="w-full py-20 px-6 md:px-16 relative z-0 overflow-hidden"
+  style={{
+    background: "linear-gradient(135deg, #ffffff, #23bec8, #ffffff)",
+  }}
+>
+  {/* Soft glow blobs for depth */}
+  <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#ffffff50] rounded-full blur-3xl animate-pulse-slow"></div>
+  <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#ffffff60] rounded-full blur-3xl animate-pulse-slow"></div>
+
+  {/* Section Heading */}
+  <div className="max-w-6xl mx-auto text-center mb-16 relative z-10">
+    <h2
+      className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6 relative inline-block
+                 bg-clip-text text-transparent 
+                 bg-gradient-to-r from-[#000000] via-[#1aa3ad] to-[#000000]"
+    >
+      PrimeAI Analytics Custom Range of Data & Analytics Services
+      <span
+        className="absolute bottom-0 left-1/2 w-40 h-1 
+                   bg-gradient-to-r from-[#ffffff] via-[#23BEC8] to-[#ffffff] 
+                   rounded-full -translate-x-1/2 translate-y-3 shadow-lg"
+      ></span>
+    </h2>
+
+    <p className="text-lg md:text-xl text-gray-800 max-w-3xl mx-auto leading-relaxed drop-shadow-sm text-justify">
+      Data is the key to unlocking growth and staying ahead of the curve in today’s fast-paced business world. 
+      As the first data analytics consulting firm in Lesotho, PrimeAI Analytics offers a customized suite of 
+      services and solutions designed to drive business intelligence, efficiency, and sustainable growth.
+    </p>
+  </div>
+
+  {/* Grid Container */}
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 max-w-6xl mx-auto relative z-10">
     {services.map((service) => (
-        <div
+      <div
         key={service.id}
-        className="bg-white shadow-lg p-5 flex flex-col relative"
-        style={{
-            background: "linear-gradient(-240deg, #ffffff, #23bec8, #ffffff)",
-        }}
-        >
-        {/* Top Number */}
-        <div className="border-b-2 border-black pb-2 mb-4">
-            <h1
-            className="text-2xl font-extrabold text-black"
-            style={{ fontSize: "40px" }}
-            >
+        className="relative rounded-2xl p-4 flex flex-col
+                   bg-gradient-to-tr from-[#23BEC8]/30 to-white/30
+                   backdrop-blur-xl shadow-[0_8px_32px_0_rgba(35,190,200,0.25)]
+                   hover:shadow-[0_12px_48px_0_rgba(35,190,200,0.4)]
+                   transform hover:-translate-y-4 transition-all duration-500"
+      >
+        {/* Number Header */}
+        <div className="flex items-center justify-between w-full">
+          <h5
+            className="text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-black via-[#1aa3ad] to-black"
+          >
             {service.id}
-            </h1>
+          </h5>
         </div>
 
         {/* Title */}
-        <h5
-            className="font-bold text-black mb-2"
-            style={{ fontSize: "20px" }}
-        >
-            {service.title}
-        </h5>
+        <h3 className="text-2xl font-bold text-gray-900 mb-4 leading-snug">
+          {service.title}
+        </h3>
 
-        {/* Description with side line */}
-        <div className="flex">
-            <div className="w-3 bg-black h-12"></div>
-            <p
-            className="text-black text-sm ml-2 pb-4"
-            style={{ fontSize: "16px" }}
-            >
-            {service.description}
-            </p>
-        </div>
-
-        {/* Bottom line aligned to card edge */}
-        <div className="absolute bottom-0 left-0 w-full">
-            <div className="w-full bg-black h-0.5"></div>
-        </div>
-        </div>
+        {/* Description */}
+        <p className="text-gray-900 text-base leading-relaxed mb-6 text-justify">
+          {service.description}
+        </p>
+      </div>
     ))}
-    </div>
+  </div>
+</section>
 
-    </section>
 
     <section
       className="py-10 px-6 bg-gradient-to-br from-white via-[#23bec8] to-white"
@@ -557,110 +506,98 @@ const buttons = [
     </section>
 
 
-    <section
-      className="py-12"
-      style={{ background: "linear-gradient(135deg, #ffffff, #23bec8, #ffffff)" }}
+{/* Data Security & Compliance Section */}
+<section
+  className="w-full py-20 px-6 md:px-16 relative z-0 overflow-hidden"
+  style={{
+    background: "linear-gradient(135deg, #ffffff, #23bec8, #ffffff)",
+  }}
+>
+  {/* Soft glow blobs for depth */}
+  <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#ffffff50] rounded-full blur-3xl animate-pulse-slow"></div>
+  <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#ffffff60] rounded-full blur-3xl animate-pulse-slow"></div>
+
+  {/* Section Heading */}
+  <div className="max-w-6xl mx-auto text-center mb-16 relative z-10">
+    <h2
+      className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6 relative inline-block
+                 bg-clip-text text-transparent 
+                 bg-gradient-to-r from-[#000000] via-[#1aa3ad] to-[#000000]"
     >
-      {/* First Container */}
-      <div className="container max-w-8xl mx-auto mb-10 px-8">
-        <h2 className="text-2xl font-bold text-black mb-4">
-          Your Data Is Safe with Us
-        </h2>
-        <p className="text-black max-w-8xl mx-auto text-lg leading-relaxed text-justify ">
-          At <span className="font-semibold">PrimeAI Analytics</span>, security and reliability
-          are not just features—they are the foundation of how we deliver Data Analytics
-          as a Service. We rigorously comply with globally recognized standards and
-          certifications, setting a new benchmark for trust, integrity, and excellence
-          in the industry.
+      Your Data Is Safe with Us
+      <span
+        className="absolute bottom-0 left-1/2 w-40 h-1 
+                   bg-gradient-to-r from-[#ffffff] via-[#23BEC8] to-[#ffffff] 
+                   rounded-full -translate-x-1/2 translate-y-3 shadow-lg"
+      ></span>
+    </h2>
+
+    <p className="text-lg md:text-xl text-gray-800 max-w-3xl mx-auto leading-relaxed drop-shadow-sm text-justify">
+      At <span className="font-semibold">PrimeAI Analytics</span>, 
+      security and reliability are the foundation of how we deliver 
+      Data Analytics as a Service. We rigorously comply with globally recognized 
+      standards and certifications, setting a new benchmark for trust, 
+      integrity, and excellence in the industry.
+    </p>
+  </div>
+
+  {/* Compliance Grid */}
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 max-w-6xl mx-auto relative z-10">
+    {[
+      {
+        title: "DP Act 2011",
+        description:
+          "Safeguards personal data in Lesotho, ensuring fair collection, processing, and secure handling of sensitive information.",
+      },
+      {
+        title: "GDPR",
+        description:
+          "The EU regulation that protects personal data, ensuring transparency, consent, and accountability in data usage.",
+      },
+      {
+        title: "HIPAA",
+        description:
+          "U.S. law enforcing protection of sensitive patient health information, guaranteeing confidentiality and security in healthcare data.",
+      },
+      {
+        title: "SOC 2",
+        description:
+          "A compliance standard ensuring systems are designed to keep customer data secure, private, and reliable.",
+      },
+      {
+        title: "SOC 3",
+        description:
+          "Publicly accessible certification that demonstrates strong internal controls for data protection and service integrity.",
+      },
+    ].map((item, index) => (
+      <div
+        key={index}
+        className="relative rounded-2xl p-4 flex flex-col
+                  bg-gradient-to-tr from-[#23BEC8]/30 to-white/30
+                  backdrop-blur-xl shadow-[0_8px_32px_0_rgba(35,190,200,0.25)]
+                  hover:shadow-[0_12px_48px_0_rgba(35,190,200,0.4)]
+                  transform hover:-translate-y-4 transition-all duration-500"
+      >
+        <div className="flex items-center justify-between w-full mb-2">
+          <h1 className="text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-black via-[#1aa3ad] to-black">
+            {index + 1}
+          </h1>
+        </div>
+
+        <h3 className="text-2xl font-bold text-gray-900 mb-3 leading-snug">
+          {item.title}
+        </h3>
+
+        <p className="text-gray-900 text-base leading-relaxed mb-6 text-justify">
+          {item.description}
         </p>
       </div>
+    ))}
 
-      {/* Second Container */}
-        <div className="container max-w-8xl mx-auto px-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-center">
-            {/* DP Act 2011 */}
-            <div
-            className="shadow-lg h-full border-0 p-6 transition-transform duration-300 hover:scale-105 text-justify"
-            style={{ background: "linear-gradient(135deg, #ffffff, #23bec8, #ffffff)" }}
-            >
-            <h5 className="text-xl font-bold text-black mb-3">DP Act 2011</h5>
-            <div className="flex items-start">
-                <div className="w-4 bg-black h-25 mr-4 "></div>
-                <p className="text-black text-base leading-relaxed">
-                Data Protection Act 2011 safeguards personal data in Lesotho, ensuring fair
-                collection, processing, and secure handling of sensitive information.
-                </p>
-            </div>
-            </div>
-
-            {/* GDPR */}
-            <div
-            className="shadow-lg h-full border-0 p-6 transition-transform duration-300 hover:scale-105 text-justify"
-            style={{ background: "linear-gradient(135deg, #ffffff, #23bec8, #ffffff)" }}
-            >
-            <h5 className="text-xl font-bold text-black mb-3">GDPR</h5>
-            <div className="flex items-start">
-                <div className="w-4 bg-black h-25 mr-4 "></div>
-                <p className="text-black text-base leading-relaxed">
-                The European Union regulation that protects personal data, ensuring
-                transparency, consent, and accountability in data usage.
-                </p>
-            </div>
-            </div>
-
-            {/* HIPAA */}
-            <div
-            className="shadow-lg h-full border-0 p-6 transition-transform duration-300 hover:scale-105 text-justify"
-            style={{ background: "linear-gradient(135deg, #ffffff, #23bec8, #ffffff)" }}
-            >
-            <h5 className="text-xl font-bold text-black mb-3">HIPAA</h5>
-            <div className="flex items-start">
-                <div className="w-4 bg-black h-25 mr-4"></div>
-                <p className="text-black text-base leading-relaxed">
-                U.S. law that enforces protection of sensitive patient health information,
-                guaranteeing confidentiality and security in healthcare data.
-                </p>
-            </div>
-            </div>
-
-            {/* SOC 2 */}
-            <div
-            className="shadow-lg h-full border-0 p-6 transition-transform duration-300 hover:scale-105 text-justify"
-            style={{ background: "linear-gradient(135deg, #ffffff, #23bec8, #ffffff)" }}
-            >
-            <h5 className="text-xl font-bold text-black mb-3">SOC 2</h5>
-            <div className="flex items-start">
-                <div className="w-4 bg-black h-25 mr-4"></div>
-                <p className="text-black text-base leading-relaxed">
-                A compliance standard for service providers, ensuring systems are designed
-                to keep customer data secure, private, and reliable.
-                </p>
-            </div>
-            </div>
-  
+  </div>
+</section>
 
 
-          {/* SOC 3 */}
-          <div
-            className="shadow-lg h-full border-0 p-6 transition-transform duration-300 hover:scale-105 text-justify"
-            style={{ background: "linear-gradient(135deg, #ffffff, #23bec8, #ffffff)" }}
-            >
-            <h5 className="text-xl font-bold text-black mb-3">SOC 3</h5>
-            <div className="flex items-start">
-                {/* vertical line */}
-                <div className="w-4 bg-black h-25 mr-4"></div>
-
-                {/* text */}
-                <p className="text-black text-base leading-relaxed">
-                Publicly accessible compliance certification that demonstrates strong internal
-                controls for data protection and service integrity.
-                </p>
-            </div>
-            </div>
-
-        </div>
-      </div>
-    </section>
 
     </main>
   );

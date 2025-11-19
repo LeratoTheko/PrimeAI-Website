@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
@@ -17,7 +17,6 @@ model DigitalCustomerAssessment {
   acquisitionChannels  AcquisitionChannelProfile[]
   retentionAssesssment CustomerRetentionAssessment[]
 }
-
 
 model AcquisitionChannelProfile {
   id                        String                    @id @default(uuid())
@@ -76,7 +75,6 @@ model CustomerRetentionAssessment {
   assessment                DigitalCustomerAssessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
 }
 
-
 model Sme {
   id             Int       @id @default(autoincrement())
   name           String
@@ -91,49 +89,165 @@ model Sme {
 }
 
 model SmeProfile {
-  id                         Int     @id @default(autoincrement())
-  smes_id                    Int
-  business_name              String
-  registration_number        String? @unique
-  owner_name                 String
-  owner_gender               String?
-  owner_age_group            String?
-  contact_number             String
-  email                      String?
-  location                   String?
-  industry                   String?
-  sub_industry               String?
-  nature_of_business         String?
-  customer_types             String?
-  business_size              String?
-  number_of_employees        Int?
-  estimated_monthly_revenue  Int?
-  estimated_monthly_expenses Int?
-  premises_type              String?
+  id                          Int      @id @default(autoincrement())
+  smes_id                     Int
+  business_name               String
+  registration_number         String?  @unique
+  owner_name                  String
+  owner_gender                String?
+  owner_age_group             String?
+  contact_number              String
+  email                       String?
+  location                    String?
+  industry                    String?
+  sub_industry                String?
+  nature_of_business          String?
+  customer_types              String?
+  business_size               String?
+  number_of_employees         Int?
+  estimated_monthly_revenue   Int?
+  estimated_monthly_expenses  Int?
+  premises_type               String?
+  digital_customer_eligible   Boolean? @default(false)
+  digital_operations_eligible Boolean? @default(false)
+  digital_workspace_eligible  Boolean? @default(false)
 
   sme Sme @relation("SmeToProfiles", fields: [smes_id], references: [id], onDelete: Cascade)
 }
 
-
-
 model ProjectEstimate {
-  id              String   @id @default(cuid())
-  fullName        String
-  email           String
-  companyName     String
-  phoneNumber     String
-  heardFrom       String?   // optional (e.g., Referral, Social Media)
+  id                 String   @id @default(cuid())
+  fullName           String
+  email              String
+  companyName        String
+  phoneNumber        String
+  heardFrom          String? // optional (e.g., Referral, Social Media)
   projectDescription String
-  consent         Boolean   @default(false)
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  consent            Boolean  @default(false)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 }
 
-
 model Subscriber {
-  id          Int      @id @default(autoincrement())
-  email       String   @unique
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
   subscribedAt DateTime @default(now())
 
   @@map("subscribers") // optional: set table name explicitly
+}
+
+model DigitalOperationsAssessment {
+  id         String   @id @default(uuid())
+  assessedAt DateTime @default(now())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relations to sections
+  businessContext      BusinessContext?
+  dataRecording        DataRecording?
+  businessIntelligence BusinessIntelligence?
+}
+
+model BusinessContext {
+  id           String @id @default(uuid())
+  assessmentId String @unique
+
+  // Devices
+  devices     String[]
+  deviceCount Int?
+
+  // Internet
+  internetType        String
+  internetSpeedMbps   Float?
+  internetReliability String?
+
+  // Automation
+  automationTools    String[]
+  automatedProcesses Int?
+
+  // Systems & Integration
+  integratedSystems String[]
+
+  // Analytics
+  productAnalysisMethods String[]
+  dashboardsAvailable    Boolean  @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  assessment DigitalOperationsAssessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+}
+
+model DataRecording {
+  id Int @id @default(autoincrement())
+
+  // Core records
+  salesRecording     String
+  expensesRecording  String
+  inventoryRecording String
+  recordBackup       String
+  updateFrequency    String
+  profitReview       String
+
+  // Data quality
+  dataAccuracy     String
+  dataCompleteness String
+  dataConsistency  String
+
+  // Tools & automation
+  recordingTools  String[]
+  automationLevel String
+
+  // Accessibility & sharing
+  centralizedStorage Boolean
+  accessibility      String
+  sharedAcrossTeams  Boolean
+
+  // Analytics & decision use
+  reportsGenerated String[]
+  decisionSupport  String
+
+  // Governance
+  complianceStandards String[]
+  dataRetentionPolicy String
+
+  assessmentId String                      @unique
+  assessment   DigitalOperationsAssessment @relation(fields: [assessmentId], references: [id])
+}
+
+model BusinessIntelligence {
+  id Int @id @default(autoincrement())
+
+  // BI Tools & Systems
+  biTools          String[]
+  integrationLevel String
+  dataSources      String[]
+
+  // Historical Data & Forecasting
+  historicalDataAvailability String
+  forecastModelsUsed         String[]
+  forecastAccuracy           String
+  forecastFrequency          String
+
+  // Reporting & Insights
+  dashboardUsage    String
+  reportsGenerated  String[]
+  reportFrequency   String
+  dataVisualization String
+  insightQuality    String
+
+  // Decision Support
+  decisionBasedOnBI  String
+  departmentsUsingBI String[]
+  decisionSpeed      String
+  biAutomationLevel  String
+
+  // Governance & Literacy
+  dataGovernanceLevel String
+  biSkills            String[]
+  staffBITraining     Boolean
+  biChallenges        String[]
+
+  digitalOpsId String                      @unique
+  digitalOps   DigitalOperationsAssessment @relation(fields: [digitalOpsId], references: [id])
 }
