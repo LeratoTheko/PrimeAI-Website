@@ -3,14 +3,22 @@
 
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import AcquisitionChannelsForm, { DigitalCustomerFormData } from "../../components/assessments/data-clinics/digital-customer/AcquisitionChannelsForm";
-import CustomerRetentionForm, { CustomerRetentionData } from "../../components/assessments/data-clinics/digital-customer/CustomerRetentionForm";
+
+import AcquisitionChannelsForm, {
+  DigitalCustomerFormData,
+} from "../../components/assessments/data-clinics/digital-customer/AcquisitionChannelsForm";
+
+import CustomerRetentionForm, {
+  CustomerRetentionData,
+} from "../../components/assessments/data-clinics/digital-customer/CustomerRetentionForm";
 
 export default function AssessmentPage() {
   const searchParams = useSearchParams();
   const email = searchParams.get("email")?.trim().toLowerCase() || "";
 
   const [ownerName, setOwnerName] = useState<string>("");
+  const [smeProfileId, setSmeProfileId] = useState<number | null>(null);
+
   const [step, setStep] = useState(0);
 
   const [formData, setFormData] = useState<DigitalCustomerFormData>({
@@ -69,11 +77,19 @@ export default function AssessmentPage() {
   });
 
   const forms = [
-    <AcquisitionChannelsForm key="acquisition" formData={formData} setFormData={setFormData} />,
-    <CustomerRetentionForm key="retention" formData={retentionData} setFormData={setRetentionData} />,
+    <AcquisitionChannelsForm
+      key="acquisition"
+      formData={formData}
+      setFormData={setFormData}
+    />,
+    <CustomerRetentionForm
+      key="retention"
+      formData={retentionData}
+      setFormData={setRetentionData}
+    />,
   ];
 
-  // ✅ Fetch SME profile to display owner name
+  // ✅ Fetch SME Profile
   useEffect(() => {
     if (!email) return;
 
@@ -82,7 +98,11 @@ export default function AssessmentPage() {
         const res = await fetch(`/api/sme-profile?email=${email}`);
         if (res.ok) {
           const data = await res.json();
-          setOwnerName(data.owner_name || "");
+          const profile = data.profile; // <-- corrected here
+          setOwnerName(profile.owner_name || "");
+          setSmeProfileId(profile.id || null); // <-- now properly set
+        } else {
+          console.error("SME profile fetch failed");
         }
       } catch (err) {
         console.error("Error fetching SME profile:", err);
@@ -101,10 +121,15 @@ export default function AssessmentPage() {
   };
 
   const handleSubmit = async () => {
+    if (!smeProfileId) {
+      alert("❌ SME Profile not loaded. Please wait...");
+      return;
+    }
+
     const cleanedData = {
-      email,
-      owner_name: ownerName,
-      ...formData,
+      smeProfileId,
+      overallNotes: formData.overallNotes,
+
       acquisitionChannel: {
         ...formData.acquisitionChannel,
         channelCount: formData.acquisitionChannel.channelCount
@@ -123,21 +148,26 @@ export default function AssessmentPage() {
           ? parseFloat(formData.acquisitionChannel.organicPercentage)
           : null,
       },
+
       customerRetention: retentionData,
     };
 
     try {
-      const res = await fetch("/api/assessments/data-clinics-assessment/digital-customer/full-submit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(cleanedData),
-      });
+      const res = await fetch(
+        "/api/assessments/data-clinics-assessment/digital-customer/full-submit",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(cleanedData),
+        }
+      );
 
       if (res.ok) {
         alert("✅ Full Assessment Submitted Successfully!");
         location.reload();
       } else {
-        alert("❌ Error submitting assessment.");
+        const err = await res.json();
+        alert("❌ Error: " + err.error);
       }
     } catch (err) {
       console.error(err);
@@ -148,13 +178,20 @@ export default function AssessmentPage() {
   return (
     <div
       className="min-h-screen flex items-center justify-center py-10 px-4 mb-5"
-      style={{ background: "linear-gradient(135deg, #ffffff, #23bec8, #ffffff)" }}
+      style={{
+        background: "linear-gradient(135deg, #ffffff, #23bec8, #ffffff)",
+      }}
     >
       <div className="bg-white/90 shadow-2xl rounded-xl p-8 w-full max-w-2xl border border-[#23bec8]/30">
         <h1 className="text-3xl font-bold text-center mb-2 text-[#23bec8]">
-          {ownerName ? `Welcome, ${ownerName}` : "Welcome to Digital Customer Assessment"}
+          {ownerName
+            ? `Welcome, ${ownerName}`
+            : "Welcome to Digital Customer Assessment"}
         </h1>
-        <p className="text-center mb-6 text-[#23bec8]">{email ? ` ${email}` : ""}</p>
+
+        <p className="text-center mb-6 text-[#23bec8]">
+          {email ? `${email}` : ""}
+        </p>
 
         {forms[step]}
 

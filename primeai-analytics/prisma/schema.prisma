@@ -8,20 +8,79 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Sme {
+  id           Int        @id @default(autoincrement())
+  name         String
+  phone        String
+  email        String     @unique
+  agreed_terms Boolean
+  otp_code     String?
+  otp_expires_at DateTime?
+  is_verified  Boolean    @default(false)
+
+  profile      SmeProfile? @relation("SmeToProfile")
+}
+
+model SmeProfile {
+  id                         Int     @id @default(autoincrement())
+  sme_id                     Int     @unique
+  business_name              String
+  registration_number        String? @unique
+  owner_name                 String
+  owner_gender               String?
+  owner_age_group            String?
+  contact_number             String
+  email                      String  @unique
+  location                   String?
+  industry                   String?
+  sub_industry               String?
+  nature_of_business         String?
+  customer_types             String?
+  business_size              String?
+  number_of_employees        Int?
+  estimated_monthly_revenue  Int?
+  estimated_monthly_expenses Int?
+  premises_type              String?
+
+  sme     Sme @relation("SmeToProfile", fields: [sme_id], references: [id], onDelete: Cascade)
+
+  // NEW — each profile has one digital assessment
+  digitalAssessment DigitalCustomerAssessment?
+
+  // NEW — direct links
+  acquisition AcquisitionChannelProfile?
+  retention   CustomerRetentionAssessment?
+}
+
+
 model DigitalCustomerAssessment {
-  id                   String                        @id @default(uuid())
-  assessedAt           DateTime                      @default(now())
-  overallNotes         String?
-  createdAt            DateTime                      @default(now())
-  updatedAt            DateTime                      @updatedAt
-  acquisitionChannels  AcquisitionChannelProfile[]
-  retentionAssesssment CustomerRetentionAssessment[]
+  id            String   @id @default(uuid())
+  smeProfileId  Int      @unique
+
+  assessedAt    DateTime @default(now())
+  overallNotes  String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  smeProfile    SmeProfile @relation(fields: [smeProfileId], references: [id], onDelete: Cascade)
+
+  // One-to-one
+  acquisition   AcquisitionChannelProfile?
+  retention     CustomerRetentionAssessment?
 }
 
 
 model AcquisitionChannelProfile {
-  id                        String                    @id @default(uuid())
-  assessmentId              String
+  id                        String   @id @default(uuid())
+
+  // NEW — link to profile
+  smeProfileId              Int?     @unique
+  smeProfile                SmeProfile? @relation(fields: [smeProfileId], references: [id], onDelete: Cascade)
+
+  // NEW — link to main assessment
+  assessmentId              String?  @unique
+  assessment                DigitalCustomerAssessment? @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+
   channelTypes              String[]
   channelCount              Int?
   diversityNotes            String?
@@ -30,23 +89,31 @@ model AcquisitionChannelProfile {
   averageConversionRate     Float?
   journeyIntegrationLevel   String?
   trackingTools             String[]
-  hasTrackingSystem         Boolean                   @default(false)
+  hasTrackingSystem         Boolean  @default(false)
   trackingNotes             String?
-  knowsTopPerformingChannel Boolean                   @default(false)
+  knowsTopPerformingChannel Boolean   @default(false)
   contentMarketFitQuality   String?
   paidPercentage            Float?
   organicPercentage         Float?
-  experimentsRunRecently    Boolean                   @default(false)
-  hasReferralProgram        Boolean                   @default(false)
+  experimentsRunRecently    Boolean   @default(false)
+  hasReferralProgram        Boolean   @default(false)
   partnershipExamples       String?
-  createdAt                 DateTime                  @default(now())
-  updatedAt                 DateTime                  @updatedAt
-  assessment                DigitalCustomerAssessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  createdAt                 DateTime  @default(now())
+  updatedAt                 DateTime  @updatedAt
 }
 
+
 model CustomerRetentionAssessment {
-  id                        String                    @id @default(uuid())
-  assessmentId              String
+  id                        String   @id @default(uuid())
+
+  // NEW — link to profile
+  smeProfileId              Int?     @unique
+  smeProfile                SmeProfile? @relation(fields: [smeProfileId], references: [id], onDelete: Cascade)
+
+  // NEW — link to assessment
+  assessmentId              String?  @unique
+  assessment                DigitalCustomerAssessment? @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+
   strategyPlanningScore     Int
   strategyPlanningNotes     String?
   retentionTrackingScore    Int
@@ -71,49 +138,9 @@ model CustomerRetentionAssessment {
   retentionAdaptationNotes  String?
   brandCommunityScore       Int
   brandCommunityNotes       String?
-  createdAt                 DateTime                  @default(now())
-  updatedAt                 DateTime                  @updatedAt
-  assessment                DigitalCustomerAssessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @updatedAt
 }
-
-
-model Sme {
-  id             Int       @id @default(autoincrement())
-  name           String
-  phone          String
-  email          String    @unique
-  agreed_terms   Boolean
-  otp_code       String?
-  otp_expires_at DateTime?
-  is_verified    Boolean   @default(false)
-
-  profiles SmeProfile[] @relation("SmeToProfiles")
-}
-
-model SmeProfile {
-  id                         Int     @id @default(autoincrement())
-  smes_id                    Int
-  business_name              String
-  registration_number        String? @unique
-  owner_name                 String
-  owner_gender               String?
-  owner_age_group            String?
-  contact_number             String
-  email                      String  @unique   // <--- required now
-  location                   String?
-  industry                   String?
-  sub_industry               String?
-  nature_of_business         String?
-  customer_types             String?
-  business_size              String?
-  number_of_employees        Int?
-  estimated_monthly_revenue  Int?
-  estimated_monthly_expenses Int?
-  premises_type              String?
-
-  sme Sme @relation("SmeToProfiles", fields: [smes_id], references: [id], onDelete: Cascade)
-}
-
 
 
 model ProjectEstimate {

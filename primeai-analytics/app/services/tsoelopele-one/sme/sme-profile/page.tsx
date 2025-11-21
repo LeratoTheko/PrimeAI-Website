@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, Suspense } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
 function BusinessProfileFormInner() {
@@ -9,15 +9,13 @@ function BusinessProfileFormInner() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [customerDropdownOpen, setCustomerDropdownOpen] = useState(false);
 
   const searchParams = useSearchParams();
   const emailQuery = searchParams.get("email")?.trim().toLowerCase();
 
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  // Detect if user already has a profile
   const [isExistingUser, setIsExistingUser] = useState(false);
+  const [canEdit, setCanEdit] = useState(false);
+  const [originalProfile, setOriginalProfile] = useState<any>({});
 
   const [formData, setFormData] = useState({
     business_name: "",
@@ -39,11 +37,12 @@ function BusinessProfileFormInner() {
     premises_type: "",
   });
 
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonGradient = "linear-gradient(125deg, #ffffff, #23bec8, #ffffff)";
 
-  // ----------------------------------------
-  // CONSTANT OPTIONS (unchanged)
-  // ----------------------------------------
+  // -------------------------------
+  // OPTIONS
+  // -------------------------------
   const industryOptions = [
     "------",
     "Agriculture",
@@ -79,8 +78,6 @@ function BusinessProfileFormInner() {
     Other: ["Other"],
   };
 
-  const subIndustryOptions = subIndustryMap[formData.industry] || ["Select Industry First"];
-
   const natureOfBusinessOptions = [
     "------",
     "Production",
@@ -94,7 +91,6 @@ function BusinessProfileFormInner() {
   ];
 
   const customerTypeOptions = ["Individual", "Business", "Government", "NGO/Non-Profit", "Other"];
-
   const businessSizeOptions = [
     "------",
     "Micro (1–5 employees)",
@@ -112,9 +108,9 @@ function BusinessProfileFormInner() {
     "Mobile/Online Only",
   ];
 
-  // ----------------------------------------
-  // FETCH PROFILE
-  // ----------------------------------------
+  // -------------------------------
+  // FETCH EXISTING PROFILE
+  // -------------------------------
   useEffect(() => {
     const verifiedEmail = localStorage.getItem("smeEmail") || emailQuery || "";
     setFormData((prev) => ({ ...prev, email: verifiedEmail }));
@@ -131,9 +127,7 @@ function BusinessProfileFormInner() {
           const result = await res.json();
           if (result.success && result.profile) {
             const profile = result.profile;
-            setIsExistingUser(true); // ← KEY LINE
-
-            setFormData({
+            const profileData = {
               business_name: profile.business_name || "",
               registration_number: profile.registration_number || "",
               owner_name: profile.owner_name || "",
@@ -153,7 +147,10 @@ function BusinessProfileFormInner() {
               estimated_monthly_revenue: profile.estimated_monthly_revenue?.toString() || "",
               estimated_monthly_expenses: profile.estimated_monthly_expenses?.toString() || "",
               premises_type: profile.premises_type || "",
-            });
+            };
+            setFormData(profileData);
+            setOriginalProfile(profileData);
+            setIsExistingUser(true);
           }
         }
       } catch (error) {
@@ -164,30 +161,27 @@ function BusinessProfileFormInner() {
     })();
   }, [emailQuery]);
 
-  // Close customer dropdown
+  // Close dropdown on outside click (optional)
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setCustomerDropdownOpen(false);
+        // dropdown logic if needed
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // ----------------------------------------
+  // -------------------------------
   // FIELD CHANGE
-  // ----------------------------------------
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-  ) => {
-    if (isExistingUser) return; // ← BLOCK Editing for existing users
+  // -------------------------------
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    if (isExistingUser && !canEdit) return;
 
-    const target = e.target as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
-    const { name, value } = target;
+    const { name, value, type } = e.target;
 
-    if (name === "customer_types" && "checked" in target) {
-      const checked = (target as HTMLInputElement).checked;
+    if (name === "customer_types" && type === "checkbox") {
+      const checked = (e.target as HTMLInputElement).checked;
       let updated = [...formData.customer_types];
       if (checked) updated.push(value);
       else updated = updated.filter((v) => v !== value);
@@ -199,12 +193,11 @@ function BusinessProfileFormInner() {
     setErrors({ ...errors, [name]: "" });
   };
 
-  // ----------------------------------------
-  // VALIDATION (only for new users)
-  // ----------------------------------------
+  // -------------------------------
+  // VALIDATION
+  // -------------------------------
   const validateStep1 = () => {
-    if (isExistingUser) return true;
-
+    if (isExistingUser && !canEdit) return true;
     const newErrors: Record<string, string> = {};
     if (!formData.business_name) newErrors.business_name = "Business Name is required.";
     if (!formData.owner_name) newErrors.owner_name = "Owner Name is required.";
@@ -214,53 +207,35 @@ function BusinessProfileFormInner() {
   };
 
   const validateStep2 = () => {
-    if (isExistingUser) return true;
-
+    if (isExistingUser && !canEdit) return true;
     const newErrors: Record<string, string> = {};
     if (!formData.industry || formData.industry === "------") newErrors.industry = "Industry is required.";
-    if (!formData.sub_industry || formData.sub_industry === "Select Industry First")
-      newErrors.sub_industry = "Sub-industry is required.";
-    if (!formData.nature_of_business || formData.nature_of_business === "------")
-      newErrors.nature_of_business = "Nature of business is required.";
+    if (!formData.sub_industry || formData.sub_industry === "Select Industry First") newErrors.sub_industry = "Sub-industry is required.";
+    if (!formData.nature_of_business || formData.nature_of_business === "------") newErrors.nature_of_business = "Nature of business is required.";
     if (!formData.customer_types.length) newErrors.customer_types = "Customer type is required.";
-    if (!formData.business_size || formData.business_size === "------")
-      newErrors.business_size = "Business size is required.";
-
+    if (!formData.business_size || formData.business_size === "------") newErrors.business_size = "Business size is required.";
+    if (!formData.premises_type || formData.premises_type === "------") newErrors.premises_type = "Premises type is required.";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  // ----------------------------------------
-  // STEP HANDLERS
-  // ----------------------------------------
-  const nextStep = () => {
-    if (!validateStep1()) return;
-    setStep(2);
-  };
-
+  const nextStep = () => { if (!validateStep1()) return; setStep(2); };
   const prevStep = () => setStep(1);
 
-  // ----------------------------------------
-  // SUBMIT (NEW USER ONLY)
-  // ----------------------------------------
+  // -------------------------------
+  // SUBMIT
+  // -------------------------------
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isExistingUser) return; // Block submit for existing users
-
+    if (isExistingUser && !canEdit) return;
     if (!validateStep2()) return;
 
     try {
       const payload = {
         ...formData,
-        number_of_employees: formData.number_of_employees
-          ? Number(formData.number_of_employees)
-          : null,
-        estimated_monthly_revenue: formData.estimated_monthly_revenue
-          ? Number(formData.estimated_monthly_revenue)
-          : null,
-        estimated_monthly_expenses: formData.estimated_monthly_expenses
-          ? Number(formData.estimated_monthly_expenses)
-          : null,
+        number_of_employees: formData.number_of_employees ? Number(formData.number_of_employees) : null,
+        estimated_monthly_revenue: formData.estimated_monthly_revenue ? Number(formData.estimated_monthly_revenue) : null,
+        estimated_monthly_expenses: formData.estimated_monthly_expenses ? Number(formData.estimated_monthly_expenses) : null,
       };
 
       const res = await fetch("/api/sme-profile", {
@@ -283,19 +258,15 @@ function BusinessProfileFormInner() {
     }
   };
 
-  // ----------------------------------------
-  // LOADING SCREEN
-  // ----------------------------------------
-  if (loading)
-    return (
-      <div className="flex h-screen items-center justify-center">
-        <p className="animate-pulse text-gray-600">Loading SME details...</p>
-      </div>
-    );
+  if (loading) return (
+    <div className="flex h-screen items-center justify-center">
+      <p className="animate-pulse text-gray-600">Loading SME details...</p>
+    </div>
+  );
 
-  // ----------------------------------------
-  // UI RENDER
-  // ----------------------------------------
+  // -------------------------------
+  // RENDER
+  // -------------------------------
   return (
     <div className="min-h-screen mt-18 flex items-center justify-center p-6" style={{ background: buttonGradient }}>
       <div className="bg-white w-full max-w-5xl shadow-xl rounded">
@@ -306,26 +277,28 @@ function BusinessProfileFormInner() {
         </div>
 
         <div className="p-6">
-          {/* SUCCESS MESSAGE */}
           {success ? (
             <div className="text-center py-8 space-y-4">
-              <div className="bg-green-100 text-green-600 p-4 rounded-full inline-block">
-                ✔
-              </div>
-              <h2 className="text-xl font-semibold text-green-700">
-                Profile Submitted Successfully!
-              </h2>
+              <div className="bg-green-100 text-green-600 p-4 rounded-full inline-block">✔</div>
+              <h2 className="text-xl font-semibold text-green-700">Profile Submitted Successfully!</h2>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* EDIT BUTTON */}
+              {isExistingUser && !canEdit && (
+                <button
+                  type="button"
+                  onClick={() => setCanEdit(true)}
+                  className="px-4 py-2 bg-[#23bec8] text-white rounded mb-4"
+                >
+                  Edit
+                </button>
+              )}
 
               {/* STEP 1 */}
               {step === 1 && (
                 <div className="space-y-4">
-                  <h2 className="text-xl font-semibold text-[#23bec8]">
-                    Step 1: Business Identity
-                  </h2>
-
+                  <h2 className="text-xl font-semibold text-[#23bec8]">Step 1: Business Identity</h2>
                   <div className="grid grid-cols-2 gap-4 text-black">
                     {[
                       "business_name",
@@ -347,7 +320,6 @@ function BusinessProfileFormInner() {
                         email: "Email (Verified)",
                         location: "Location",
                       };
-
                       const typeMap: Record<string, string> = {
                         email: "email",
                         contact_number: "text",
@@ -358,30 +330,23 @@ function BusinessProfileFormInner() {
                         owner_age_group: "select",
                         location: "text",
                       };
-
                       const optionsMap: Record<string, string[]> = {
                         owner_gender: ["-----", "Male", "Female", "Other"],
                         owner_age_group: ["------", "18–25", "26–35", "36–45", "46–60", "60+"],
                       };
-
                       return (
                         <div key={field}>
                           <label className="block mb-1 font-semibold">{labelMap[field]}</label>
-
                           {typeMap[field] === "select" ? (
                             <select
                               name={field}
                               value={formData[field as keyof typeof formData]}
                               onChange={handleChange}
-                              disabled={isExistingUser}
-                              className={`w-full border border-[#23bec8] p-2 rounded ${
-                                isExistingUser ? "bg-gray-100 cursor-not-allowed" : ""
-                              }`}
+                              disabled={field === "email" || (isExistingUser && !canEdit)}
+                              className={`w-full border border-[#23bec8] p-2 rounded ${isExistingUser && !canEdit ? "bg-gray-100 cursor-not-allowed" : ""}`}
                             >
                               {optionsMap[field].map((opt) => (
-                                <option key={opt} value={opt}>
-                                  {opt}
-                                </option>
+                                <option key={opt} value={opt}>{opt}</option>
                               ))}
                             </select>
                           ) : (
@@ -390,31 +355,24 @@ function BusinessProfileFormInner() {
                               type={typeMap[field]}
                               value={formData[field as keyof typeof formData]}
                               onChange={handleChange}
-                              disabled={field === "email" || isExistingUser}
-                              className={`w-full border border-[#23bec8] p-2 rounded ${
-                                isExistingUser ? "bg-gray-100 cursor-not-allowed" : ""
-                              }`}
+                              disabled={field === "email" || (isExistingUser && !canEdit)}
+                              className={`w-full border border-[#23bec8] p-2 rounded ${isExistingUser && !canEdit ? "bg-gray-100 cursor-not-allowed" : ""}`}
                             />
                           )}
-
-                          {errors[field] && (
-                            <p className="text-red-500 text-sm mt-1">{errors[field]}</p>
-                          )}
+                          {errors[field] && <p className="text-red-500 text-sm mt-1">{errors[field]}</p>}
                         </div>
                       );
                     })}
                   </div>
 
-                  <div className="flex justify-between mt-4">
-                    {/* NEW USER → Next  
-                        EXISTING USER → Continue */}
+                  <div className="flex justify-end mt-4">
                     <button
                       type="button"
-                      onClick={isExistingUser ? () => setStep(2) : nextStep}
+                      onClick={nextStep}
                       style={{ background: buttonGradient }}
                       className="px-6 py-2 w-44 rounded text-black"
                     >
-                      {isExistingUser ? "Continue" : "Next"}
+                      Next
                     </button>
                   </div>
                 </div>
@@ -423,258 +381,167 @@ function BusinessProfileFormInner() {
               {/* STEP 2 */}
               {step === 2 && (
                 <div className="space-y-4">
-                  <h2 className="text-xl font-semibold text-[#23bec8]">
-                    Step 2: Business Details
-                  </h2>
-
+                  <h2 className="text-xl font-semibold text-[#23bec8]">Step 2: Business Details</h2>
                   <div className="grid grid-cols-2 gap-4 text-black">
-                    {/* INDUSTRY */}
+                    {/* Industry */}
                     <div>
                       <label className="block mb-1 font-semibold">Industry *</label>
                       <select
                         name="industry"
                         value={formData.industry}
                         onChange={handleChange}
-                        disabled={isExistingUser}
-                        className={`w-full border border-[#23bec8] p-2 rounded ${
-                          isExistingUser ? "bg-gray-100 cursor-not-allowed" : ""
-                        }`}
+                        disabled={isExistingUser && !canEdit}
+                        className={`w-full border border-[#23bec8] p-2 rounded ${isExistingUser && !canEdit ? "bg-gray-100 cursor-not-allowed" : ""}`}
                       >
                         {industryOptions.map((opt) => (
-                          <option key={opt} value={opt}>
-                            {opt}
-                          </option>
+                          <option key={opt} value={opt}>{opt}</option>
                         ))}
                       </select>
-                      {errors.industry && <p className="text-red-500 text-sm">{errors.industry}</p>}
+                      {errors.industry && <p className="text-red-500 text-sm mt-1">{errors.industry}</p>}
                     </div>
 
-                    {/* SUB-INDUSTRY */}
+                    {/* Sub-industry */}
                     <div>
-                      <label className="block mb-1 font-semibold">Sub-Industry *</label>
+                      <label className="block mb-1 font-semibold">Sub-industry *</label>
                       <select
                         name="sub_industry"
                         value={formData.sub_industry}
                         onChange={handleChange}
-                        disabled={isExistingUser}
-                        className={`w-full border border-[#23bec8] p-2 rounded ${
-                          isExistingUser ? "bg-gray-100 cursor-not-allowed" : ""
-                        }`}
+                        disabled={isExistingUser && !canEdit || !formData.industry || formData.industry === "------"}
+                        className={`w-full border border-[#23bec8] p-2 rounded ${isExistingUser && !canEdit ? "bg-gray-100 cursor-not-allowed" : ""}`}
                       >
-                        {subIndustryOptions.map((opt) => (
-                          <option key={opt} value={opt}>
-                            {opt}
-                          </option>
+                        {(subIndustryMap[formData.industry] || ["Select Industry First"]).map((opt) => (
+                          <option key={opt} value={opt}>{opt}</option>
                         ))}
                       </select>
-                      {errors.sub_industry && (
-                        <p className="text-red-500 text-sm">{errors.sub_industry}</p>
-                      )}
+                      {errors.sub_industry && <p className="text-red-500 text-sm mt-1">{errors.sub_industry}</p>}
                     </div>
 
-                    {/* NATURE OF BUSINESS */}
+                    {/* Nature of business */}
                     <div>
                       <label className="block mb-1 font-semibold">Nature of Business *</label>
                       <select
                         name="nature_of_business"
                         value={formData.nature_of_business}
                         onChange={handleChange}
-                        disabled={isExistingUser}
-                        className={`w-full border border-[#23bec8] p-2 rounded ${
-                          isExistingUser ? "bg-gray-100 cursor-not-allowed" : ""
-                        }`}
+                        disabled={isExistingUser && !canEdit}
+                        className={`w-full border border-[#23bec8] p-2 rounded ${isExistingUser && !canEdit ? "bg-gray-100 cursor-not-allowed" : ""}`}
                       >
                         {natureOfBusinessOptions.map((opt) => (
-                          <option key={opt} value={opt}>
-                            {opt}
-                          </option>
+                          <option key={opt} value={opt}>{opt}</option>
                         ))}
                       </select>
-                      {errors.nature_of_business && (
-                        <p className="text-red-500 text-sm">{errors.nature_of_business}</p>
-                      )}
+                      {errors.nature_of_business && <p className="text-red-500 text-sm mt-1">{errors.nature_of_business}</p>}
                     </div>
 
-                    {/* CUSTOMER TYPES */}
-                    <div className="relative" ref={dropdownRef}>
-                      <label className="block mb-1 font-semibold">Customer Types *</label>
-
-                      {/* Fake select */}
-                      <div
-                        onClick={() => !isExistingUser && setCustomerDropdownOpen(!customerDropdownOpen)}
-                        className={`w-full border border-[#23bec8] p-2 rounded cursor-pointer bg-white relative ${
-                          isExistingUser ? "bg-gray-100 cursor-not-allowed" : ""
-                        }`}
-                      >
-                        {formData.customer_types.length
-                          ? formData.customer_types.join(", ")
-                          : "Select Customer Types"}
-
-                        <svg
-                          className={`w-3.5 h-3.5 absolute right-2 top-3 ${
-                            customerDropdownOpen ? "rotate-180" : ""
-                          }`}
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="3"
-                          viewBox="0 0 24 24"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </div>
-
-                      {/* DROPDOWN OPTIONS */}
-                      {customerDropdownOpen && !isExistingUser && (
-                        <div className="absolute z-10 mt-1 w-full border border-[#23bec8] bg-white rounded shadow-lg max-h-60 overflow-y-auto">
-                          {customerTypeOptions.map((opt) => (
-                            <label
-                              key={opt}
-                              className="flex items-center px-3 py-2 hover:bg-[#e6f9fa] cursor-pointer"
-                            >
-                              <input
-                                type="checkbox"
-                                name="customer_types"
-                                value={opt}
-                                checked={formData.customer_types.includes(opt)}
-                                onChange={handleChange}
-                                className="mr-2 accent-[#23bec8]"
-                              />
-                              {opt}
-                            </label>
-                          ))}
-                        </div>
-                      )}
-
-                      {errors.customer_types && (
-                        <p className="text-red-500 text-sm mt-1">{errors.customer_types}</p>
-                      )}
-                    </div>
-
-                    {/* BUSINESS SIZE */}
+                    {/* Business Size */}
                     <div>
                       <label className="block mb-1 font-semibold">Business Size *</label>
                       <select
                         name="business_size"
                         value={formData.business_size}
                         onChange={handleChange}
-                        disabled={isExistingUser}
-                        className={`w-full border border-[#23bec8] p-2 rounded ${
-                          isExistingUser ? "bg-gray-100 cursor-not-allowed" : ""
-                        }`}
+                        disabled={isExistingUser && !canEdit}
+                        className={`w-full border border-[#23bec8] p-2 rounded ${isExistingUser && !canEdit ? "bg-gray-100 cursor-not-allowed" : ""}`}
                       >
                         {businessSizeOptions.map((opt) => (
-                          <option key={opt} value={opt}>
-                            {opt}
-                          </option>
+                          <option key={opt} value={opt}>{opt}</option>
                         ))}
                       </select>
-                      {errors.business_size && (
-                        <p className="text-red-500 text-sm">{errors.business_size}</p>
-                      )}
+                      {errors.business_size && <p className="text-red-500 text-sm mt-1">{errors.business_size}</p>}
                     </div>
 
-                    {/* EMPLOYEES */}
+                    {/* Customer Types */}
+                    <div className="col-span-2">
+                      <label className="block mb-1 font-semibold">Customer Types *</label>
+                      <div className="flex flex-wrap gap-2">
+                        {customerTypeOptions.map((type) => (
+                          <label key={type} className="flex items-center gap-1">
+                            <input
+                              type="checkbox"
+                              name="customer_types"
+                              value={type}
+                              checked={formData.customer_types.includes(type)}
+                              onChange={handleChange}
+                              disabled={isExistingUser && !canEdit}
+                            />
+                            {type}
+                          </label>
+                        ))}
+                      </div>
+                      {errors.customer_types && <p className="text-red-500 text-sm mt-1">{errors.customer_types}</p>}
+                    </div>
+
+                    {/* Number of employees */}
                     <div>
                       <label className="block mb-1 font-semibold">Number of Employees</label>
                       <input
-                        type="number"
                         name="number_of_employees"
+                        type="number"
                         value={formData.number_of_employees}
                         onChange={handleChange}
-                        disabled={isExistingUser}
-                        className={`w-full border border-[#23bec8] p-2 rounded ${
-                          isExistingUser ? "bg-gray-100 cursor-not-allowed" : ""
-                        }`}
+                        disabled={isExistingUser && !canEdit}
+                        className={`w-full border border-[#23bec8] p-2 rounded ${isExistingUser && !canEdit ? "bg-gray-100 cursor-not-allowed" : ""}`}
                       />
                     </div>
 
-                    {/* REVENUE */}
+                    {/* Estimated monthly revenue */}
                     <div>
                       <label className="block mb-1 font-semibold">Estimated Monthly Revenue</label>
                       <input
-                        type="number"
                         name="estimated_monthly_revenue"
+                        type="number"
                         value={formData.estimated_monthly_revenue}
                         onChange={handleChange}
-                        disabled={isExistingUser}
-                        className={`w-full border border-[#23bec8] p-2 rounded ${
-                          isExistingUser ? "bg-gray-100 cursor-not-allowed" : ""
-                        }`}
+                        disabled={isExistingUser && !canEdit}
+                        className={`w-full border border-[#23bec8] p-2 rounded ${isExistingUser && !canEdit ? "bg-gray-100 cursor-not-allowed" : ""}`}
                       />
                     </div>
 
-                    {/* EXPENSES */}
+                    {/* Estimated monthly expenses */}
                     <div>
                       <label className="block mb-1 font-semibold">Estimated Monthly Expenses</label>
                       <input
-                        type="number"
                         name="estimated_monthly_expenses"
+                        type="number"
                         value={formData.estimated_monthly_expenses}
                         onChange={handleChange}
-                        disabled={isExistingUser}
-                        className={`w-full border border-[#23bec8] p-2 rounded ${
-                          isExistingUser ? "bg-gray-100 cursor-not-allowed" : ""
-                        }`}
+                        disabled={isExistingUser && !canEdit}
+                        className={`w-full border border-[#23bec8] p-2 rounded ${isExistingUser && !canEdit ? "bg-gray-100 cursor-not-allowed" : ""}`}
                       />
                     </div>
 
-                    {/* PREMISES */}
+                    {/* Premises type */}
                     <div>
-                      <label className="block mb-1 font-semibold">Premises Type</label>
+                      <label className="block mb-1 font-semibold">Premises Type *</label>
                       <select
                         name="premises_type"
                         value={formData.premises_type}
                         onChange={handleChange}
-                        disabled={isExistingUser}
-                        className={`w-full border border-[#23bec8] p-2 rounded ${
-                          isExistingUser ? "bg-gray-100 cursor-not-allowed" : ""
-                        }`}
+                        disabled={isExistingUser && !canEdit}
+                        className={`w-full border border-[#23bec8] p-2 rounded ${isExistingUser && !canEdit ? "bg-gray-100 cursor-not-allowed" : ""}`}
                       >
                         {premisesOptions.map((opt) => (
-                          <option key={opt} value={opt}>
-                            {opt}
-                          </option>
+                          <option key={opt} value={opt}>{opt}</option>
                         ))}
                       </select>
+                      {errors.premises_type && <p className="text-red-500 text-sm mt-1">{errors.premises_type}</p>}
                     </div>
                   </div>
 
-                  {/* BUTTONS STEP 2 */}
+                  {/* Buttons */}
                   <div className="flex justify-between mt-6">
-                    {/* PREVIOUS ALWAYS SHOWN */}
-                    <button
-                      type="button"
-                      onClick={prevStep}
-                      className="bg-gray-200 text-gray-500 cursor-not-allowed bg-gradient-to-br from-white to-[#23bec8] text-black hover:bg-black hover:text-white"
-                    >
-                      Previous
-                    </button>
+                    <button type="button" onClick={prevStep} className="bg-gray-200 text-gray-500 px-6 py-2 w-44 rounded">Previous</button>
 
-                    {/* EXISTING USER → Continue  
-                        NEW USER → Submit */}
-                    {isExistingUser ? (
-                      <button
-                        type="button"
-                        onClick={() =>
-                          router.push(
-                            `/assessment/data-clinics-assessment?email=${encodeURIComponent(
-                              formData.email
-                            )}`
-                          )
-                        }
-                        style={{ background: buttonGradient }}
-                        className="px-6 py-2 w-44 rounded text-black"
-                      >
-                        Continue →
-                      </button>
+                    {isExistingUser && canEdit ? (
+                      <>
+                        <button type="submit" style={{ background: buttonGradient }} className="px-6 py-2 w-44 rounded text-black">Save Changes</button>
+                        <button type="button" onClick={() => { setFormData(originalProfile); setCanEdit(false); }} className="px-6 py-2 w-44 rounded bg-gray-200 text-black">Cancel</button>
+                      </>
+                    ) : isExistingUser ? (
+                      <button type="button" onClick={() => router.push(`/assessment/data-clinics-assessment?email=${encodeURIComponent(formData.email)}`)} style={{ background: buttonGradient }} className="px-6 py-2 w-44 rounded text-black">Continue →</button>
                     ) : (
-                      <button
-                        type="submit"
-                        style={{ background: buttonGradient }}
-                        className="px-6 py-2 w-44 rounded text-black"
-                      >
-                        Submit
-                      </button>
+                      <button type="submit" style={{ background: buttonGradient }} className="px-6 py-2 w-44 rounded text-black">Submit</button>
                     )}
                   </div>
                 </div>
@@ -686,4 +553,5 @@ function BusinessProfileFormInner() {
     </div>
   );
 }
+
 export default BusinessProfileFormInner;
