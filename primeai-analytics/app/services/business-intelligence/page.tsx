@@ -15,7 +15,7 @@ import {
   FaDollarSign } from "react-icons/fa";
 
 
-type PackageType = "starter" | "growth" | "intelligence";  
+type PackageType = "starter" | "growth" | "intelligence"; 
 
 
 export default function BusinessIntelligenceSection() {
@@ -33,15 +33,14 @@ export default function BusinessIntelligenceSection() {
       "Leverage advanced analytics to forecast trends, evaluate outcomes, and continuously align business strategy with real-world results.",
   };
 
-  // ✅ Explicitly tell TypeScript these IDs are valid PackageType values
+  // Explicitly tell TypeScript these IDs are valid PackageType values
   const packages: { id: PackageType; icon: JSX.Element; label: string }[] = [
-    { id: "starter", icon: <FaCogs size={40} />, label: "Starter BI" },
-    { id: "growth", icon: <FaChartBar size={40} />, label: "Growth BI" },
-    { id: "intelligence", icon: <FaBrain size={40} />, label: "Intelligence BI" },
+    { id: "starter", icon: <FaCogs size={30} />, label: "Starter BI" },
+    { id: "growth", icon: <FaChartBar size={30} />, label: "Growth BI" },
+    { id: "intelligence", icon: <FaBrain size={30} />, label: "Intelligence BI" },
   ];
 
-
-const benefits = [
+  const benefits = [
     {
       id: "trends",
       title: "Discover Trends Early",
@@ -87,290 +86,411 @@ const benefits = [
   ];
 
 
-
   return (
+    <>
+      <section
+        className="relative py-24 md:py-32 overflow-x-hidden"
+        style={{ background: "linear-gradient(to bottom, #ffffff 0%, #23bec8 100%)" }}
+      >
+        {/* Main Container */}
+        <div className="container mx-auto px-6 relative">
+          <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
+            
+            {/* Glass Card Wrapper */}
+            <div className="backdrop-blur-xl bg-white/20 border border-white/40 shadow-xl rounded-3xl p-10 md:p-14">
+              
+              {/* Title */}
+              <h1 className="text-3xl md:text-5xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-black to-gray-700">
+                Business Intelligence Services
+              </h1>
 
-   <div>
-    <section
-      className="py-20"
-      style={{ background: "linear-gradient(135deg, #23bec8, #ffffff)", marginTop: "50px" }}
-    >
-      <div className="container mx-auto px-6">
-        <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
-          {/* Hero Title */}
-          <h1 className="text-2xl md:text-4xl font-bold mb-6 text-black">
-            Business Intelligence Solutions
-          </h1>
+              {/* Subtitle */}
+              <p className="text-black/90 md:text-lg mb-10 leading-relaxed text-justify">
+                Unlock the power of your business data through insightful dashboards, performance analytics,
+                and smart reporting tools to support better, faster decision-making.
+              </p>
 
-          {/* Hero Subtitle */}
-          <p className="text-lg md:text-xl mb-10 text-black leading-relaxed text-justify">
-            Unlock the power of your business data through insightful dashboards, performance analytics,
-            and smart reporting tools to support better, faster decision-making.
-          </p>
+              {/* Buttons */}
+              <div className="flex flex-wrap justify-center gap-6">
+                <a
+                  href="#"
+                  className="px-5 py-2 font-semibold text-white rounded-md shadow-md transition-all duration-300 hover:shadow-[#23bec8]/60 hover:shadow-lg hover:-translate-y-[1px]"
+                  style={{
+                    background: "linear-gradient(135deg, #23bec8, #47e1dc)",
+                  }}
+                >
+                  Assess Your BI Maturity
+                </a>
+              </div>
+            </div>
 
-          {/* Buttons */}
-          <div className="flex flex-wrap justify-center gap-2 sm:gap-6 md:gap-20 lg:gap-40 xl:gap-115">
-            <a
-              href="/services/business-intelligence-dashboards/self-assessment"
-              className="relative inline-block py-3 px-6 text-black overflow-hidden shadow-lg transition-all duration-300 hover:text-white hover:scale-105"
-              style={{ background: "linear-gradient(135deg, #ffffff, #23bec8)" }}
-            >
-              Assess Your BI Maturity
-            </a>
-
-            <a
-              href="#"
-              className="relative inline-block py-3 px-6 text-black overflow-hidden shadow-lg transition-all duration-300 hover:text-white hover:scale-105"
-              style={{ background: "linear-gradient(135deg, #ffffff, #23bec8)" }}
-            >
-              View Service Tiers
-            </a>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-     <section className="bg-gradient-to-br from-white to-[#23bec8] text-black py-20">
-      <div className="container mx-auto px-6">
-        {/* Section: What is BI */}
-        <div className="max-w-6xl mx-auto text-center mb-12">
 
-          <div className="flex justify-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-8 relative inline-block text-center">
+
+      <section
+        className="w-full relative py-16 px-4 sm:py-20 sm:px-6 md:px-12 overflow-hidden"
+        style={{
+          background: "linear-gradient(135deg, #ffffff, #23bec8, #ffffff)",
+        }}
+      >
+        {/* Abstract shapes */}
+        <div className="absolute top-[-5rem] left-1/2 w-56 h-56 bg-[#23bec8]/20 rounded-full -translate-x-1/2 pointer-events-none blur-2xl sm:w-72 sm:h-72 sm:top-[-8rem]"></div>
+        <div className="absolute bottom-[-8rem] right-[-4rem] w-72 h-72 bg-[#23bec8]/10 rounded-full pointer-events-none blur-3xl sm:w-96 sm:h-96 sm:bottom-[-12rem] sm:right-0"></div>
+
+        <div className="max-w-4xl mx-auto relative z-10 text-center">
+          {/* Title */}
+          <div className="flex justify-center mb-8 sm:mb-10">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 relative inline-block">
               What is Business Intelligence?
-              <span className="block w-24 h-1 bg-black mx-auto mt-2 rounded-full"></span>
+              <span className="block w-20 sm:w-24 h-1 bg-gray-900 mx-auto mt-2 rounded-full"></span>
             </h2>
           </div>
-          <div className="bg-gradient-to-r from-white via-[#23bec8] to-white p-8 shadow-lg text-black">
-            <p className="mb-4 text-justify">
+
+          {/* Glassmorphic Content Box */}
+          <div
+            className="p-6 sm:p-10 md:p-12 bg-white/30 backdrop-blur-2xl border border-white/20 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 text-gray-900"
+          >
+            {/* Paragraphs */}
+            <p className="mb-4 text-justify leading-relaxed text-sm sm:text-base">
               <strong>Business Intelligence (BI)</strong> empowers organizations to unlock the full value of their data — transforming scattered records into clear, actionable insights that support better decision-making at every level.
             </p>
-            <p className="mb-4 text-justify">
+
+            <p className="mb-4 text-justify leading-relaxed text-sm sm:text-base">
               With modern BI tools and structured data workflows, you gain real-time visibility into your operations, customer trends, financial health, and strategic performance. Whether you’re starting with simple metric tracking or moving toward predictive analytics, BI ensures your team is equipped with timely, relevant information to act decisively.
             </p>
-            <p className="mb-4 text-justify">
+
+            <p className="mb-6 text-justify font-semibold text-sm sm:text-base">
               <strong>At PrimeAI Analytics</strong>, our BI solutions are packaged to support every stage of your data journey:
             </p>
 
-            {/* BI Package Selector Row */}
-            <div className="flex justify-center gap-4 sm:gap-6 md:gap-20 lg:gap-40 xl:gap-50 mb-4">
+            {/* BI Package Selector */}
+            <div className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-16 mb-6">
               {packages.map((pkg) => (
                 <div
                   key={pkg.id}
-                  onClick={() => setActivePackage(pkg.id)} // ✅ Works now
-                  className="flex flex-col items-center p-4 cursor-pointer transition"
+                  onClick={() => setActivePackage(pkg.id)}
+                  className="flex flex-col items-center cursor-pointer transition-all"
                 >
                   <div
                     className={`flex flex-col items-center ${
-                      activePackage === pkg.id ? "border-b-4 border-black pb-3" : "pb-2"
-                    }`}
+                      activePackage === pkg.id
+                        ? "border-b-4 border-gray-900 pb-3 scale-105"
+                        : "pb-2 opacity-70 hover:opacity-100 hover:scale-105"
+                    } transition-all duration-300`}
                   >
                     {pkg.icon}
-                    <span className="text-white font-semibold mt-2">{pkg.label}</span>
+                    <span className="text-gray-900 font-semibold mt-2 text-sm sm:text-base">{pkg.label}</span>
                   </div>
                 </div>
               ))}
             </div>
 
-
-            {/* Dynamic Description */}
+            {/* Dynamic Description Glass Panel */}
             <div
-              className="mt-4 mb-4 text-justify text-black font-medium p-4 shadow"
-              style={{ background: "linear-gradient(-230deg, #ffffff, #23bec8, #ffffff)" }}
+              className="mt-4 mb-6 text-justify text-gray-900 font-medium p-4 sm:p-5 rounded-xl shadow-md
+                        bg-gradient-to-tr from-white/40 to-[#23bec8]/30 backdrop-blur-xl border border-white/30"
             >
               {packageDescriptions[activePackage]}
             </div>
 
             {/* Final Paragraph */}
-            <p className="mb-0 text-black text-justify">
-              From businesses to NGOs and institutions across Lesotho, we design and deploy secure, scalable BI solutions that turn data into a strategic asset — enabling confident, measurable growth. If you’re a small business or any size without data or data-weak, <a href="#" className="text-blue-600 underline">Tsoelopele</a>.
+            <p className="text-justify leading-relaxed font-medium text-sm sm:text-base">
+              From businesses to NGOs and institutions across Lesotho, we design and deploy secure, scalable BI solutions that turn data into a strategic asset — enabling confident, measurable growth. If you’re a small business or any size without data or data-weak, <a href="/services/tsoelopele-one" className="text-white font-semibold underline">Tsoelopele</a>.
             </p>
           </div>
         </div>
+      </section>
 
-        {/* What We Offer */}
-        <div className="text-center mb-12 px-5">
-          <div className="flex justify-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-6 relative inline-block text-center">
-              What We Offer
-              <span className="block w-24 h-1 bg-black mx-auto mt-2 rounded-full"></span>
-            </h2>
-          </div>
-          <h5 className="text-lg md:text-xl font-semibold mb-4">Make Data-Driven Decisions with Precision and Purpose</h5>
-          <p className="mb-6 text-justify">
-            At <strong>PrimeAI Analytics</strong>, every insight begins with your goals. Our custom business intelligence solutions empower every department, from strategy to sales, to act smarter, move faster, and outperform the competition. It's not just data, it's your edge.
-          </p>
-        </div>
 
-        {/* Intelligence Cards */}
-    <div className="grid md:grid-cols-2 gap-6 mb-12 px-2 relative">
-      {[
-        {
-          icon: <FaChess size={30} />,
-          title: "Strategic Intelligence",
-          desc: "Where is your business really going? With our Strategic Intelligence, you anticipate, position, and lead. We help you uncover what’s next before competitors even see it coming."
-        },
-        {
-          icon: <FaCogs size={30} />,
-          title: "Operational Intelligence",
-          desc: "Our Operational Intelligence uncovers blind spots and bottlenecks, turning your data into daily decisions that save time and boost efficiency."
-        },
-        {
-          icon: <FaShieldAlt size={30} />,
-          title: "Resilience Intelligence",
-          desc: "With Resilience Intelligence, we help you bounce forward, not just back. Think antifragility, not just risk management."
-        },
-        {
-          icon: <FaChartLine size={30} />,
-          title: "Financial Intelligence",
-          desc: "We turn your financial data into growth strategy, clarity, and confidence. Smart money decisions start here."
-        },
-      ].map((card, i) => {
-        const isLastInRow = (i + 1) % 2 === 0; // for md:grid-cols-2
-        return (
-          <div
-            key={i}
-            className={`relative bg-gradient-to-r ${
-              i % 2 === 0
-                ? "from-white via-[#23bec8] to-white"
-                : "from-[#23bec8] via-white to-[#23bec8]"
-            } shadow-lg p-6 flex flex-col justify-between overflow-hidden`}
-          >
-            <div>
-              <div className="flex items-center mb-3">
-                <div className="w-12 h-12 flex items-center justify-center rounded-full bg-[#23bec8]">
-                  <div className="text-[#000]">{card.icon}</div>
-                </div>
-                <h4 className="font-bold text-black ml-2">{card.title}</h4>
-              </div>
-              <p className="text-black text-justify">{card.desc}</p>
-            </div>
 
-            
-            <div className="mt-4 flex justify-end">
-              <a
-                href="#"
-                className="btn shadow text-black px-4 py-2 hover:bg-[#23bec8] hover:text-white transition"
-                style={{
-                  background: "linear-gradient(-230deg, #ffffff, #23bec8, #ffffff)",
-                }}
+        <section
+          className="relative py-16 sm:py-20 md:py-28 overflow-x-hidden"
+          style={{ background: "linear-gradient(135deg, #ffffff, #23bec8, #ffffff)" }}
+        >
+          <div className="container mx-auto px-4 relative z-10">
+
+            {/* Section Header */}
+            <div className="text-center mb-14">
+              <h2
+                className="text-3xl md:text-4xl font-extrabold mb-4 relative inline-block
+                bg-clip-text text-transparent
+                bg-gradient-to-r from-[#000000] via-[#23BEC8] to-[#000000]"
               >
-                Let’s Work Together
-              </a>
+                What We Offer
+                <span
+                  className="absolute bottom-0 left-1/2 w-32 h-1
+                  bg-gradient-to-r from-[#ffffff] via-[#23BEC8] to-[#ffffff]
+                  rounded-full -translate-x-1/2 translate-y-3 shadow-lg"
+                ></span>
+              </h2>
+
+              <h5 className="text-base sm:text-lg text-black font-bold max-w-2xl mx-auto px-2">
+                Make Data-Driven Decisions with Precision and Purpose
+              </h5>
+
+              <p className="mt-4 text-black text-sm sm:text-base max-w-3xl mx-auto leading-relaxed text-center sm:text-justify">
+                At <strong>PrimeAI Analytics</strong>, every insight begins with your goals.
+                Our custom business intelligence solutions empower departments to act
+                smarter, move faster, and outperform the competition. It’s not just data,
+                it’s your edge.
+              </p>
             </div>
 
-            {/* Bottom line */}
-            <div className="absolute bottom-0 left-0 w-full">
-              <div className="w-full bg-black h-0.5"></div>
-            </div>
-
-          </div>
-        );
-      })}
-    </div>
-
-
-
-        
-
-        {/* BI Benefits Section */}
-        {/* Left side (buttons) */}
-      <div className="flex justify-center">
-        <h2 className="text-2xl md:text-3xl font-bold mb-8 relative inline-block text-center">
-          Business Intelligence Benefits
-          <span className="block w-24 h-1 bg-black mx-auto mt-2 rounded-full"></span>
-        </h2>
-      </div>
-
-      <div className="flex flex-wrap bg-white text-black">
-      <div
-        className="w-full md:w-1/3 flex flex-col p-6"
-        style={{
-          background: "linear-gradient(135deg, #ffffff, #23bec8, #ffffff)",
-        }}
-      >
-        {benefits.map((benefit) => (
-          <button
-            key={benefit.id}
-            onClick={() => setActiveBenefit(benefit.id)}
-            className={`text-left py-3 px-4 font-semibold border-t border-b transition-all duration-300 mb-3 ${
-              activeBenefit === benefit.id
-                ? "bg-[#23bec8] text-white border-black rounded-md shadow-lg"
-                : "bg-transparent text-black border-black/70 hover:bg-[#23bec8]/20 rounded-md"
-            }`}
-          >
-            {benefit.title}
-          </button>
-        ))}
-      </div>
-
-          {/* Right side (details) */}
-          <div
-            className="w-full md:w-2/3 flex flex-col justify-center items-center text-center p-8 bg-cover bg-center relative shadow-lg"
-            style={{
-              backgroundImage: "url('/primeAI_bg_1.png')",
-            }}
-          >
-
-            {/* Text container with its own background */}
-            <div className="relative z-10 p-6 md:p-8 shadow-lg max-w-3xl text-justify mt-40" style={{
-              background: "linear-gradient(135deg, #ffffff, #23bec8, #ffffff)",
-            }}>
-              {benefits.map((benefit) => (
+            {/* BI Services Grid */}
+            <div className="grid sm:grid-cols-2 gap-8 md:gap-10 max-w-5xl mx-auto">
+              {[
+                {
+                  icon: <FaChess className="w-6 h-6 text-white" />,
+                  title: "Strategic Intelligence",
+                  gradient: "from-white/40 to-[#23BEC8]/40",
+                  desc: "Where is your business really going? With Strategic Intelligence, you anticipate, position, and lead. We encover whats next before competitores even see it coming.",
+                },
+                {
+                  icon: <FaCogs className="w-6 h-6 text-white" />,
+                  title: "Operational Intelligence",
+                  gradient: "from-[#23BEC8]/40 to-white/40",
+                  desc: "We reveal blind spots and bottlenecks, turning data into daily decisions that save time, reduce waste, and strengthen execution.",
+                },
+                {
+                  icon: <FaShieldAlt className="w-6 h-6 text-white" />,
+                  title: "Resilience Intelligence",
+                  gradient: "from-white/40 to-[#23BEC8]/40",
+                  desc: "We help you bounce forward, not just back. Think antifragility - transforming uncertainity into competitive strength.",
+                },
+                {
+                  icon: <FaChartLine className="w-6 h-6 text-white" />,
+                  title: "Financial Intelligence",
+                  gradient: "from-[#23BEC8]/40 to-white/40",
+                  desc: "Turn financial data into clear strategy and measurable growth. Smart and confident decision-making starts here.",
+                },
+              ].map((card) => (
                 <div
-                  key={benefit.id}
-                  className={`transition-all duration-500 ${
-                    activeBenefit === benefit.id ? "block" : "hidden"
-                  }`}
+                  key={card.title}
+                  className="relative rounded-2xl p-6 sm:p-8 flex flex-col
+                  bg-gradient-to-tr from-[#23BEC8]/30 to-white/30
+                  backdrop-blur-2xl border border-white/40
+                  shadow-[0_4px_18px_rgba(35,190,200,0.18)]
+                  hover:shadow-[0_12px_48px_rgba(35,190,200,0.4)]
+                  transform hover:-translate-y-3 transition-all duration-500"
                 >
-                  <h3 className="text-2xl font-bold mb-4 text-black">
-                    {benefit.title}
-                  </h3>
-                  <p className="text-lg leading-relaxed text-gray-800">
-                    {benefit.description}
+                  <div className="mb-4 flex items-center space-x-4">
+                    <div
+                      className={`w-12 h-12 rounded-full bg-gradient-to-r ${card.gradient}
+                      flex items-center justify-center shadow-lg flex-shrink-0`}
+                    >
+                      {card.icon}
+                    </div>
+                    <h3 className="text-xl md:text-2xl font-bold text-gray-900 leading-snug">
+                      {card.title}
+                    </h3>
+                  </div>
+
+                  <p className="text-gray-900 text-sm md:text-base leading-relaxed mb-6 sm:text-justify text-center sm:text-left">
+                    {card.desc}
                   </p>
+
+                  {/* CTA Buttons */}
+                  <div className="flex flex-col sm:flex-row sm:justify-between gap-3 w-full mt-auto">
+                    <a
+                      href="#"
+                      className="flex items-center justify-center bg-gradient-to-br from-[#23BEC8] to-[#47E1DC]
+                      text-white px-6 py-3 rounded-md shadow font-semibold hover:opacity-90
+                      transition-all duration-300 text-sm md:text-base"
+                    >
+                      Learn More
+                    </a>
+
+                    <a
+                      href="#"
+                      className="flex items-center justify-center px-6 py-3 rounded-md font-semibold
+                        text-white bg-gradient-to-br from-[#23BEC8] to-white/70
+                        hover:from-white/70 hover:to-[#23BEC8]
+                        shadow-lg transition-all duration-300
+                        text-sm md:text-base"
+                    >
+                      Let’s Work Together
+                    </a>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
+        </section>
 
 
 
-        </div>
+        {/* === BI BENEFITS SECTION === */}
+        <section
+          className="relative py-12 sm:py-16 md:py-24 overflow-x-hidden"
+          style={{ background: "linear-gradient(135deg, #ffffff, #23bec8, #ffffff)" }}
+        >
+          <div className="container mx-auto px-3 sm:px-4 relative z-10">
 
-        
-        {/* Industry Expertise */}
-        <div className="text-center mb-12 mt-10">
-          <div className="flex justify-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-8 relative inline-block text-center">
-              Industry Intelligence Expertise
-              <span className="block w-24 h-1 bg-black mx-auto mt-2 rounded-full"></span>
-            </h2>
-          </div>
-          <p className="mb-6 text-justify">
-            We help organizations across sectors harness the power of data to unlock clarity, drive action, and lead with confidence.
-          </p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6">
-            {[
-              { icon: <FaDollarSign size={30} />, label: "Finance" },
-              { icon: <FaHeartbeat size={30} />, label: "Healthcare" },
-              { icon: <FaGraduationCap size={30} />, label: "Education" },
-              { icon: <FaTractor size={30} />, label: "Agriculture" },
-              { icon: <FaUniversity size={30} />, label: "Government" },
-              { icon: <FaShoppingCart size={30} />, label: "Retail" },
-            ].map((ind, i) => (
-              <div key={i} className="flex flex-col items-center text-center bg-white rounded-lg shadow p-4 hover:shadow-lg transition">
-                {ind.icon}
-                <span className="mt-2 font-semibold">{ind.label}</span>
+            {/* Section Header */}
+            <div className="text-center mb-10 sm:mb-16">
+              <h2
+                className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-4 relative inline-block
+                bg-clip-text text-transparent
+                bg-gradient-to-r from-[#000000] via-[#23BEC8] to-[#000000]"
+              >
+                Business Intelligence Benefits
+                <span
+                  className="absolute bottom-0 left-1/2 w-24 sm:w-32 h-1
+                  bg-gradient-to-r from-[#ffffff] via-[#23BEC8] to-[#ffffff]
+                  rounded-full -translate-x-1/2 translate-y-2 shadow-lg"
+                ></span>
+              </h2>
+
+              <h5 className="text-sm sm:text-lg text-black font-bold max-w-2xl mx-auto px-2">
+                Transform Data Into Daily Insight & Strategic Advantage
+              </h5>
+
+              <p className="mb-6 text-black text-justify text-sm sm:text-base max-w-2xl mx-auto px-2">
+                Every business collects data. Only a few turn it into edge. Our BI benefits
+                empower your team to make faster, sharper and confident decisions across
+                all departments — from operations to finance, strategy, and resilience.
+              </p>
+            </div>
+
+            {/* === Two Column BI Benefits Layout === */}
+            <div className="flex flex-wrap rounded-xl overflow-hidden shadow-[0_8px_32px_0_rgba(35,190,200,0.2)] border border-white/40 backdrop-blur-xl">
+
+              {/* Left Side Buttons */}
+              <div
+                className="
+                  w-full md:w-1/3 flex md:flex-col gap-3 overflow-x-auto md:overflow-visible 
+                  p-3 sm:p-6 backdrop-blur-xl border-r border-white/30
+                  no-scrollbar
+                "
+                style={{
+                  background: "linear-gradient(135deg, rgba(255,255,255,0.45), rgba(35,190,200,0.3))",
+                }}
+              >
+                {benefits.map((benefit) => (
+                  <button
+                    key={benefit.id}
+                    onClick={() => setActiveBenefit(benefit.id)}
+                    className={`
+                      flex-shrink-0 md:flex-shrink text-left 
+                      py-2 sm:py-3 px-3 sm:px-4 font-semibold rounded-lg transition-all duration-400
+                      shadow-[0_2px_8px_rgba(0,0,0,0.05)]
+                      backdrop-blur-xl border border-white/40 text-sm sm:text-base
+
+                      ${
+                        activeBenefit === benefit.id
+                          ? "bg-gradient-to-r from-[#23BEC8] to-[#47E1DC] text-white shadow-[0_4px_14px_rgba(35,190,200,0.4)]"
+                          : "bg-white/20 text-gray-900 hover:bg-[#23BEC8]/30 hover:text-black"
+                      }
+                    `}
+                  >
+                    {benefit.title}
+                  </button>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
 
-    </div> 
-    
-      
-  );
+              {/* Right Side Content */}
+              <div
+                className="w-full md:w-2/3 flex flex-col justify-center items-center text-center p-4 sm:p-8 bg-cover bg-center relative"
+                style={{
+                  backgroundImage: "url('/primeAI_bg_1.png')",
+                }}
+              >
+                <div
+                  className="
+                    relative z-10 shadow-lg max-w-3xl text-justify rounded-lg border border-white/40 backdrop-blur-xl
+                    p-4 sm:p-6 md:p-8 mt-6 md:mt-40
+                  "
+                  style={{
+                    background: "linear-gradient(135deg, #ffffff, #23bec8, #ffffff)",
+                  }}
+                >
+                  {benefits.map((benefit) => (
+                    <div
+                      key={benefit.id}
+                      className={`transition-all duration-500 ${
+                        activeBenefit === benefit.id ? "block" : "hidden"
+                      }
+                      bg-white/25 backdrop-blur-lg border border-white/40 shadow-[0_8px_32px_rgba(35,190,200,0.3)]
+                      rounded-xl p-4 sm:p-6 md:p-8`}
+                      style={{
+                        background: "linear-gradient(135deg, rgba(255,255,255,0.35), rgba(35,190,200,0.25))",
+                      }}
+                    >
+                      <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-4 text-gray-900 drop-shadow-sm">
+                        {benefit.title}
+                      </h3>
+                      <p className="text-xs sm:text-sm md:text-base leading-relaxed text-black">
+                        {benefit.description}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+
+        <section className="py-20 bg-gradient-to-br from-white via-[#23BEC8] to-white">
+          <div className="max-w-7xl mx-auto text-center px-6">
+            
+            {/* Title */}
+            <h2
+              className="text-3xl md:text-4xl font-extrabold mb-6 inline-block
+              bg-clip-text text-transparent
+              bg-gradient-to-r from-[#000000] via-[#23BEC8] to-[#000000] relative"
+            >
+              Industry Intelligence Expertise
+              <span
+                className="block w-28 h-1 mx-auto mt-3
+                bg-gradient-to-r from-[#ffffff] via-[#23BEC8] to-[#ffffff]
+                rounded-full shadow-lg"
+              ></span>
+            </h2>
+
+            <p className="mb-10 text-black max-w-2xl mx-auto">
+              We help organizations across sectors harness data to unlock clarity,
+              drive action, and lead with confidence.
+            </p>
+
+            {/* Glass Cards with Decorated Icons */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6">
+              {[
+                { icon: <FaDollarSign className="text-white w-6 h-6" />, label: "Finance" },
+                { icon: <FaHeartbeat className="text-white w-6 h-6" />, label: "Healthcare" },
+                { icon: <FaGraduationCap className="text-white w-6 h-6" />, label: "Education" },
+                { icon: <FaTractor className="text-white w-6 h-6" />, label: "Agriculture" },
+                { icon: <FaUniversity className="text-white w-6 h-6" />, label: "Government" },
+                { icon: <FaShoppingCart className="text-white w-6 h-6" />, label: "Retail" },
+              ].map((ind, i) => (
+                <div
+                  key={i}
+                  className="relative rounded-2xl p-4 flex flex-col items-center justify-center text-center
+                            bg-gradient-to-tr from-[#23BEC8]/30 to-white/30
+                            backdrop-blur-xl border border-white/30
+                            shadow-[0_8px_32px_0_rgba(35,190,200,0.25)]
+                            hover:shadow-[0_12px_48px_0_rgba(35,190,200,0.45)]
+                            transform hover:-translate-y-3 transition-all duration-500"
+                >
+                  {/* Decorated Icon */}
+                  <div
+                    className="w-12 h-12 rounded-full mb-3 flex items-center justify-center
+                              bg-gradient-to-r from-white/40 via-white/20 to-[#23BEC8]/40
+                              shadow-lg"
+                  >
+                    {ind.icon}
+                  </div>
+
+                  <span className="mt-1 font-semibold text-gray-900">{ind.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+    </>
+  )
 }

@@ -161,8 +161,6 @@ const buttons = [
 
 
   return (
-    
-
     <main className="w-full min-h-screen bg-[#23bec8] relative">
 {/* Hero Section */}
 <div
@@ -432,107 +430,118 @@ const buttons = [
   </div>
 </section>
 
+<section className="py-12 sm:py-16 px-4 sm:px-6 md:px-16 bg-gradient-to-br from-white via-[#23bec8] to-white">
+  <div className="container mx-auto max-w-7xl">
+    
+    {/* Heading */}
+    <div className="text-center md:text-left mb-12">
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">
+        Why Choose PrimeAI Analytics as Your Trusted Data Analytics Partner
+      </h2>
+      <p className="text-gray-900 text-base sm:text-lg md:text-xl leading-relaxed text-justify max-w-4xl mx-auto md:mx-0">
+        At PrimeAI Analytics, we seamlessly connect data, technology, and strategy to drive meaningful business outcomes.
+        Every solution we design is tailored to your unique objectives, ensuring that your data becomes a powerful engine for growth and insight.
+        As one of Lesotho’s leading data analytics consulting firms, we specialize in delivering bespoke strategies that transform complex data into actionable intelligence.
+        Our team of experts harnesses cutting-edge technologies and innovative methodologies to tackle your most pressing business challenges,
+        enabling you to make confident, data-driven decisions that propel your organization forward.
+      </p>
+    </div>
 
-    <section
-      className="py-10 px-6 bg-gradient-to-br from-white via-[#23bec8] to-white"
-    >
-      <div className="container mx-auto px-4">
-        {/* Heading */}
-        <div className="text-center md:text-left">
-          <h2 className="font-bold text-2xl text-black mb-4 text-justify">
-            Why Choose PrimeAI Analytics as Your Trusted Data Analytics Partner
-          </h2>
-          <p className="text-black text-justify leading-relaxed max-w-7xl mx-auto md:mx-0">
-            At PrimeAI Analytics, we seamlessly connect data, technology, and strategy to drive meaningful business outcomes.
-            Every solution we design is tailored to your unique objectives, ensuring that your data becomes a powerful engine for growth and insight.
-            As one of Lesotho’s leading data analytics consulting firms, we specialize in delivering bespoke strategies that transform complex data into actionable intelligence.
-            Our team of experts harnesses cutting-edge technologies and innovative methodologies to tackle your most pressing business challenges,
-            enabling you to make confident, data-driven decisions that propel your organization forward.
-          </p>
-        </div>
+    {/* Interactive Buttons + Dynamic Content */}
+    <div className="flex flex-col md:flex-row gap-6">
 
-        {/* Interactive Buttons + Dynamic Content */}
-        <div className="flex flex-col md:flex-row gap-5 min-h-[350px]">
-          {/* Left Buttons */}
-          <div className="md:w-1/3 flex flex-col justify-start md:sticky mt-20">
-            {buttons.map((btn, idx) => (
-              <button
-                key={idx}
-                onClick={() => setActive(btn)}
-                className={`text-left py-4 px-5 mb-4 font-semibold border border-[#23bec8] transition-all duration-300 shadow-md mb-10 ${
-                  active.title === btn.title
-                    ? "bg-[#23bec8] text-white shadow-lg scale-105"
-                    : "bg-[23bec8] text-black hover:bg-[#23bec8]/20"
-                }`}
-              >
-                {btn.title}
-              </button>
-            ))}
-          </div>
+      {/* Left Buttons */}
+      <div className="md:w-1/3 flex flex-col justify-start md:sticky md:top-24">
+        {buttons.map((btn, idx) => (
+          <button
+            key={idx}
+            onClick={() => setActive(btn)}
+            className={`text-left py-4 px-5 mb-4 font-semibold rounded-xl border border-[#23bec8] transition-all duration-300 shadow-md
+              backdrop-blur-md bg-white/20 hover:bg-white/30 hover:shadow-lg
+              ${
+                active.title === btn.title
+                  ? "bg-[#23bec8]/70 text-white scale-105 shadow-lg"
+                  : "text-gray-900"
+              }
+            `}
+          >
+            {btn.title}
+          </button>
+        ))}
+      </div>
 
-          {/* Right Dynamic Content */}
-          <div className="w-full relative flex items-center justify-center">
-            <div
-              className="w-full h-full rounded-lg overflow-hidden shadow-lg relative"
-              style={{
-                backgroundImage: `url(${active.img || "https://images.unsplash.com/photo-1612831662653-7e6b6b0e3f9e?auto=format&fit=crop&w=900&q=60"})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            >
-              <div className="bg-black/60 p-8 flex flex-col justify-center h-full text-white">
-                <h3 className="text-3xl font-semibold mb-4">{active.title}</h3>
-                <p className="text-base leading-relaxed mb-6 text-justify" >{active.desc}</p>
+      {/* Right Dynamic Content */}
+      <div className="md:w-2/3 w-full relative flex flex-col">
+        <div
+          className="w-full rounded-2xl overflow-hidden shadow-2xl relative"
+          style={{
+            backgroundImage: `url(${active.img || "https://images.unsplash.com/photo-1612831662653-7e6b6b0e3f9e?auto=format&fit=crop&w=900&q=60"})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          {/* Glassmorphism overlay */}
+          <div className="bg-white/20 backdrop-blur-xl p-6 sm:p-8 md:p-12 flex flex-col justify-center min-h-[350px]">
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-gray-900">
+              {active.title}
+            </h3>
+            <p className="text-black text-sm sm:text-lg leading-relaxed mb-6 text-justify">
+              {active.desc}
+            </p>
 
-                {/* Icons */}
-                {active.icons && (
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-4">
-                    {active.icons.map(({ Icon, label }, i) => (
-                      <div
-                        key={i}
-                        className="flex flex-col items-center text-center bg-white/10 rounded-lg p-4 hover:bg-[#23bec8]/40 transition-all duration-300"
-                      >
-                        <Icon size={40} className="text-white mb-3" />
-                        <span className="text-sm font-semibold">{label}</span>
-                      </div>
-                    ))}
+            {/* Icons Grid */}
+            {active.icons && (
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4">
+                {active.icons.map(({ Icon, label }, i) => (
+                  <div
+                    key={i}
+                    className="flex flex-col items-center text-center rounded-xl p-4
+                               bg-white/10 backdrop-blur-md border border-white/30
+                               hover:bg-[#23bec8]/30 hover:text-white transition-all duration-300"
+                  >
+                    <Icon size={25} className="mb-2" />
+                    <span className="text-sm font-semibold text-black">{label}</span>
                   </div>
-                )}
+                ))}
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
-    </section>
+
+    </div>
+  </div>
+</section>
+
 
 
 {/* Data Security & Compliance Section */}
 <section
-  className="w-full py-20 px-6 md:px-16 relative z-0 overflow-hidden"
+  className="w-full py-16 sm:py-20 md:py-28 px-4 sm:px-6 md:px-16 relative z-0 overflow-hidden"
   style={{
     background: "linear-gradient(135deg, #ffffff, #23bec8, #ffffff)",
   }}
 >
   {/* Soft glow blobs for depth */}
-  <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#ffffff50] rounded-full blur-3xl animate-pulse-slow"></div>
-  <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#ffffff60] rounded-full blur-3xl animate-pulse-slow"></div>
+  <div className="absolute -top-32 -left-32 w-72 sm:w-96 h-72 sm:h-96 bg-[#ffffff50] rounded-full blur-3xl animate-pulse z-[-1]"></div>
+  <div className="absolute -bottom-32 -right-32 w-72 sm:w-96 h-72 sm:h-96 bg-[#ffffff60] rounded-full blur-3xl animate-pulse z-[-1]"></div>
 
   {/* Section Heading */}
-  <div className="max-w-6xl mx-auto text-center mb-16 relative z-10">
+  <div className="max-w-3xl sm:max-w-4xl mx-auto text-center mb-12 sm:mb-16 relative z-10">
     <h2
-      className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6 relative inline-block
+      className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 mb-6 relative inline-block
                  bg-clip-text text-transparent 
                  bg-gradient-to-r from-[#000000] via-[#1aa3ad] to-[#000000]"
     >
       Your Data Is Safe with Us
       <span
-        className="absolute bottom-0 left-1/2 w-40 h-1 
-                   bg-gradient-to-r from-[#ffffff] via-[#23BEC8] to-[#ffffff] 
+        className="absolute bottom-0 left-1/2 w-32 sm:w-40 h-1
+                   bg-gradient-to-r from-[#ffffff] via-[#23BEC8] to-[#ffffff]
                    rounded-full -translate-x-1/2 translate-y-3 shadow-lg"
       ></span>
     </h2>
 
-    <p className="text-lg md:text-xl text-gray-800 max-w-3xl mx-auto leading-relaxed drop-shadow-sm text-justify">
+    <p className="text-base sm:text-lg md:text-xl text-black max-w-3xl mx-auto leading-relaxed drop-shadow-sm text-center sm:text-justify">
       At <span className="font-semibold">PrimeAI Analytics</span>, 
       security and reliability are the foundation of how we deliver 
       Data Analytics as a Service. We rigorously comply with globally recognized 
@@ -542,7 +551,7 @@ const buttons = [
   </div>
 
   {/* Compliance Grid */}
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 max-w-6xl mx-auto relative z-10">
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 max-w-6xl mx-auto relative z-10">
     {[
       {
         title: "DP Act 2011",
@@ -572,31 +581,35 @@ const buttons = [
     ].map((item, index) => (
       <div
         key={index}
-        className="relative rounded-2xl p-4 flex flex-col
+        className="relative rounded-2xl p-5 sm:p-6 md:p-8 flex flex-col
                   bg-gradient-to-tr from-[#23BEC8]/30 to-white/30
-                  backdrop-blur-xl shadow-[0_8px_32px_0_rgba(35,190,200,0.25)]
-                  hover:shadow-[0_12px_48px_0_rgba(35,190,200,0.4)]
-                  transform hover:-translate-y-4 transition-all duration-500"
+                  backdrop-blur-xl shadow-[0_6px_24px_0_rgba(35,190,200,0.18)]
+                  hover:shadow-[0_12px_48px_0_rgba(35,190,200,0.35)]
+                  transform hover:-translate-y-2 transition-all duration-500"
       >
-        <div className="flex items-center justify-between w-full mb-2">
-          <h1 className="text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-black via-[#1aa3ad] to-black">
+        {/* Index Circle + Title Centered */}
+        <div className="flex flex-col items-center mb-4">
+          <div
+            className="flex items-center justify-center w-12 h-12 rounded-full
+                      bg-gradient-to-r from-white/40 via-white/20 to-[#23BEC8]/40
+                      text-xl font-extrabold text-gray-900 shadow-md mb-2"
+          >
             {index + 1}
-          </h1>
+          </div>
+
+          <h3 className="text-xl sm:text-2xl font-extrabold text-black text-center leading-snug">
+            {item.title}
+          </h3>
         </div>
 
-        <h3 className="text-2xl font-bold text-gray-900 mb-3 leading-snug">
-          {item.title}
-        </h3>
 
-        <p className="text-gray-900 text-base leading-relaxed mb-6 text-justify">
+        <p className="text-black text-sm leading-relaxed text-center sm:text-justify">
           {item.description}
         </p>
       </div>
     ))}
-
   </div>
 </section>
-
 
 
     </main>

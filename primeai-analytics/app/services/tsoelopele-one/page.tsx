@@ -27,17 +27,16 @@ export default function HeroSection() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [scrollVal, setScrollVal] = useState(0);
 
-  // Fix hydration issue
+  // correct hook placement
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+
   useEffect(() => {
-    if (!containerRef.current) return;
-
-    const { scrollYProgress } = useScroll({
-      target: containerRef,
-      offset: ["start start", "end end"],
-    });
-
     return scrollYProgress.on("change", (v) => setScrollVal(v));
-  }, []);
+  }, [scrollYProgress]);
+
 
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -136,7 +135,7 @@ export default function HeroSection() {
         <div className="mt-12 text-center">
           <button className="relative inline-flex items-center justify-center text-white font-bold py-4 px-12 overflow-hidden rounded-md bg-gradient-to-r from-[#23bec8] to-[#47e1dc] shadow-xl hover:shadow-2xl transition-all duration-300 group">
             <span className="relative z-10 flex items-center space-x-2">
-              <span>Let's Talk</span>
+              <span>Let's Work Together</span>
               <svg
                 className="w-5 h-5 transition-transform group-hover:translate-x-2"
                 fill="none"
@@ -154,59 +153,52 @@ export default function HeroSection() {
 
       {/* Main Content Container */}
       <div className="w-full max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-12 py-20 space-y-20">        
-        {/* Vision & Mission Section */}
-        <section className="relative w-full flex flex-col items-center md:h-screen md:block px-4 py-16">
-          {/* Vision Card */}
-          <div className="w-full max-w-lg bg-white/80 backdrop-blur-sm border-2 border-black p-8 shadow-lg hover:shadow-xl transition-all duration-300 text-justify mb-8 md:mb-0 md:absolute md:top-0 md:left-0">
-            <div className="hidden md:block absolute -left-1 top-9 h-[calc(100%-1.5rem)] border-l-8 border-[#23BEC8] rounded"></div>
-            <div className="hidden md:block absolute -left-1 -top-2 w-4 h-12 bg-black rounded-t-sm"></div>
-            <div className="flex items-center mb-4">
-              <svg className="w-8 h-8 text-[#23BEC8] mr-3" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
-              </svg>
-              <h3 className="text-2xl font-bold text-black">Tsoelopele One Vision</h3>
-            </div>
-            <p className="font-semibold mb-3 text-black text-lg">
-              Delivering Data-Powered Intelligence for SMEs.
-            </p>
-            <p className="leading-relaxed text-black">
-              To be Lesotho's most trusted AI enablement platform for informal, small, and medium enterprises (SMEs), transforming fragmented business activity into structured data and actionable intelligence.
-            </p>
-          </div>
+        {/*--------------------------
+            SECTION: VISION & MISSION
+          -------------------------- */}
+        <section ref={containerRef}>
+          <motion.section
+            ref={ref}
+            initial="hidden"
+            animate={controls}
+            variants={containerVariants}
+            className="relative  flex flex-col"
+          >
+            {/* Who Are We */}
+            <motion.div variants={itemVariants} className="relative w-full md:w-1/2 mb-12">
+              <motion.div
+                variants={lineVariants}
+                className="absolute left-2 sm:left-3 md:left-4 top-0 bottom-0 w-[4px] md:w-[5px] bg-black"
+              >
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.8, delay: 0.5 }}
+                  className="absolute top-0 -left-[5px] w-[12px] md:w-[15px] h-[25%] 
+                  bg-gradient-to-br from-[#23BEC8]/70 via-[#47E1DC]/70 to-[#23BEC8]/70
+                  backdrop-blur-sm rounded-md shadow-md"
+                ></motion.div>
+              </motion.div>
 
-          {/* Mission Card */}
-          <div className="w-full max-w-lg bg-white/80 backdrop-blur-sm border-2 border-black p-8 shadow-lg hover:shadow-xl transition-all duration-300 text-justify mt-8 md:absolute md:top-[35%] md:left-[55%]">
-            <div className="hidden md:block absolute -left-1 top-9 h-[calc(100%-1.5rem)] border-l-8 border-[#23BEC8] rounded"></div>
-            <div className="hidden md:block absolute -left-1 -top-2 w-4 h-12 bg-black rounded-t-sm"></div>
-            <div className="flex items-center mb-4">
-              <svg className="w-8 h-8 text-[#23BEC8] mr-3" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/>
-              </svg>
-              <h3 className="text-2xl font-bold text-black">Tsoelopele One Mission</h3>
-            </div>
-            <p className="font-semibold mb-3 text-black text-lg">
-              Empowering SMEs Through Digital Transformation.
-            </p>
-            <p className="leading-relaxed text-black">
-              To empower every SME in Lesotho with tools and services that help them collect, manage, and monetize their data through smart decision making.
-            </p>
-          </div>
-        </section>
+              <motion.div className="flex flex-col md:flex-row items-stretch ml-6 sm:ml-8 md:ml-14">
+                <div className="flex-1 text-left">
+                  <h2 className="text-3xl font-extrabold mb-2 text-black">Tsoelopele One Vision</h2>
+                  <h3 className="text-lg font-bold mb-4 text-black">
+                    Delivering Data-Powered Intelligence for SMEs.
+                  </h3>
+                  <p className="text-black font-medium text-justify">
+                    To be Lesotho's most t4rusted AI enablement platform for informal, small, and medium enterprises
+                    (SMEs), tranforming fragmented business activity into structured data and actionable intelligence.
+                  </p>
+                </div>
+              </motion.div>
+            </motion.div>
 
-        
-      {/*--------------------------
-          SECTION: WHO & WHAT WE DO
-         -------------------------- */}
-      <section ref={containerRef} className="min-h-screen">
-        <motion.section
-          ref={ref}
-          initial="hidden"
-          animate={controls}
-          variants={containerVariants}
-          className="relative min-h-screen bg-gradient-to-b from-white to-[#a4edef] flex flex-col justify-center px-4 sm:px-6 md:px-12 py-12 md:py-24"
-        >
-          {/* Who Are We */}
-          <motion.div variants={itemVariants} className="relative w-full md:w-1/2 mb-12">
+          {/* What Do We Do */}
+          <motion.div
+            variants={itemVariants}
+            className="relative w-full md:w-1/2 mb-12 md:ml-auto"
+          >
             <motion.div
               variants={lineVariants}
               className="absolute left-2 sm:left-3 md:left-4 top-0 bottom-0 w-[4px] md:w-[5px] bg-black"
@@ -221,63 +213,30 @@ export default function HeroSection() {
               ></motion.div>
             </motion.div>
 
-            <motion.div className="flex flex-col md:flex-row items-stretch ml-6 sm:ml-8 md:ml-14">
+
+
+            <motion.div
+              className="
+                flex flex-col md:flex-row
+                items-stretch gap-8
+                ml-6 sm:ml-8 md:ml-14
+              "
+            >
               <div className="flex-1 text-left">
-                <h2 className="text-3xl font-extrabold mb-2 text-black">Tsoelopele One Vision</h2>
-                <h3 className="text-lg font-bold mb-4 text-black">
-                  Delivering Data-Powered Intelligence for SMEs.
+                <h2 className="text-3xl font-extrabold mb-2 text-black">Tsoelopele One Mission</h2>
+                <h3 className="text-lg font-bold mb-6 text-black">
+                  Empowering SMEs Through Digital Transformation.
                 </h3>
+                
                 <p className="text-black font-medium text-justify">
-                  To be Lesotho's most t4rusted AI enablement platform for informal, small, and medium enterprises
-                  (SMEs), tranforming fragmented business activity into structured data and actionable intelligence.
+                    To emppower every SME in Lesotho with tools and services that help them collect, 
+                    manage, and monetize their data through smart decision making.
                 </p>
               </div>
             </motion.div>
+
           </motion.div>
-
-        {/* What Do We Do */}
-        <motion.div
-          variants={itemVariants}
-          className="relative w-full md:w-1/2 mb-12 md:ml-auto"
-        >
-          <motion.div
-            variants={lineVariants}
-            className="absolute left-2 sm:left-3 md:left-4 top-0 bottom-0 w-[4px] md:w-[5px] bg-black"
-          >
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="absolute top-0 -left-[5px] w-[12px] md:w-[15px] h-[25%] 
-              bg-gradient-to-br from-[#23BEC8]/70 via-[#47E1DC]/70 to-[#23BEC8]/70
-              backdrop-blur-sm rounded-md shadow-md"
-            ></motion.div>
-          </motion.div>
-
-
-
-          <motion.div
-            className="
-              flex flex-col md:flex-row
-              items-stretch gap-8
-              ml-6 sm:ml-8 md:ml-14
-            "
-          >
-            <div className="flex-1 text-left">
-              <h2 className="text-3xl font-extrabold mb-2 text-black">Tsoelopele One Mission</h2>
-              <h3 className="text-lg font-bold mb-6 text-black">
-                Empowering SMEs Through Digital Transformation.
-              </h3>
-              
-              <p className="text-black font-medium text-justify">
-                  To emppower every SME in Lesotho with tools and services that help them collect, 
-                  manage, and monetize their data through smart decision making.
-              </p>
-            </div>
-          </motion.div>
-
-        </motion.div>
-      </motion.section>
+        </motion.section>
       </section>
   
 

@@ -206,7 +206,7 @@ export default function Home() {
                 variants={itemVariants}
                 className="mt-6 px-6 py-3 bg-gradient-to-r from-[#23bec8] to-[#47e1dc] text-black font-semibold rounded-md shadow-md hover:opacity-90 transition"
               >
-                Let’s Talk
+                Let’s Work Together
               </motion.button>
             </div>
           </motion.div>
