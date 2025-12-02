@@ -1,4 +1,3 @@
-// /app/api/assessments/data-clinics-assessment/digital-operations/full-submit/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
@@ -8,7 +7,7 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
 
-    const { businessContext, dataRecording, businessIntelligence } = body;
+    const { businessContext, dataRecording, businessIntelligence, dataSafety } = body;
 
     if (!businessContext) {
       return NextResponse.json({ error: "BusinessContext data is required" }, { status: 400 });
@@ -20,6 +19,10 @@ export async function POST(req: NextRequest) {
 
     if (!businessIntelligence) {
       return NextResponse.json({ error: "BusinessIntelligence data is required" }, { status: 400 });
+    }
+
+    if (!dataSafety) {
+      return NextResponse.json({ error: "DataSafety data is required" }, { status: 400 });
     }
 
     // 1️⃣ Create the main DigitalOperationsAssessment record
@@ -71,40 +74,67 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // 4️⃣ Create BusinessIntelligence — MATCHING YOUR MODEL EXACTLY
+    // 4️⃣ Create BusinessIntelligence
     await prisma.businessIntelligence.create({
       data: {
         digitalOpsId: assessmentId,
 
-        // BI Tools & Systems
         biTools: businessIntelligence.biTools || [],
         integrationLevel: businessIntelligence.integrationLevel,
         dataSources: businessIntelligence.dataSources || [],
 
-        // Historical Data & Forecasting
         historicalDataAvailability: businessIntelligence.historicalDataAvailability,
         forecastModelsUsed: businessIntelligence.forecastModelsUsed || [],
         forecastAccuracy: businessIntelligence.forecastAccuracy,
         forecastFrequency: businessIntelligence.forecastFrequency,
 
-        // Reporting & Insights
         dashboardUsage: businessIntelligence.dashboardUsage,
         reportsGenerated: businessIntelligence.reportsGenerated || [],
         reportFrequency: businessIntelligence.reportFrequency,
         dataVisualization: businessIntelligence.dataVisualization,
         insightQuality: businessIntelligence.insightQuality,
 
-        // Decision Support
         decisionBasedOnBI: businessIntelligence.decisionBasedOnBI,
         departmentsUsingBI: businessIntelligence.departmentsUsingBI || [],
         decisionSpeed: businessIntelligence.decisionSpeed,
         biAutomationLevel: businessIntelligence.biAutomationLevel,
 
-        // Governance & Literacy
         dataGovernanceLevel: businessIntelligence.dataGovernanceLevel,
         biSkills: businessIntelligence.biSkills || [],
         staffBITraining: businessIntelligence.staffBITraining ?? false,
         biChallenges: businessIntelligence.biChallenges || [],
+      },
+    });
+
+    // 5️⃣ Create DataSafety (NEW BLOCK)
+    await prisma.dataSafety.create({
+      data: {
+        digitalOpsId: assessmentId,
+
+        dataStorage: dataSafety.dataStorage,
+        dataClassification: dataSafety.dataClassification,
+        dataRetentionPolicy: dataSafety.dataRetentionPolicy,
+
+        recoveryPlan: dataSafety.recoveryPlan,
+        backupFrequency: dataSafety.backupFrequency,
+        recoveryTesting: dataSafety.recoveryTesting ?? false,
+
+        dataAccessControl: dataSafety.dataAccessControl,
+        authenticationMethod: dataSafety.authenticationMethod,
+        devicePolicy: dataSafety.devicePolicy,
+
+        encryption: dataSafety.encryption,
+        endpointSecurity: dataSafety.endpointSecurity,
+
+        staffTrainingSafety: dataSafety.staffTrainingSafety,
+        staffSecurityPolicy: dataSafety.staffSecurityPolicy ?? false,
+
+        regularAudits: dataSafety.regularAudits,
+        incidentReporting: dataSafety.incidentReporting,
+        lastSecurityIncident: dataSafety.lastSecurityIncident,
+
+        complianceStandards: dataSafety.complianceStandards,
+        dataSharingPolicy: dataSafety.dataSharingPolicy,
       },
     });
 

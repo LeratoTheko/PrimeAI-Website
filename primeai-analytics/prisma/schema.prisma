@@ -1,11 +1,45 @@
 generator client {
   provider      = "prisma-client-js"
-  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+  engineType    = "binary" // <-- forces Windows-compatible engine
+  binaryTargets = ["native"]
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+}
+
+// ENUMS
+enum DepartmentType {
+  executive
+  technology
+  operations
+  marketing
+  client
+}
+
+enum RoleType {
+  ceo
+  coo
+  cto
+}
+
+// MODELS
+model Department {
+  id    Int            @id @default(autoincrement())
+  name  DepartmentType @unique
+  roles Role[]
+}
+
+model Role {
+  id           Int        @id @default(autoincrement())
+  title        RoleType
+  department   Department @relation(fields: [departmentId], references: [id])
+  departmentId Int
+
+  reportsTo   Role? @relation("RoleReportsTo", fields: [reportsToId], references: [id])
+  reportsToId Int?
+
+  subRoles Role[] @relation("RoleReportsTo")
 }
 
 model DigitalCustomerAssessment {
@@ -121,7 +155,7 @@ model ProjectEstimate {
   email              String
   companyName        String
   phoneNumber        String
-  heardFrom          String? // optional (e.g., Referral, Social Media)
+  heardFrom          String?
   projectDescription String
   consent            Boolean  @default(false)
   createdAt          DateTime @default(now())
@@ -133,7 +167,7 @@ model Subscriber {
   email        String   @unique
   subscribedAt DateTime @default(now())
 
-  @@map("subscribers") // optional: set table name explicitly
+  @@map("subscribers")
 }
 
 model DigitalOperationsAssessment {
@@ -142,33 +176,28 @@ model DigitalOperationsAssessment {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  // Relations to sections
   businessContext      BusinessContext?
   dataRecording        DataRecording?
   businessIntelligence BusinessIntelligence?
+  dataSafety           DataSafety?
 }
 
 model BusinessContext {
   id           String @id @default(uuid())
   assessmentId String @unique
 
-  // Devices
   devices     String[]
   deviceCount Int?
 
-  // Internet
   internetType        String
   internetSpeedMbps   Float?
   internetReliability String?
 
-  // Automation
   automationTools    String[]
   automatedProcesses Int?
 
-  // Systems & Integration
   integratedSystems String[]
 
-  // Analytics
   productAnalysisMethods String[]
   dashboardsAvailable    Boolean  @default(false)
 
@@ -181,7 +210,6 @@ model BusinessContext {
 model DataRecording {
   id Int @id @default(autoincrement())
 
-  // Core records
   salesRecording     String
   expensesRecording  String
   inventoryRecording String
@@ -189,25 +217,20 @@ model DataRecording {
   updateFrequency    String
   profitReview       String
 
-  // Data quality
   dataAccuracy     String
   dataCompleteness String
   dataConsistency  String
 
-  // Tools & automation
   recordingTools  String[]
   automationLevel String
 
-  // Accessibility & sharing
   centralizedStorage Boolean
   accessibility      String
   sharedAcrossTeams  Boolean
 
-  // Analytics & decision use
   reportsGenerated String[]
   decisionSupport  String
 
-  // Governance
   complianceStandards String[]
   dataRetentionPolicy String
 
@@ -218,35 +241,62 @@ model DataRecording {
 model BusinessIntelligence {
   id Int @id @default(autoincrement())
 
-  // BI Tools & Systems
   biTools          String[]
   integrationLevel String
   dataSources      String[]
 
-  // Historical Data & Forecasting
   historicalDataAvailability String
   forecastModelsUsed         String[]
   forecastAccuracy           String
   forecastFrequency          String
 
-  // Reporting & Insights
   dashboardUsage    String
   reportsGenerated  String[]
   reportFrequency   String
   dataVisualization String
   insightQuality    String
 
-  // Decision Support
   decisionBasedOnBI  String
   departmentsUsingBI String[]
   decisionSpeed      String
   biAutomationLevel  String
 
-  // Governance & Literacy
   dataGovernanceLevel String
   biSkills            String[]
   staffBITraining     Boolean
   biChallenges        String[]
+
+  digitalOpsId String                      @unique
+  digitalOps   DigitalOperationsAssessment @relation(fields: [digitalOpsId], references: [id])
+}
+
+model DataSafety {
+  id Int @id @default(autoincrement())
+
+  dataStorage         String
+  dataClassification  String
+  dataRetentionPolicy String
+
+  recoveryPlan    String
+  backupFrequency String
+  recoveryTesting Boolean
+
+  dataAccessControl    String
+  authenticationMethod String
+  devicePolicy         String
+
+  encryption       String
+  endpointSecurity String
+
+  staffTrainingSafety String
+  staffSecurityPolicy Boolean
+
+  regularAudits        String
+  incidentReporting    String
+  lastSecurityIncident DateTime?
+
+  complianceStandards String
+  dataSharingPolicy   String
 
   digitalOpsId String                      @unique
   digitalOps   DigitalOperationsAssessment @relation(fields: [digitalOpsId], references: [id])

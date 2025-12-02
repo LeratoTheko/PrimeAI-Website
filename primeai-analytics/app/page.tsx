@@ -403,6 +403,92 @@ export default function Home() {
 
 
 <section
+  className="w-full relative py-20 px-6 md:px-16 overflow-hidden"
+  style={{
+    background: "linear-gradient(135deg, #e0f7fa, #ffffff, #23bec8/10)", // soft modern gradient
+  }}
+>
+  {/* Abstract circles / shapes for visual interest */}
+  <div className="absolute top-0 left-1/2 w-72 h-72 bg-[#23bec8]/20 rounded-full -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+  <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#23bec8]/10 rounded-full pointer-events-none"></div>
+
+  {/* Section 1 */}
+  <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12 relative z-10 mb-16">
+    
+    {/* Left Column */}
+    <div className="md:w-1/2 flex items-center justify-center md:justify-start mb-8 md:mb-0">
+      <h3 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-snug">
+        DIKIW Scorecard
+      </h3>
+    </div>
+
+    {/* Right Column - Glassmorphic Card */}
+    <div className="md:w-1/2 flex flex-col gap-6
+                    bg-gradient-to-tr from-[#23BEC8]/30 to-white/25
+                    backdrop-blur-3xl border border-white/30
+                    rounded-3xl p-10 shadow-[0_12px_48px_0_rgba(35,190,200,0.25)]
+                    hover:shadow-[0_16px_64px_0_rgba(35,190,200,0.35)]
+                    transition-all duration-500">
+      
+      <p className="text-gray-900 font-medium text-justify md:text-lg leading-relaxed">
+        Business Intelligence is a journey, from raw data to actionable Wisdom. Our DIKIW Scorecard assesses where your business stands along the spectrum.
+      </p>
+      <p className="text-gray-900 text-justify md:text-base leading-relaxed">
+        Whether you're just starting with data or operating at peak insight, the Scorecard uncovers hidden gaps, overlooked inefficiencies, or missed strategic signals, even at the highest levels. Because in today's world, even wisdom can get outdated.
+      </p>
+      
+      <button className="self-start px-8 py-3 rounded-lg font-semibold text-white
+                         bg-gradient-to-br from-[#23BEC8] to-white/70
+                         shadow-lg hover:shadow-[0_16px_64px_0_rgba(35,190,200,0.35)]
+                         hover:scale-105 transition-all duration-300">
+        Assess Your BI Maturity
+      </button>
+    </div>
+  </div>
+
+  {/* Section 2 */}
+  <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12 relative z-10">
+    
+    {/* Left Column */}
+    <div className="md:w-1/2 flex items-center justify-center md:justify-start mb-8 md:mb-0">
+      <h3 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-snug">
+        Lesotho's Largest Digital Advisory for MSMEs
+      </h3>
+    </div>
+
+    {/* Right Column - Glassmorphic Card */}
+    <div className="md:w-1/2 flex flex-col gap-6
+                    bg-gradient-to-tr from-[#23BEC8]/30 to-white/25
+                    backdrop-blur-3xl border border-white/30
+                    rounded-3xl p-10 shadow-[0_12px_48px_0_rgba(35,190,200,0.25)]
+                    hover:shadow-[0_16px_64px_0_rgba(35,190,200,0.35)]
+                    transition-all duration-500">
+      
+      <h5 className="text-3xl md:text-4xl font-extrabold text-gray-900 leading-snug">
+        Data Clinics Assessment
+      </h5>
+      
+      <p className="text-gray-900 font-medium text-justify md:text-lg leading-relaxed">
+        Business Intelligence is a journey, from raw data to actionable Wisdom. Our DIKIW Scorecard assesses where your business stands along the spectrum.
+      </p>
+      <p className="text-gray-900 text-justify md:text-base leading-relaxed">
+        Whether you're just starting with data or operating at peak insight, the Scorecard uncovers hidden gaps, overlooked inefficiencies, or missed strategic signals, even at the highest levels. Because in today's world, even wisdom can get outdated.
+      </p>
+      
+      <button className="self-start px-8 py-3 rounded-lg font-semibold text-white
+                         bg-gradient-to-br from-[#23BEC8] to-white/70
+                         shadow-lg hover:shadow-[0_16px_64px_0_rgba(35,190,200,0.35)]
+                         hover:scale-105 transition-all duration-300">
+        Get Assessed Now
+      </button>
+    </div>
+  </div>
+</section>
+
+
+
+
+<section
   className="w-full relative py-16 px-6 md:px-16 overflow-hidden"
   style={{
     background: "linear-gradient(135deg, #e0f7fa, #23bec8, #ffffff)", // soft modern gradient
@@ -417,7 +503,7 @@ export default function Home() {
     {/* Left Column */}
     <div className="md:w-1/2 flex items-center justify-center md:justify-start mb-8 md:mb-0">
       <h3 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-snug">
-        DIKIW Scorecard
+        Lesotho's Largest Digital Advisory for MSMEs
       </h3>
     </div>
 
@@ -428,6 +514,10 @@ export default function Home() {
                     rounded-2xl p-8 shadow-[0_8px_32px_0_rgba(35,190,200,0.25)]
                     hover:shadow-[0_12px_48px_0_rgba(35,190,200,0.4)]
                     transition-all duration-500">
+      
+      <h5 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-snug">
+        Data Clinics Assessment
+      </h5>
       
       <p className="text-gray-900 font-medium text-justify md:text-lg leading-relaxed">
         Business Intelligence is a journey, from raw data to actionable Wisdom. Our DIKIW Scorecard assesses where your business stands along the spectrum.
@@ -440,10 +530,9 @@ export default function Home() {
                          bg-gradient-to-br from-[#23BEC8] to-white/70
                          shadow-lg hover:shadow-[0_12px_48px_0_rgba(35,190,200,0.4)]
                          hover:scale-105 transition-all duration-300">
-        Assess Your BI Maturity
+        Get Assessed Now
       </button>
     </div>
-
   </div>
 </section>
 

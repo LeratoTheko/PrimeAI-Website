@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
-import {useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function PartnerPage() {
   const [isVisible, setIsVisible] = useState(false);
@@ -127,9 +127,8 @@ export default function PartnerPage() {
   return (
     <main className="min-h-screen flex flex-col items-center justify-center py-16 px-6 bg-gradient-to-br from-white via-[#e0f8fa] to-[#23bec8]/10">
       <div
-        className={`max-w-5xl w-full p-10 md:p-14 rounded-2xl shadow-2xl border border-[#23bec8]/30 transition-all duration-700 hover:shadow-[#23bec8]/40 ${
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10"
-        }`}
+        className={`max-w-5xl w-full p-10 md:p-14 rounded-2xl shadow-2xl border border-[#23bec8]/30 transition-all duration-700 hover:shadow-[#23bec8]/40 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10"
+          }`}
         style={{
           background:
             "linear-gradient(135deg, rgba(255,255,255,0.96), rgba(35,190,200,0.25), rgba(255,255,255,0.95))",
@@ -269,9 +268,8 @@ export default function PartnerPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`px-6 py-3 rounded-lg font-semibold text-black bg-gradient-to-br from-white to-[#23bec8] border border-[#23bec8]/40 shadow-md hover:bg-[#23bec8] hover:text-white hover:shadow-lg transition-all duration-300 ${
-                isSubmitting ? "cursor-not-allowed opacity-70" : ""
-              }`}
+              className={`px-6 py-3 rounded-lg font-semibold text-black bg-gradient-to-br from-white to-[#23bec8] border border-[#23bec8]/40 shadow-md hover:bg-[#23bec8] hover:text-white hover:shadow-lg transition-all duration-300 ${isSubmitting ? "cursor-not-allowed opacity-70" : ""
+                }`}
             >
               {isSubmitting ? "Submitting..." : "Let's Work Together"}
             </button>

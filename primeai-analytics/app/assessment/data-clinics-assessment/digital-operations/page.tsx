@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import BusinessContextForm, { BusinessContextData } from "../../../components/assessments/data-clinics/digital-operations/BusinessContextForm";
 import DataRecordingForm, { DataRecordingData } from "../../../components/assessments/data-clinics/digital-operations/DataRecordingForm";
 import BusinessIntelligenceForm, { BusinessIntelligenceData } from "../../../components/assessments/data-clinics/digital-operations/BusinessIntelligenceForm";
+import DataSafetyForm, { DataSafetyData } from "../../../components/assessments/data-clinics/digital-operations/DataSafetyForm";
 
 
 export default function AssessmentPage() {
@@ -73,6 +74,34 @@ export default function AssessmentPage() {
         biChallenges: [],
     });
 
+    const [dataSafetyData, setDataSafetyData] = useState<DataSafetyData>({
+        dataStorage: "",
+        dataClassification: "",
+        dataRetentionPolicy: "",
+
+        recoveryPlan: "",
+        backupFrequency: "",
+        recoveryTesting: false,
+
+        dataAccessControl: "",
+        authenticationMethod: "",
+        devicePolicy: "",
+
+        encryption: "",
+        endpointSecurity: "",
+
+        staffTrainingSafety: "",
+        staffSecurityPolicy: false,
+
+        regularAudits: "",
+        incidentReporting: "",
+        lastSecurityIncident: "",
+
+        complianceStandards: "",
+        dataSharingPolicy: "",
+    });
+
+
 
 
     // Forms in order
@@ -80,6 +109,7 @@ export default function AssessmentPage() {
         <BusinessContextForm key="businessContext" formData={businessContextData} setFormData={setBusinessContextData} />,
         <DataRecordingForm key="dataRecording" formData={dataRecordingData} setFormData={setDataRecordingData} />,
         <BusinessIntelligenceForm key="businessIntelligence" formData={businessIntelligenceData} setFormData={setBusinessIntelligenceData} />,
+        <DataSafetyForm key="dataSafety" formData={dataSafetyData} setFormData={setDataSafetyData} />,
     ];
 
 
@@ -105,6 +135,7 @@ export default function AssessmentPage() {
             businessContext: cleanedBusinessContext,
             dataRecording: dataRecordingData,
             businessIntelligence: businessIntelligenceData,
+            dataSafety: dataSafetyData,
         };
 
 

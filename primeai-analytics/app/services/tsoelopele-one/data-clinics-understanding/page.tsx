@@ -1,55 +1,90 @@
 "use client";
 import Link from "next/link";
 import { FiDatabase, FiBarChart2, FiTrendingUp, FiTarget, FiCheckCircle } from "react-icons/fi";
+import Button from "../../../components/ui/button";
 
 export default function DataClinicsPage() {
   return (
     <section className="min-h-screen bg-gradient-to-b from-white via-[#23bec8]/10 to-[#ffffff]/10 text-gray-800">
-{/* Hero Section */}
-<section className="relative overflow-hidden bg-gradient-to-b from-white to-[#23bec8] h-screen flex items-center justify-center">
-  {/* Gradient Overlay */}
-  <div className="absolute inset-0 bg-gradient-to-b from-[#23bec8]/20 via-transparent to-[#65d4db]/20 animate-gradient-slow"></div>
 
-  {/* Decorative Circles */}
-  <div className="absolute -top-20 -left-20 w-64 h-64 md:w-96 md:h-96 bg-[#23bec8]/10 rounded-full blur-3xl"></div>
-  <div className="absolute -bottom-20 -right-20 w-64 h-64 md:w-96 md:h-96 bg-[#65d4db]/10 rounded-full blur-3xl"></div>
+      {/* Shared Gradient Wrapper */}
+      <div className="relative overflow-hidden bg-gradient-to-b from-white to-[#23bec8]">
 
-  {/* Content */}
-  <div className="relative z-10 max-w-6xl px-6 text-center">
-    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 md:mb-6 leading-snug md:leading-tight">
-      <span className="bg-gradient-to-r from-[#23bec8] to-[#65d4db] bg-clip-text text-transparent">
-        Tsoelopele One
-      </span>
-      <br />
-      <span className="text-gray-900">Data Clinics Assessment</span>
-    </h1>
+        {/* Gradient Overlay */}
+        <div
+          className="absolute inset-0 bg-gradient-to-b from-[#23bec8]/20 via-transparent to-[#65d4db]/20 animate-gradient-slow pointer-events-none"
+          aria-hidden="true"
+        ></div>
 
-    <p className="text-base sm:text-lg md:text-xl text-gray-700 max-w-2xl mx-auto leading-relaxed mb-8 md:mb-10">
-      A structured <span className="font-semibold text-[#23bec8]">business intelligence check-up</span> 
-      designed to help you understand how your business uses data — 
-      from recordkeeping to decision-making.
-    </p>
+        {/* Decorative Circles */}
+        <div className="absolute -top-20 -left-20 w-64 h-64 md:w-96 md:h-96 bg-[#23bec8]/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute -bottom-20 -right-20 w-64 h-64 md:w-96 md:h-96 bg-[#65d4db]/10 rounded-full blur-3xl pointer-events-none"></div>
 
-    <div className="flex justify-center gap-4">
-      <button className="px-6 sm:px-8 py-2 sm:py-3 rounded-full bg-[#23bec8] text-white font-semibold shadow-md hover:shadow-lg hover:bg-[#1da9b2] transition-all duration-300">
-        Start Assessment
-      </button>
-    </div>
-  </div>
-</section>
+        {/* Hero Section */}
+        <section
+          role="banner"
+          aria-label="Tsoelopele One hero"
+          className="relative h-screen flex items-center justify-center px-6"
+        >
+          <div className="relative z-10 max-w-6xl text-center">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 md:mb-6 leading-snug md:leading-tight">
+              <span className="text-gray-900">Data Clinics Assessment</span>
+            </h1>
+
+            <p className="text-base sm:text-lg md:text-xl text-black max-w-2xl mx-auto leading-relaxed mb-8 md:mb-10">
+              A structured business intelligence check-up designed to help you understand how your business uses data — from recordkeeping to decision-making.
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+              <Button
+                href="/services/tsoelopele-one/sme/sign-up"
+                aria-label="Start the Data Clinics assessment"
+                variant="primary"
+              >
+                Start Assessment Now
+              </Button>
+            </div>
+
+            <p className="mt-10 text-sm text-black max-w-xl mx-auto opacity-90">
+              Quick, practical, and designed for MSMEs — no technical jargon. The assessment highlights where you can get immediate value from data.
+            </p>
+          </div>
+        </section>
 
 
+        {/* What It Is */}
+        <section className="relative z-3 max-w-3xl md:max-w-5xl mx-auto px-5 sm:px-6 py-12 md:py-20">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-black mb-6 text-center md:text-left">
+            What It Is
+          </h2>
 
-      {/* What It Is */}
-      <section className="max-w-5xl mx-auto px-6 py-20 text-center md:text-left relative z-10">
-        <h2 className="text-3xl font-bold text-[#23bec8] mb-4">What It Is</h2>
-        <p className="text-gray-700 leading-relaxed text-lg">
-          The <strong>Data Clinics Assessment</strong> is your business’s
-          <span className="text-[#23bec8] font-semibold"> digital health check</span>. 
-          It helps you see how well you collect, organize, and use data to make
-          confident decisions and prepare for growth, funding, and digital transformation.
-        </p>
-      </section>
+          <div className="text-black leading-relaxed text-base sm:text-lg space-y-4 text-justify">
+            <p>
+              <strong>Data Clinics Assessment</strong> is a business intelligence (BI) maturity diagnostic by
+              PrimeAI Analytics that evaluates how well an MSME captures, manages, and uses data to drive
+              decisions, performance, and growth. It does not focus on digital tools for their own sake — it measures
+              how those tools enable intelligence, from basic data collection to advanced analytics.
+            </p>
+
+            <p>
+              The Assessment identifies data gaps across three core areas of an MSME’s digital environment —
+              <strong> Customers, Operations, and Workspace</strong>. It evaluates how well the business captures
+              and uses data at every interaction point: understanding customers, running internal processes,
+              and enabling digital teamwork.
+            </p>
+
+            <p>
+              Based on the gaps uncovered, the Assessment recommends precise data systems — from dashboards and
+              data-capture tools to workflow automation and predictive intelligence. The goal is not to simply
+              “digitize” a business, but to elevate it: transforming daily operations into data-driven processes,
+              empowering decisions with insight, and enabling sustainable, intelligence-led growth.
+            </p>
+          </div>
+        </section>
+
+
+      </div>
+
 
       {/* Why It Exists */}
       <section className="relative bg-gradient-to-b from-white to-[#23bec8]/10 py-20 px-6 overflow-hidden">
@@ -82,6 +117,8 @@ export default function DataClinicsPage() {
         <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#23bec8]/10 rounded-full blur-3xl"></div>
         <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#65d4db]/10 rounded-full blur-3xl"></div>
       </section>
+
+
 
       {/* Three Pillars Section */}
       <section className="relative bg-gradient-to-b from-white to-[#23bec8]/10 py-20 px-6 overflow-hidden">

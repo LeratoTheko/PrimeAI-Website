@@ -1,6 +1,6 @@
 // app/api/resend-otp/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import nodemailer from "nodemailer";
 
 export const runtime = "nodejs";

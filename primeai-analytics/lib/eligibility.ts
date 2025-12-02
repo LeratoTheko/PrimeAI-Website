@@ -11,9 +11,11 @@ import { SmeProfile } from "@prisma/client";
  * - premises_type: "Home-based", "Rented Office/Shop", etc.
  */
 export function isDigitalCustomerEligible(profile: SmeProfile): boolean {
-  const customerTypes = Array.isArray(profile.customer_types)
+  const customerTypes: string[] = Array.isArray(profile.customer_types)
     ? profile.customer_types
-    : (profile.customer_types || "").split(",").map((ct) => ct.trim());
+    : (profile.customer_types || "")
+      .split(",")
+      .map((ct: string) => ct.trim());
 
   const validCustomerTypes =
     customerTypes.includes("Individual") || customerTypes.includes("Business");
