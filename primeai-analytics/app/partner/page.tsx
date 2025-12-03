@@ -125,7 +125,12 @@ export default function PartnerPage() {
 
   // Form Display (default state)
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center py-16 px-6 bg-gradient-to-br from-white via-[#e0f8fa] to-[#23bec8]/10">
+    <main
+      className="min-h-screen flex flex-col items-center justify-center py-16 px-6"
+      style={{
+        background: "linear-gradient(135deg, #e0f7fa, #23bec8, #ffffff)", // MATCHING ASSESSMENT BACKGROUND
+      }}
+    >
       <div
         className={`max-w-5xl w-full p-10 md:p-14 rounded-2xl shadow-2xl border border-[#23bec8]/30 transition-all duration-700 hover:shadow-[#23bec8]/40 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10"
           }`}
@@ -135,9 +140,10 @@ export default function PartnerPage() {
           backdropFilter: "blur(14px)",
         }}
       >
-        <h1 className="text-3xl md:text-4xl font-extrabold text-center text-[#23bec8] mb-10 tracking-wide">
+        <h1 className="text-3xl md:text-4xl font-extrabold text-center text-black mb-10 tracking-wide">
           Let’s Work Together
         </h1>
+
         <p className="text-center text-gray-700 mb-8 max-w-2xl mx-auto leading-relaxed">
           Share a few details about your project, and we’ll get in touch with a
           tailored estimate that fits your goals and vision.
@@ -145,6 +151,7 @@ export default function PartnerPage() {
 
         <form onSubmit={handleSubmit} className="space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+
             <div>
               <label className="block font-semibold text-gray-800 mb-1">
                 Full Name
@@ -159,9 +166,7 @@ export default function PartnerPage() {
             </div>
 
             <div>
-              <label className="block font-semibold text-gray-800 mb-1">
-                Email
-              </label>
+              <label className="block font-semibold text-gray-800 mb-1">Email</label>
               <input
                 name="email"
                 type="email"
@@ -197,19 +202,20 @@ export default function PartnerPage() {
               />
             </div>
 
+            {/* Dropdown */}
             <div className="md:col-span-2 relative">
-              <label className="block font-semibold text-black-800 mb-2">
+              <label className="block font-semibold text-gray-800 mb-2">
                 How did you hear about us?
               </label>
               <div
-                className="border border-[#23bec8]/40 rounded-lg p-2 cursor-pointer select-none"
+                className="border border-[#23bec8]/40 rounded-lg p-2 cursor-pointer select-non backdrop-blur-sm"
                 onClick={() => setOpen(!open)}
               >
                 {selected.length > 0 ? selected.join(", ") : "Select options"}
               </div>
 
               {open && (
-                <div className="absolute z-10 mt-1 w-full bg-white border border-[#23bec8]/40 rounded-lg shadow-lg p-3 max-h-60 overflow-y-auto">
+                <div className="absolute z-10 mt-1 w-full bg-[#23bec8] border border-[#23bec8]/40 rounded-lg shadow-lg p-3 max-h-60 overflow-y-auto">
                   {options.map((option) => (
                     <label
                       key={option}
@@ -230,8 +236,7 @@ export default function PartnerPage() {
               )}
             </div>
 
-
-
+            {/* Project Description */}
             <div className="md:col-span-2">
               <label className="block font-semibold text-gray-800 mb-1">
                 Project Description
@@ -246,6 +251,7 @@ export default function PartnerPage() {
             </div>
           </div>
 
+          {/* NDA & consent */}
           <label htmlFor="consent" className="text-sm text-gray-700 mb-3">
             Your idea is 100% protected by our Non Disclosure Agreement.
           </label>
@@ -263,7 +269,7 @@ export default function PartnerPage() {
             </label>
           </div>
 
-
+          {/* Submit */}
           <div className="flex justify-end pt-4">
             <button
               type="submit"
@@ -277,5 +283,6 @@ export default function PartnerPage() {
         </form>
       </div>
     </main>
+
   );
 }
